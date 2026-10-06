@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  --background: #090a0f;
+  --foreground: #f8fafc;
+  --card: #11131a;
+  --card-foreground: #f8fafc;
+  --card-elevated: #171a24;
+  --popover: #11131a;
+  --popover-foreground: #f8fafc;
+  --primary: #10b981;
+  --primary-foreground: #042f2e;
+  --secondary: #171a24;
+  --secondary-foreground: #94a3b8;
+  --muted: #1e2230;
+  --muted-foreground: #94a3b8;
+  --accent: #10b981;
+  --accent-foreground: #042f2e;
+  --border: #1e2230;
+  --border-subtle: #171a24;
+  --border-strong: #2a3045;
+  --ring: #10b981;
+  --radius: 0.75rem;
+}
+
+html.light {
+  --background: #f8fafc;
+  --foreground: #090d16;
+  --card: #ffffff;
+  --card-foreground: #090d16;
+  --card-elevated: #f1f5f9;
+  --popover: #ffffff;
+  --popover-foreground: #090d16;
+  --primary: #059669;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #475569;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #059669;
+  --accent-foreground: #ffffff;
+  --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --border-strong: #cbd5e1;
+  --ring: #059669;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Selection Color */
+::selection {
+  background-color: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(17, 19, 26, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--border);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.22);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--foreground) 30%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Smooth motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
