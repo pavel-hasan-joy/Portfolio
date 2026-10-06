@@ -15,6 +15,8 @@ import {
   Sparkles,
   AlertCircle,
   Loader2,
+  Phone,
+  MapPin,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/Icons";
 import { siteContent } from "@/data/content";
@@ -156,6 +158,32 @@ export function ContactSection() {
                   </>
                 )}
               </button>
+            </div>
+
+            {/* Phone Card */}
+            {siteContent.socials.phone && (
+              <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 flex items-center justify-between gap-2">
+                <a
+                  href={`tel:${siteContent.socials.phone}`}
+                  className="flex items-center gap-2.5 overflow-hidden hover:text-emerald-400 transition-colors"
+                >
+                  <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span className="text-xs font-mono text-zinc-200 truncate">
+                    {siteContent.socials.phone}
+                  </span>
+                </a>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800">
+                  Mobile
+                </span>
+              </div>
+            )}
+
+            {/* Location Card */}
+            <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 flex items-center gap-2.5">
+              <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span className="text-xs text-zinc-300">
+                {siteContent.personal.location}
+              </span>
             </div>
 
             {/* Availability & Response Time */}

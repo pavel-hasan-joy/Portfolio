@@ -109,21 +109,40 @@ export function AboutSection() {
             </p>
           ))}
 
-          {/* Academic Milestone Box */}
-          <div className="mt-4 p-4 rounded-2xl bg-zinc-900/70 border border-zinc-800 flex items-start gap-3.5">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
-              <GraduationCap className="w-5 h-5" />
+          {/* Academic & Certification Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+            <div className="p-4 rounded-2xl bg-zinc-900/70 border border-zinc-800 flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-zinc-100">
+                  {siteContent.personal.degree}
+                </h3>
+                <p className="text-xs text-emerald-400 font-mono mt-0.5">
+                  {siteContent.personal.institution}
+                </p>
+                <p className="text-[11px] text-zinc-400 mt-1 leading-normal">
+                  Coursework in C, C++, Java OOP, Data Structures & Algorithms, and Software Engineering.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-sm font-semibold text-zinc-100">
-                {siteContent.personal.degree}
-              </h3>
-              <p className="text-xs text-emerald-400 font-mono mt-0.5">
-                {siteContent.personal.institution}
-              </p>
-              <p className="text-xs text-zinc-400 mt-1 leading-normal">
-                Coursework emphasizing Object-Oriented Programming (OOP) in C++ and Java, memory management in C, Data Structures & Algorithms, and modern software design.
-              </p>
+
+            <div className="p-4 rounded-2xl bg-zinc-900/70 border border-zinc-800 flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shrink-0">
+                <Award className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-zinc-100">
+                  AI & ML on Google Cloud
+                </h3>
+                <p className="text-xs text-cyan-400 font-mono mt-0.5">
+                  NetCom Learning · Certified
+                </p>
+                <p className="text-[11px] text-zinc-400 mt-1 leading-normal">
+                  4th Place — ULAB CPC Hackathon 2026 (Campus Safety Web Platform).
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>

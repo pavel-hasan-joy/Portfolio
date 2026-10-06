@@ -117,10 +117,10 @@ export function CvModal({ isOpen, onClose }: CvModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 15 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative z-10 flex flex-col w-full max-w-5xl h-[92vh] rounded-2xl border border-zinc-800 bg-[#0d0f17] text-zinc-100 shadow-2xl shadow-emerald-500/5 overflow-hidden"
+            className="relative z-10 flex flex-col w-full max-w-5xl h-[92vh] rounded-2xl border border-zinc-800 bg-[#0d0f17] text-zinc-100 shadow-2xl shadow-emerald-500/5 overflow-hidden cv-modal-surface"
           >
             {/* Modal Header & Interactive Toolbar */}
-            <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-zinc-800/90 bg-zinc-950/70 backdrop-blur-sm select-none">
+            <header className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-zinc-800/90 bg-zinc-950/70 backdrop-blur-sm select-none cv-modal-header">
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   <FileText className="w-4 h-4" />

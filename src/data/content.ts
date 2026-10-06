@@ -41,12 +41,15 @@ export interface SiteContent {
     availability: string;
     status: string;
     responseTime: string;
+    phone?: string;
+    summary?: string;
     bioParagraphs: string[];
   };
   socials: {
     github: string;
     linkedin: string;
     email: string;
+    phone?: string;
   };
   cv: {
     fileName: string;
@@ -89,32 +92,35 @@ export const siteContent: SiteContent = {
     ],
     tagline: "Building resilient systems with C, C++, Java, and modern architectures.",
     oneLineValueProp: "Crafting impactful software solutions and intelligent algorithms from rigorous first principles.",
-    location: "Dhaka, Bangladesh 🇧🇩",
+    location: "Mohammadi Homes, Mohammadpur, Dhaka 1207, Bangladesh",
     institution: "University of Liberal Arts Bangladesh (ULAB)",
     degree: "B.Sc. in Computer Science & Engineering (CSE)",
     avatarUrl: "https://avatars.githubusercontent.com/u/285468907?v=4",
     availability: "Open to Internships & Engineering Roles",
     status: "Actively Coding & Problem Solving",
     responseTime: "Responds within 24 hours",
+    phone: "+8801342182616",
+    summary: "Accomplished Computer Science undergraduate at ULAB with an extensive background in software development, specializing in Full-Stack Architecture and Machine Learning applications. Successfully engineered complex software solutions, from geospatial satellite analytics to browser-based biometric AI systems. Adept at C, C++, Java, Git, and GitHub with a strong focus on delivering clean, maintainable, and high-impact code.",
     bioParagraphs: [
-      "I am an aspiring Full-Stack Software Engineer and ML & AI Engineer currently pursuing Computer Science & Engineering at the University of Liberal Arts Bangladesh (ULAB).",
-      "My engineering foundation is built on deep algorithmic thinking and object-oriented systems design using C, C++, and Java. I practice version control rigor through Git and GitHub, and apply software engineering principles to solve real-world problems.",
-      "From engineering 3D climate intelligence tools powered by NASA satellite datasets to developing campus networking portals and browser-based computer vision applications, I love building purposeful, high-performance technology.",
+      "Accomplished Computer Science undergraduate at ULAB with an extensive background in software development, specializing in Full-Stack Architecture and Machine Learning applications.",
+      "Successfully engineered complex software solutions, from geospatial satellite analytics to browser-based biometric AI systems. Adept at C, C++, Java, Git, and GitHub with a strong focus on delivering clean, maintainable, and high-impact code.",
+      "My engineering foundation is built on deep algorithmic thinking and object-oriented systems design. From building 3D climate intelligence tools powered by NASA satellite datasets to developing campus networking portals and browser-based computer vision applications, I love building purposeful, high-performance technology.",
     ],
   },
 
   socials: {
     github: "https://github.com/pavel-hasan-joy",
     linkedin: "https://www.linkedin.com/in/pavel-hasan-joy-ulab262014103",
-    email: "pavel.hasan.ces@ulab.edu.bd",
+    email: "pavel.hasan.cse@ulab.edu.bd",
+    phone: "+8801342182616",
   },
 
   cv: {
     fileName: "pavel-hasan-joy-CV.pdf",
     filePath: "/cv/pavel-hasan-joy-CV.pdf",
-    isAvailable: false, // User will add the PDF file shortly
-    placeholderNotice: "My official CV document is currently being finalized. You can view my verified credentials on LinkedIn or contact me directly.",
-    downloadFallbackUrl: "https://www.linkedin.com/in/pavel-hasan-joy-ulab262014103",
+    isAvailable: true, // Official CV PDF generated and active in public/cv/
+    placeholderNotice: "My official CV document is ready for preview and instant download.",
+    downloadFallbackUrl: "/cv/pavel-hasan-joy-CV.pdf",
   },
 
   // Strictly user-specified core tech stack: C, C++, Java, Git, GitHub
@@ -275,6 +281,20 @@ export const siteContent: SiteContent = {
     },
     {
       period: "2026",
+      title: "4th Position — ULAB CPC Hackathon",
+      organization: "ULAB Computer Programming Club",
+      location: "Dhaka, Bangladesh",
+      type: "achievement",
+      description: "Secured 4th position at the university hackathon by engineering Campus Safety, a real-time web platform built to assist students and emergency coordinators during campus emergencies.",
+      bullets: [
+        "Rapid prototyping and full-stack development within competitive hackathon deadlines.",
+        "Emergency alert routing, incident mapping, and responsive student UI.",
+        "Awarded 4th place recognition by ULAB faculty and programming judges.",
+      ],
+      badge: "Hackathon Award",
+    },
+    {
+      period: "2026",
       title: "NASA Space Apps Challenge Participant",
       organization: "NASA Space Apps Challenge",
       location: "Global / Bangladesh",
@@ -286,6 +306,31 @@ export const siteContent: SiteContent = {
         "Delivered a bilingual interface with full native Bengali numeral translation.",
       ],
       badge: "Global Hackathon",
+    },
+    {
+      period: "2023 — 2024",
+      title: "Higher Secondary Certificate (HSC) — Science",
+      organization: "Naogaon Govt. College",
+      location: "Naogaon, Rajshahi, Bangladesh",
+      type: "education",
+      description: "Completed Higher Secondary Certificate in Science with outstanding academic standing (CGPA: 4.50).",
+      bullets: [
+        "Rigorous coursework in Mathematics, Physics, and Information & Communication Technology.",
+        "Active analytical problem solving and scientific foundation.",
+      ],
+      badge: "CGPA 4.50",
+    },
+    {
+      period: "2021 — 2022",
+      title: "Secondary School Certificate (SSC) — Science",
+      organization: "Tapir Bari Ansar High School",
+      location: "Gazipur, Dhaka, Bangladesh",
+      type: "education",
+      description: "Graduated Secondary School Certificate in Science with maximum academic distinction (CGPA: 5.00 / Golden GPA).",
+      bullets: [
+        "Perfect 5.00 GPA with core concentration in Science and Mathematics.",
+      ],
+      badge: "CGPA 5.00",
     },
   ],
 
