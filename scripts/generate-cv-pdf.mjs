@@ -142,7 +142,7 @@ async function generateCV() {
     font: helveticaBold,
     color: rgb(0.1, 0.1, 0.1),
   });
-  const date1 = '2023 – Present';
+  const date1 = '2026 – Present';
   page.drawText(date1, {
     x: pageWidth - margin - helvetica.widthOfTextAtSize(date1, 9),
     y: y,

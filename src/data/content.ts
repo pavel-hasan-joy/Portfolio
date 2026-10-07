@@ -266,7 +266,7 @@ export const siteContent: SiteContent = {
 
   timeline: [
     {
-      period: "2023 — Present",
+      period: "2026 — Present",
       title: "B.Sc. in Computer Science & Engineering",
       organization: "University of Liberal Arts Bangladesh (ULAB)",
       location: "Dhaka, Bangladesh",
