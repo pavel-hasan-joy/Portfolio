@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       return NextResponse.json({
         success: true,
         fallbackMailto: true,
-        mailToUrl: `mailto:pavel.hasan.ces@ulab.edu.bd?subject=Portfolio%20Inquiry%20from%20${encodeURIComponent(
+        mailToUrl: `mailto:pavel.hasan.cse@ulab.edu.bd?subject=Portfolio%20Inquiry%20from%20${encodeURIComponent(
           name
         )}&body=${encodeURIComponent(`From: ${name} (${email})\n\nMessage:\n${message}`)}`,
         note: "RESEND_API_KEY not configured. Falling back to direct email client.",
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         from: "Portfolio Contact <onboarding@resend.dev>",
-        to: "pavel.hasan.ces@ulab.edu.bd",
+        to: "pavel.hasan.cse@ulab.edu.bd",
         reply_to: email,
         subject: `New Portfolio Message from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
