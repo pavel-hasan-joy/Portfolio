@@ -18,6 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://portfolio-sandy-psi-96.vercel.app"),
   title: `${siteContent.personal.name} — Aspiring Full-Stack Software Engineer & ML Engineer`,
   description: `${siteContent.personal.name} (${siteContent.personal.bengaliName}) is an aspiring Full-Stack Software Engineer and ML & AI Engineer at ULAB. Specializing in C, C++, Java, Git, GitHub, climate intelligence, and modern web architectures.`,
   keywords: [
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://pavel-hasan-joy.vercel.app",
+    url: "https://portfolio-sandy-psi-96.vercel.app",
     title: `${siteContent.personal.name} — Portfolio`,
     description: siteContent.personal.oneLineValueProp,
     siteName: `${siteContent.personal.name} Portfolio`,
@@ -75,7 +76,8 @@ export default function RootLayout({
     sameAs: [
       siteContent.socials.github,
       siteContent.socials.linkedin,
-    ],
+      siteContent.socials.facebook,
+    ].filter(Boolean),
     jobTitle: siteContent.personal.roles,
     alumniOf: {
       "@type": "EducationalOrganization",
