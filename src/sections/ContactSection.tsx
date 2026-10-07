@@ -239,6 +239,17 @@ export function ContactSection() {
             onSubmit={handleSubmit(onSubmit)}
             className="p-6 sm:p-8 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 shadow-2xl space-y-4"
           >
+            {/* Form Header */}
+            <div className="pb-1 border-b border-zinc-800/60">
+              <h3 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                <Mail className="w-4 h-4 text-emerald-400" />
+                Send Email
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                Have a project, opportunity, or inquiry? Send me an email directly.
+              </p>
+            </div>
+
             {/* Honeypot field (hidden from genuine users) */}
             <div className="hidden" aria-hidden="true">
               <input type="text" tabIndex={-1} autoComplete="off" {...register("honeypot")} />
@@ -344,7 +355,7 @@ export function ContactSection() {
               ) : (
                 <>
                   <Send className="w-3.5 h-3.5" />
-                  <span>Send Message</span>
+                  <span>Send Email</span>
                 </>
               )}
             </button>
