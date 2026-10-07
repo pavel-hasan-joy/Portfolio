@@ -50,6 +50,7 @@ export interface SiteContent {
     linkedin: string;
     email: string;
     phone?: string;
+    facebook?: string;
   };
   cv: {
     fileName: string;
@@ -113,6 +114,7 @@ export const siteContent: SiteContent = {
     linkedin: "https://www.linkedin.com/in/pavel-hasan-joy-ulab262014103",
     email: "pavel.hasan.cse@ulab.edu.bd",
     phone: "+8801342182616",
+    facebook: "https://www.facebook.com/pavelhasanjoy1",
   },
 
   cv: {

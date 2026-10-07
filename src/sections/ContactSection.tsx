@@ -18,7 +18,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/Icons";
+import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/Icons";
 import { siteContent } from "@/data/content";
 
 const contactSchema = z.object({
@@ -199,12 +199,12 @@ export function ContactSection() {
             </div>
 
             {/* Social Buttons */}
-            <div className="pt-2 flex items-center gap-3">
+            <div className="pt-2 flex items-center gap-2 sm:gap-3">
               <a
                 href={siteContent.socials.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>GitHub</span>
@@ -213,11 +213,22 @@ export function ContactSection() {
                 href={siteContent.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
               >
                 <LinkedinIcon className="w-4 h-4" />
                 <span>LinkedIn</span>
               </a>
+              {siteContent.socials.facebook && (
+                <a
+                  href={siteContent.socials.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
+                >
+                  <FacebookIcon className="w-4 h-4" />
+                  <span>Facebook</span>
+                </a>
+              )}
             </div>
           </div>
         </div>

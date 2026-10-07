@@ -10,7 +10,7 @@ import {
   Terminal,
   Code2,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/Icons";
+import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/Icons";
 import { siteContent } from "@/data/content";
 
 interface HeroSectionProps {
@@ -140,6 +140,17 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         >
           <LinkedinIcon className="w-4 h-4" />
         </a>
+        {siteContent.socials.facebook && (
+          <a
+            href={siteContent.socials.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook Profile"
+            className="p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800/80 transition-colors"
+          >
+            <FacebookIcon className="w-4 h-4" />
+          </a>
+        )}
         <a
           href={`mailto:${siteContent.socials.email}`}
           aria-label="Email Pavel"

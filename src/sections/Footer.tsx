@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ArrowUp, Mail, Heart } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/Icons";
+import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/Icons";
 import { siteContent } from "@/data/content";
 
 interface FooterProps {
@@ -72,6 +72,17 @@ export function Footer({ onOpenCv }: FooterProps) {
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
+            {siteContent.socials.facebook && (
+              <a
+                href={siteContent.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 transition-colors"
+              >
+                <FacebookIcon className="w-4 h-4" />
+              </a>
+            )}
             <a
               href={`mailto:${siteContent.socials.email}`}
               aria-label="Email"
