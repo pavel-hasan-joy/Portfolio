@@ -1,6 +1,8 @@
 {
-  "name": "portfolio-temp",
-  "version": "0.1.0",
+  "name": "pavel-hasan-joy-portfolio",
+  "version": "1.0.0",
+  "description": "Personal Portfolio of Pavel Hasan Joy — Aspiring Full-Stack Software Engineer & ML/AI Engineer",
+  "homepage": "https://portfolio-sandy-psi-96.vercel.app",
   "private": true,
   "scripts": {
     "dev": "next dev",
