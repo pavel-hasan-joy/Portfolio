@@ -1,4 +1,5 @@
 # 🌟 Pavel Hasan Joy — Personal Portfolio Website
+[![CI Status](https://github.com/pavel-hasan-joy/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/pavel-hasan-joy/Portfolio/actions/workflows/ci.yml)
 
 [![Live Deployment](https://img.shields.io/badge/Live_Site-portfolio--sandy--psi--96.vercel.app-10b981?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-sandy-psi-96.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
