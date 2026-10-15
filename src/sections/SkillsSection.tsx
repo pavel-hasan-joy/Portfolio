@@ -27,8 +27,8 @@ export function SkillsSection() {
     <section id="skills" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center text-center mb-16">
-        <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 mb-2">
-          Technical Arsenal
+        <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
+          // 02. CORE STACK
         </span>
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Core Languages & Version Control
@@ -63,7 +63,7 @@ export function SkillsSection() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: skillIdx * 0.1 }}
                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                    className="p-6 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 hover:border-emerald-500/40 transition-all flex flex-col justify-between group shadow-lg shadow-black/20"
+                    className="p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl hover:shadow-[0_0_25px_rgba(0,217,255,0.08)]"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-4">

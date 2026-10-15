@@ -15,7 +15,7 @@ export function Footer({ onOpenCv }: FooterProps) {
   };
 
   return (
-    <footer className="border-t border-zinc-800/80 bg-zinc-950/60 pt-16 pb-12 px-4 sm:px-6">
+    <footer className="border-t border-white/[0.08] bg-zinc-950/40 backdrop-blur-xl pt-16 pb-12 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
         {/* Brand & Summary */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
@@ -103,11 +103,23 @@ export function Footer({ onOpenCv }: FooterProps) {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto mt-12 pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 font-mono gap-2">
+      <div className="max-w-5xl mx-auto mt-12 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 font-mono gap-3">
         <p>© {new Date().getFullYear()} {siteContent.personal.name}. All rights reserved.</p>
-        <p className="flex items-center gap-1">
-          Built with Next.js, TypeScript & Tailwind CSS
-        </p>
+        <div className="flex items-center gap-4">
+          <a
+            href="https://github.com/pavel-hasan-joy/Portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-900/60 hover:bg-zinc-800 border border-white/[0.08] hover:border-cyan-500/40 text-zinc-400 hover:text-cyan-300 transition-all text-[11px]"
+          >
+            <GithubIcon className="w-3.5 h-3.5" />
+            <span>View Source Code</span>
+          </a>
+          <span className="hidden sm:inline">•</span>
+          <span className="flex items-center gap-1">
+            Engineered with Next.js 16 & Three.js
+          </span>
+        </div>
       </div>
     </footer>
   );

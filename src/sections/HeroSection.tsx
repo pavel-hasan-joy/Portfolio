@@ -85,7 +85,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         {["C", "C++", "Java", "Git", "GitHub"].map((tech) => (
           <span
             key={tech}
-            className="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-mono font-medium text-zinc-300 shadow-sm hover:border-emerald-500/40 hover:text-emerald-300 transition-colors"
+            className="px-3 py-1 rounded-lg bg-zinc-900/40 backdrop-blur-md border border-white/[0.08] text-xs font-mono font-medium text-zinc-300 shadow-sm hover:border-cyan-500/40 hover:text-cyan-300 transition-all"
           >
             {tech}
           </span>
@@ -101,14 +101,14 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
       >
         <a
           href="#projects"
-          className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-sm transition-all shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98]"
+          className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-zinc-950 font-semibold text-sm transition-all shadow-lg shadow-emerald-500/25 hover:shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98]"
         >
           View Featured Projects
         </a>
 
         <button
           onClick={onOpenCv}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900/90 hover:bg-zinc-800/90 text-zinc-200 hover:text-white border border-zinc-700/80 font-medium text-sm transition-all hover:scale-[1.02] active:scale-[0.98] group"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-200 hover:text-white border border-white/[0.08] hover:border-cyan-500/40 font-medium text-sm transition-all hover:scale-[1.02] active:scale-[0.98] group"
         >
           <FileText className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
           <span>Curriculum Vitae</span>
@@ -127,7 +127,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub Profile"
-          className="p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800/80 transition-colors"
+          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
         >
           <GithubIcon className="w-4 h-4" />
         </a>
@@ -136,7 +136,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn Profile"
-          className="p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800/80 transition-colors"
+          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
         >
           <LinkedinIcon className="w-4 h-4" />
         </a>
@@ -154,27 +154,52 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         <a
           href={`mailto:${siteContent.socials.email}`}
           aria-label="Email Pavel"
-          className="p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800/80 transition-colors"
+          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
         >
           <Mail className="w-4 h-4" />
         </a>
       </motion.div>
 
-      {/* Scroll Down Indicator */}
-      <motion.div
+      {/* Floating Mindset & Focus Badges (Inspired by aakashgugilla.is-a.dev) */}
+      <div className="hidden xl:block absolute left-8 top-44 -rotate-2 select-none pointer-events-none">
+        <div className="rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/[0.08] px-5 py-3 shadow-[0_0_35px_rgba(16,185,129,0.12)]">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-emerald-400">// core focus</p>
+          <p className="mt-1 text-xs font-medium text-zinc-300">
+            C/C++ <span className="text-emerald-400">·</span> Java <span className="text-cyan-400">·</span> Full-Stack & AI
+          </p>
+        </div>
+      </div>
+
+      <div className="hidden xl:block absolute right-8 top-44 rotate-2 select-none pointer-events-none">
+        <div className="rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/[0.08] px-5 py-3 shadow-[0_0_35px_rgba(0,217,255,0.12)]">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400">// engineering mindset</p>
+          <p className="mt-1 text-xs font-medium text-zinc-300">
+            Build <span className="text-cyan-400">·</span> Learn <span className="text-emerald-400">·</span> Optimize <span className="text-purple-400">·</span> Repeat
+          </p>
+        </div>
+      </div>
+
+      {/* Modern Mouse Scroll Down Explorer (Inspired by aakashgugilla.is-a.dev) */}
+      <motion.a
+        href="#about"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="mt-16 flex flex-col items-center gap-1.5 text-zinc-500 text-xs font-mono"
+        transition={{ delay: 0.9, duration: 0.8 }}
+        className="mt-14 flex flex-col items-center gap-2 text-zinc-500 hover:text-white transition-colors cursor-pointer group"
+        aria-label="Scroll to explore"
       >
-        <span className="uppercase tracking-widest text-[10px]">Scroll Down</span>
-        <motion.div
-          animate={{ y: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-        >
-          <ArrowDown className="w-3.5 h-3.5 text-emerald-400" />
-        </motion.div>
-      </motion.div>
+        <span className="flex h-9 w-5 items-start justify-center rounded-full border border-white/20 p-1 group-hover:border-cyan-400/60 transition-colors">
+          <motion.span
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            className="h-1.5 w-1 rounded-full bg-cyan-400"
+          />
+        </span>
+        <span className="uppercase tracking-widest text-[9px] font-mono text-zinc-400 group-hover:text-cyan-300 transition-colors">
+          Scroll to explore
+        </span>
+        <span className="h-6 w-px bg-gradient-to-b from-cyan-400/60 to-transparent" />
+      </motion.a>
     </section>
   );
 }

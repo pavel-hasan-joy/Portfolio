@@ -109,8 +109,8 @@ export function ContactSection() {
     <section id="contact" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center text-center mb-16">
-        <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 mb-2">
-          Get in Touch
+        <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
+          // 05. GET IN TOUCH
         </span>
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Let&apos;s Build Together
@@ -124,7 +124,7 @@ export function ContactSection() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Direct Info & Quick Copy */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-6 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 shadow-xl space-y-4">
+          <div className="p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] shadow-2xl space-y-4">
             <h3 className="text-lg font-bold text-zinc-100">
               Direct Contact & Channels
             </h3>
@@ -237,7 +237,7 @@ export function ContactSection() {
         <div className="lg:col-span-7">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="p-6 sm:p-8 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 shadow-2xl space-y-4"
+            className="p-6 sm:p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] shadow-2xl space-y-4"
           >
             {/* Form Header */}
             <div className="pb-1 border-b border-zinc-800/60">

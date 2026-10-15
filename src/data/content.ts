@@ -2,7 +2,7 @@ export interface Project {
   slug: string;
   title: string;
   tagline: string;
-  category: "AI & Geospatial" | "Full-Stack" | "Computer Vision";
+  category: "AI & Geospatial" | "Full-Stack" | "Computer Vision" | "Search & Systems";
   summary: string;
   role: string;
   githubUrl: string;
@@ -180,7 +180,7 @@ export const siteContent: SiteContent = {
     },
     {
       label: "Flagship Projects",
-      value: 3,
+      value: 4,
       suffix: "+",
       description: "End-to-end built & deployed applications",
     },
@@ -199,6 +199,28 @@ export const siteContent: SiteContent = {
   ],
 
   projects: [
+    {
+      slug: "bangla-search-engine",
+      title: "Bangla & Banglish Search Engine",
+      tagline: "High-performance phonetic & BM25 search engine engineered from scratch in standard-library Python.",
+      category: "Search & Systems",
+      summary: "An ultra-fast, zero-external-dependency information retrieval engine engineered specifically for Bengali script and phonetic Romanized Banglish queries, featuring 3-tier G2P phonetic hashing, Block-Max WAND dynamic pruning, and sub-3ms latency over 100,000 documents.",
+      role: "Lead Systems & Search Architect",
+      githubUrl: "https://github.com/pavel-hasan-joy/Bangla-Search-Engine",
+      featured: true,
+      accentColor: "#f59e0b",
+      problem: "Traditional search engines completely fail on phonetic Romanized Bangla ('Banglish' like 'shikkha', 'amr', 'bhalobasha') due to massive spelling variations, orthographic mismatches, and heavy ML framework dependencies that require massive infrastructure.",
+      solution: "Engineered a pure Python standard-library search engine featuring grapheme-aware G2P-lite rule parsers, 3-level phonetic hashing (K1/K2/K3), trigram-accelerated Damerau-Levenshtein fuzzy matching, and Block-Max WAND dynamic pruning on mmap-backed delta-encoded inverted indexes.",
+      impact: "Delivers sub-3ms warm search latency (p95: 2.68 ms) over a 100,000-passage Wikipedia corpus with 0.886 nDCG@10 relevance without requiring PyTorch, Lucene, or external C bindings.",
+      keyFeatures: [
+        "Pure Python Standard Library core — 0 external runtime dependencies for indexing & ranking",
+        "3-Tier G2P Phonetic Hashing (K1 fine, K2 collapsed phonemes, K3 consonant skeleton)",
+        "Trigram-indexed Damerau-Levenshtein fuzzy matching handling arbitrary Banglish spelling variations",
+        "Block-Max WAND dynamic index traversal delivering 2.68ms p95 search latency across 100,000 docs",
+        "FastAPI REST endpoints (/search, /explain) and reactive glassmorphism search UI",
+      ],
+      toolsUsed: ["Python", "FastAPI", "Information Retrieval", "BM25", "Block-Max WAND", "Algorithms", "Uvicorn"],
+    },
     {
       slug: "climate-lens",
       title: "Climate Lens — Bangladesh",

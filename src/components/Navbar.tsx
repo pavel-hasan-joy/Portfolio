@@ -67,7 +67,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className="fixed top-3 sm:top-5 left-0 right-0 z-40 mx-auto max-w-5xl px-3 sm:px-6"
     >
-      <nav className="glass-panel flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-2xl shadow-xl border border-zinc-800/80">
+      <nav className="flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-zinc-900/50 backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
         {/* Brand Logo / Monogram */}
         <a
           href="#"
@@ -88,7 +88,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
         </a>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-1 bg-zinc-900/60 dark:bg-zinc-900/80 px-2 py-1 rounded-xl border border-zinc-800/60 text-xs font-medium">
+        <div className="hidden md:flex items-center gap-1 bg-zinc-950/40 backdrop-blur-md px-2 py-1 rounded-xl border border-white/[0.06] text-xs font-medium">
           {siteContent.navigation.map((item) => {
             const isActive = activeSection === item.href.replace("#", "");
             return (
@@ -105,7 +105,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
                 {isActive && (
                   <motion.div
                     layoutId="active-nav-indicator"
-                    className="absolute inset-0 bg-emerald-500/10 border border-emerald-500/20 rounded-lg -z-10"
+                    className="absolute inset-0 bg-gradient-to-r from-emerald-500/15 to-cyan-500/15 border border-emerald-500/30 rounded-lg -z-10 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}

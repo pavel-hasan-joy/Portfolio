@@ -10,8 +10,8 @@ export function TimelineSection() {
     <section id="timeline" className="py-20 px-4 sm:px-6 max-w-4xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center text-center mb-16">
-        <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 mb-2">
-          Milestones
+        <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
+          // 04. EXPERIENCE & EDUCATION
         </span>
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Education & Achievements
@@ -39,7 +39,7 @@ export function TimelineSection() {
             </div>
 
             {/* Timeline Card */}
-            <div className="p-6 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 shadow-lg hover:border-emerald-500/30 transition-colors">
+            <div className="p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] shadow-2xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.08)] transition-all duration-300">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <span className="text-xs font-mono font-medium text-emerald-400 flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5" />

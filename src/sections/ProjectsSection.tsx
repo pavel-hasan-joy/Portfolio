@@ -16,7 +16,7 @@ import { siteContent, Project } from "@/data/content";
 export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  const categories = ["All", "AI & Geospatial", "Full-Stack", "Computer Vision"];
+  const categories = ["All", "Search & Systems", "AI & Geospatial", "Full-Stack", "Computer Vision"];
 
   const filteredProjects = selectedCategory === "All"
     ? siteContent.projects
@@ -26,8 +26,8 @@ export function ProjectsSection() {
     <section id="projects" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center text-center mb-12">
-        <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 mb-2">
-          Portfolio
+        <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
+          // 03. FEATURED WORK
         </span>
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Featured Engineering Projects
@@ -49,14 +49,14 @@ export function ProjectsSection() {
               className={`relative px-4 py-2 rounded-xl text-xs font-medium transition-colors ${
                 isSelected
                   ? "text-emerald-400 font-semibold"
-                  : "text-zinc-400 hover:text-zinc-200 bg-zinc-900/60 border border-zinc-800"
+                  : "text-zinc-400 hover:text-zinc-200 bg-zinc-900/40 backdrop-blur-md border border-white/[0.08]"
               }`}
             >
               {cat}
               {isSelected && (
                 <motion.div
                   layoutId="active-project-filter"
-                  className="absolute inset-0 bg-emerald-500/10 border border-emerald-500/30 rounded-xl -z-10"
+                  className="absolute inset-0 bg-emerald-500/10 border border-emerald-500/30 rounded-xl -z-10 backdrop-blur-md"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -76,7 +76,7 @@ export function ProjectsSection() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col justify-between rounded-2xl bg-zinc-900/70 border border-zinc-800/80 hover:border-emerald-500/40 p-6 transition-all group shadow-xl hover:shadow-emerald-500/5"
+              className="flex flex-col justify-between rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 transition-all duration-300 group shadow-2xl hover:shadow-[0_0_30px_rgba(0,217,255,0.08)] hover:-translate-y-1"
             >
               <div>
                 {/* Header with category and links */}
