@@ -160,24 +160,27 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         </a>
       </motion.div>
 
-      {/* Floating Mindset & Focus Badges (Inspired by aakashgugilla.is-a.dev) */}
-      <div className="hidden xl:block absolute left-8 top-44 -rotate-2 select-none pointer-events-none">
-        <div className="rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/[0.08] px-5 py-3 shadow-[0_0_35px_rgba(16,185,129,0.12)]">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-emerald-400">// core focus</p>
-          <p className="mt-1 text-xs font-medium text-zinc-300">
+      {/* Mindset & Focus Highlight Cards (Clean in-flow layout, zero collision/overlap) */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.7 }}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl mx-auto w-full mt-10 text-left"
+      >
+        <div className="rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-emerald-500/40 p-4 transition-all duration-300 shadow-xl">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-emerald-400 mb-1">// core focus</p>
+          <p className="text-xs font-medium text-zinc-300">
             C/C++ <span className="text-emerald-400">·</span> Java <span className="text-cyan-400">·</span> Full-Stack & AI
           </p>
         </div>
-      </div>
 
-      <div className="hidden xl:block absolute right-8 top-44 rotate-2 select-none pointer-events-none">
-        <div className="rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/[0.08] px-5 py-3 shadow-[0_0_35px_rgba(0,217,255,0.12)]">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400">// engineering mindset</p>
-          <p className="mt-1 text-xs font-medium text-zinc-300">
+        <div className="rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-4 transition-all duration-300 shadow-xl">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400 mb-1">// engineering mindset</p>
+          <p className="text-xs font-medium text-zinc-300">
             Build <span className="text-cyan-400">·</span> Learn <span className="text-emerald-400">·</span> Optimize <span className="text-purple-400">·</span> Repeat
           </p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Modern Mouse Scroll Down Explorer (Inspired by aakashgugilla.is-a.dev) */}
       <motion.a

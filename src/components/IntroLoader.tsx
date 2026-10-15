@@ -135,8 +135,14 @@ export function IntroLoader() {
             </div>
           </header>
 
-          {/* ── BACKGROUND RUNNING MARQUEE (Like redoyanulhaque.me) ── */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04] dark:opacity-[0.055] overflow-hidden whitespace-nowrap">
+          {/* ── BACKGROUND RUNNING MARQUEE (Masked in center so no letters clash with capsule) ── */}
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.035] overflow-hidden whitespace-nowrap"
+            style={{
+              maskImage: "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 35%, black 85%)",
+              WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 35%, black 85%)",
+            }}
+          >
             <motion.div
               animate={{ x: ["0%", "-50%"] }}
               transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
