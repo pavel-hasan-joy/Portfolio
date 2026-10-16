@@ -251,3 +251,39 @@ html.light .cv-modal-surface {
     scroll-behavior: auto !important;
   }
 }
+
+/* Print optimization for CV / Resume */
+@media print {
+  @page {
+    margin: 12mm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .no-print,
+  header,
+  nav,
+  footer,
+  .interactive-bg,
+  .custom-cursor,
+  .cv-controls-toolbar,
+  button {
+    display: none !important;
+  }
+
+  .printable-cv {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    transform: none !important;
+    color: #0f172a !important;
+  }
+}
+

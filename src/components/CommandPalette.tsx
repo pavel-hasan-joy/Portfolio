@@ -56,12 +56,22 @@ export function CommandPalette({ isOpen, onClose, onOpenCv }: CommandPaletteProp
     return [
       {
         id: "cv",
-        title: "View Curriculum Vitae (CV)",
+        title: "View Curriculum Vitae (CV Modal)",
         category: "Documents",
         icon: FileText,
         action: () => {
           onClose();
           onOpenCv();
+        },
+      },
+      {
+        id: "cv-page",
+        title: "Open Dedicated Full CV Page (/cv)",
+        category: "Documents",
+        icon: ExternalLink,
+        action: () => {
+          onClose();
+          window.location.href = "/cv";
         },
       },
       {
