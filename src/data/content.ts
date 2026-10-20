@@ -49,6 +49,7 @@ export interface SiteContent {
     github: string;
     linkedin: string;
     email: string;
+    emailComposeUrl?: string;
     phone?: string;
     facebook?: string;
   };
@@ -113,6 +114,7 @@ export const siteContent: SiteContent = {
     github: "https://github.com/pavel-hasan-joy",
     linkedin: "https://www.linkedin.com/in/pavel-hasan-joy-ulab262014103",
     email: "pavel.hasan.cse@ulab.edu.bd",
+    emailComposeUrl: "https://mail.google.com/mail/?view=cm&fs=1&to=pavel.hasan.cse@ulab.edu.bd",
     phone: "+8801342182616",
     facebook: "https://www.facebook.com/pavelhasanjoy1",
   },

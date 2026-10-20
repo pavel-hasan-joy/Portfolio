@@ -29,8 +29,11 @@ export function ResumeDocument() {
           </a>
           <span className="text-zinc-400">|</span>
           <a
-            href="mailto:pavel.hasan.cse@ulab.edu.bd"
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=pavel.hasan.cse@ulab.edu.bd"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-blue-700 hover:underline transition-colors"
+            title="Compose Email via Gmail"
           >
             pavel.hasan.cse@ulab.edu.bd
           </a>

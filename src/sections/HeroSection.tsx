@@ -152,8 +152,11 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
           </a>
         )}
         <a
-          href={`mailto:${siteContent.socials.email}`}
-          aria-label="Email Pavel"
+          href={siteContent.socials.emailComposeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Email Pavel via Gmail"
+          title="Compose Email to Pavel"
           className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
         >
           <Mail className="w-4 h-4" />

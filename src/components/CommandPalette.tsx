@@ -85,6 +85,16 @@ export function CommandPalette({ isOpen, onClose, onOpenCv }: CommandPaletteProp
         },
       },
       {
+        id: "send-email",
+        title: "Send Email (Open Gmail Compose in new tab)",
+        category: "Contact",
+        icon: Mail,
+        action: () => {
+          window.open(siteContent.socials.emailComposeUrl, "_blank", "noopener,noreferrer");
+          onClose();
+        },
+      },
+      {
         id: "copy-email",
         title: `Copy Email (${siteContent.socials.email})`,
         category: "Contact",

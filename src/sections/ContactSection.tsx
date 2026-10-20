@@ -85,9 +85,17 @@ export function ContactSection() {
           origin: { y: 0.7 },
         });
 
-        if (resData.fallbackMailto && resData.mailToUrl) {
+        if (resData.fallbackMailto && (resData.gmailComposeUrl || resData.mailToUrl)) {
+          const composeUrl =
+            resData.gmailComposeUrl ||
+            resData.mailToUrl ||
+            `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+              siteContent.socials.email
+            )}&su=${encodeURIComponent("Portfolio Contact")}&body=${encodeURIComponent(
+              data.message
+            )}`;
           setTimeout(() => {
-            window.location.href = resData.mailToUrl;
+            window.open(composeUrl, "_blank", "noopener,noreferrer");
           }, 800);
         }
       } else {
@@ -96,11 +104,14 @@ export function ContactSection() {
       }
     } catch (err) {
       setStatus("error");
-      setStatusMessage("Network error. Falling back to direct email client...");
+      setStatusMessage("Opening direct Gmail compose window...");
       setTimeout(() => {
-        window.location.href = `mailto:${siteContent.socials.email}?subject=Portfolio%20Contact&body=${encodeURIComponent(
+        const composeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+          siteContent.socials.email
+        )}&su=${encodeURIComponent("Portfolio Contact")}&body=${encodeURIComponent(
           data.message
         )}`;
+        window.open(composeUrl, "_blank", "noopener,noreferrer");
       }, 1000);
     }
   };
@@ -136,9 +147,15 @@ export function ContactSection() {
             <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2.5 overflow-hidden">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span className="text-xs font-mono text-zinc-200 truncate">
+                <a
+                  href={siteContent.socials.emailComposeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-mono text-zinc-200 hover:text-emerald-400 hover:underline truncate transition-colors"
+                  title="Open Gmail to compose email"
+                >
                   {siteContent.socials.email}
-                </span>
+                </a>
               </div>
               <button
                 onClick={handleCopyEmail}

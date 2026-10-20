@@ -84,8 +84,11 @@ export function Footer({ onOpenCv }: FooterProps) {
               </a>
             )}
             <a
-              href={`mailto:${siteContent.socials.email}`}
-              aria-label="Email"
+              href={siteContent.socials.emailComposeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Email Pavel via Gmail"
+              title="Compose Email to Pavel"
               className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 transition-colors"
             >
               <Mail className="w-4 h-4" />

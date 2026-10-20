@@ -34,10 +34,13 @@ export async function POST(request: Request) {
       return NextResponse.json({
         success: true,
         fallbackMailto: true,
-        mailToUrl: `mailto:pavel.hasan.cse@ulab.edu.bd?subject=Portfolio%20Inquiry%20from%20${encodeURIComponent(
-          name
+        gmailComposeUrl: `https://mail.google.com/mail/?view=cm&fs=1&to=pavel.hasan.cse@ulab.edu.bd&su=${encodeURIComponent(
+          `Portfolio Inquiry from ${name}`
         )}&body=${encodeURIComponent(`From: ${name} (${email})\n\nMessage:\n${message}`)}`,
-        note: "RESEND_API_KEY not configured. Falling back to direct email client.",
+        mailToUrl: `https://mail.google.com/mail/?view=cm&fs=1&to=pavel.hasan.cse@ulab.edu.bd&su=${encodeURIComponent(
+          `Portfolio Inquiry from ${name}`
+        )}&body=${encodeURIComponent(`From: ${name} (${email})\n\nMessage:\n${message}`)}`,
+        note: "RESEND_API_KEY not configured. Falling back to direct email compose.",
       });
     }
 
