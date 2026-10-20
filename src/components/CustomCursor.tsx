@@ -26,14 +26,14 @@ export function CustomCursor() {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      const interactive = target.closest("a, button, input, textarea, [data-interactive='true'], .cursor-pointer");
-      setIsPointer(!!interactive);
+      const interactive = !!target.closest("a, button, input, textarea, [data-interactive='true'], .cursor-pointer");
+      setIsPointer((prev) => (prev !== interactive ? interactive : prev));
     };
 
     const handleMouseDown = () => setIsHovered(true);
     const handleMouseUp = () => setIsHovered(false);
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
 

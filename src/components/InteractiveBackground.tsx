@@ -30,11 +30,11 @@ export function InteractiveBackground() {
     const renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
-      antialias: true,
+      antialias: false,
       powerPreference: "high-performance",
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     // High-fidelity Star Glow Texture Generator
     const createStarTexture = () => {
@@ -63,12 +63,12 @@ export function InteractiveBackground() {
 
     const starTexture = createStarTexture();
 
-    // 1. Primary 3D Starfield Cosmos (3,600 stars)
-    const starCount = 3600;
+    // 1. Primary 3D Starfield Cosmos (2,200 stars - optimized for 120 FPS)
+    const starCount = 2200;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(starCount * 3);
     const colors = new Float32Array(starCount * 3);
-    const halfSpanY = 120;
+    const halfSpanY = 160;
     const totalSpanY = halfSpanY * 2;
 
     const palette = [
@@ -110,8 +110,8 @@ export function InteractiveBackground() {
     const starPoints = new THREE.Points(geometry, material);
     scene.add(starPoints);
 
-    // 2. Secondary Floating Quantum Dust (650 larger ambient nodes)
-    const dustCount = 650;
+    // 2. Secondary Floating Quantum Dust (450 larger ambient nodes)
+    const dustCount = 450;
     const dustGeometry = new THREE.BufferGeometry();
     const dustPositions = new Float32Array(dustCount * 3);
     const dustColors = new Float32Array(dustCount * 3);
@@ -177,7 +177,7 @@ export function InteractiveBackground() {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -220,26 +220,9 @@ export function InteractiveBackground() {
       dustPoints.rotation.x = mouseY * 0.5 + scrollVelocity * 0.0005;
       dustPoints.rotation.y += 0.00015;
 
-      // 3. Infinite Vertical Starfield Wrapping (Zero star depletion!)
-      const posArray = geometry.attributes.position.array as Float32Array;
-      const camY = camera.position.y;
-      let posUpdated = false;
-
-      for (let i = 0; i < starCount; i++) {
-        const yIndex = i * 3 + 1;
-        const diff = posArray[yIndex] - camY;
-        if (diff > halfSpanY) {
-          posArray[yIndex] -= totalSpanY;
-          posUpdated = true;
-        } else if (diff < -halfSpanY) {
-          posArray[yIndex] += totalSpanY;
-          posUpdated = true;
-        }
-      }
-
-      if (posUpdated) {
-        geometry.attributes.position.needsUpdate = true;
-      }
+      // 3. Infinite Vertical Gliding (GPU Matrix Transform, 0 Buffer Re-upload)
+      starPoints.position.y = camera.position.y * 0.35;
+      dustPoints.position.y = camera.position.y * 0.25;
 
       // Pulse dust opacity slightly
       dustMaterial.opacity = 0.28 + Math.sin(clock.getElapsedTime() * 0.9) * 0.1;
@@ -337,42 +320,42 @@ export function InteractiveBackground() {
       {/* 4. Interactive Cursor Radial Spotlight */}
       <div
         ref={cursorLightRef}
-        className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full blur-[100px] opacity-25 dark:opacity-20 pointer-events-none will-change-transform"
+        className="absolute top-0 left-0 w-[450px] h-[450px] rounded-full opacity-25 dark:opacity-20 pointer-events-none will-change-transform transform-gpu"
         style={{
-          background: "radial-gradient(circle, rgba(0, 217, 255, 0.25) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 217, 255, 0.22) 0%, rgba(0, 217, 255, 0.06) 40%, transparent 70%)",
         }}
       />
 
       {/* 5. Ambient Nebula 1: Electric Cyan Glow (Parallax Upward) */}
       <div
         ref={orb1Ref}
-        className="absolute w-[680px] h-[680px] rounded-full blur-[140px] opacity-35 dark:opacity-25 pointer-events-none will-change-transform"
+        className="absolute w-[680px] h-[680px] rounded-full opacity-35 dark:opacity-25 pointer-events-none will-change-transform transform-gpu"
         style={{
           top: "12%",
           right: "4%",
-          background: "radial-gradient(circle, rgba(0, 217, 255, 0.32) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 217, 255, 0.26) 0%, rgba(0, 217, 255, 0.08) 35%, transparent 68%)",
         }}
       />
 
       {/* 6. Ambient Nebula 2: Deep Violet / Purple Spotlight (Parallax Downward) */}
       <div
         ref={orb2Ref}
-        className="absolute w-[720px] h-[720px] rounded-full blur-[150px] opacity-30 dark:opacity-20 pointer-events-none will-change-transform"
+        className="absolute w-[720px] h-[720px] rounded-full opacity-30 dark:opacity-20 pointer-events-none will-change-transform transform-gpu"
         style={{
           top: "40%",
           left: "2%",
-          background: "radial-gradient(circle, rgba(167, 139, 250, 0.3) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(167, 139, 250, 0.24) 0%, rgba(167, 139, 250, 0.07) 35%, transparent 68%)",
         }}
       />
 
       {/* 7. Ambient Nebula 3: Emerald Glow (Anchored Lower) */}
       <div
         ref={orb3Ref}
-        className="absolute w-[620px] h-[620px] rounded-full blur-[130px] opacity-25 dark:opacity-18 pointer-events-none will-change-transform"
+        className="absolute w-[620px] h-[620px] rounded-full opacity-25 dark:opacity-18 pointer-events-none will-change-transform transform-gpu"
         style={{
           top: "70%",
           right: "15%",
-          background: "radial-gradient(circle, rgba(16, 185, 129, 0.28) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.06) 35%, transparent 68%)",
         }}
       />
 

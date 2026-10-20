@@ -66,16 +66,40 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
   const [tilt, setTilt] = useState({ x: 0, y: 0, isHovered: false });
   const [isImageFront, setIsImageFront] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef<number | null>(null);
+
+  const handleMouseEnter = () => {
+    if (cardRef.current) {
+      rectRef.current = cardRef.current.getBoundingClientRect();
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x, y, isHovered: true });
+    if (!rectRef.current && cardRef.current) {
+      rectRef.current = cardRef.current.getBoundingClientRect();
+    }
+    const rect = rectRef.current;
+    if (!rect) return;
+
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+
+    if (rafRef.current) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const x = (clientX - rect.left) / rect.width - 0.5;
+      const y = (clientY - rect.top) / rect.height - 0.5;
+      setTilt({ x, y, isHovered: true });
+    });
   };
 
   const handleMouseLeave = () => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    rectRef.current = null;
     setTilt({ x: 0, y: 0, isHovered: false });
   };
 
@@ -94,6 +118,7 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
   return (
     <div
       ref={cardRef}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={`relative group w-[310px] sm:w-[400px] lg:w-[450px] xl:w-[480px] shrink-0 snap-center transition-all duration-300 ${
@@ -106,7 +131,9 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
       {hasPreview && !isImageFront && (
         <div
           onClick={toggleSwap}
-          className="absolute top-0 left-3 sm:left-6 w-[78%] sm:w-[74%] h-[160px] sm:h-[190px] z-0 rounded-xl overflow-hidden border border-white/[0.12] bg-zinc-950/95 backdrop-blur-md transition-all duration-500 ease-out origin-bottom-left shadow-2xl cursor-pointer pointer-events-auto"
+          className={`absolute top-0 left-3 sm:left-6 w-[78%] sm:w-[74%] h-[160px] sm:h-[190px] z-0 rounded-xl overflow-hidden border border-white/[0.12] bg-zinc-950/95 backdrop-blur-md origin-bottom-left shadow-2xl cursor-pointer pointer-events-auto transform-gpu will-change-transform ${
+            tilt.isHovered ? "transition-transform duration-100 ease-out" : "transition-transform duration-350 ease-out"
+          }`}
           style={{
             transform: tilt.isHovered
               ? `perspective(1000px) rotateY(${tilt.x * 12}deg) rotateX(${-tilt.y * 12}deg) translateX(${tilt.x * 18 - 8}px) translateY(${tilt.y * 18 - 14}px) scale(1.04)`
@@ -189,7 +216,9 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
 
           {/* Full Front Image Showcase Card */}
           <article
-            className="relative z-20 flex flex-col justify-between w-full h-[450px] sm:h-[480px] rounded-2xl overflow-hidden border border-cyan-500/50 bg-zinc-950/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(0,217,255,0.2)] transition-all duration-500 ease-out"
+            className={`relative z-20 flex flex-col justify-between w-full h-[450px] sm:h-[480px] rounded-2xl overflow-hidden border border-cyan-500/50 bg-zinc-950/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(0,217,255,0.2)] transform-gpu will-change-transform ${
+              tilt.isHovered ? "transition-transform duration-100 ease-out" : "transition-transform duration-350 ease-out"
+            }`}
             style={{
               transform: tilt.isHovered
                 ? `perspective(1000px) rotateY(${tilt.x * 6}deg) rotateX(${-tilt.y * 6}deg) translateY(-2px)`
@@ -286,7 +315,9 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
       ) : (
         /* Front Details Card (When isImageFront is false or previewType is none) */
         <article
-          className="relative z-10 flex flex-col justify-between rounded-2xl bg-zinc-900/85 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 transition-all duration-300 shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.12)] min-h-[440px]"
+          className={`relative z-10 flex flex-col justify-between rounded-2xl bg-zinc-900/85 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.12)] min-h-[440px] transform-gpu will-change-transform ${
+            tilt.isHovered ? "transition-transform duration-100 ease-out" : "transition-transform duration-350 ease-out"
+          }`}
           style={{
             transform: tilt.isHovered
               ? `perspective(1000px) rotateY(${tilt.x * 5}deg) rotateX(${-tilt.y * 5}deg) translateY(-2px)`
@@ -463,10 +494,25 @@ export function ProjectsSection() {
     fetchLiveGitHubProjects();
   }, [fetchLiveGitHubProjects]);
 
-  // Translate mouse wheel deltaY to horizontal scroll
+  // Translate mouse wheel deltaY to horizontal scroll with buttery smooth momentum
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+
+    let targetLeft = el.scrollLeft;
+    let wheelRaf: number | null = null;
+
+    const smoothWheelStep = () => {
+      if (!el) return;
+      const diff = targetLeft - el.scrollLeft;
+      if (Math.abs(diff) > 0.8) {
+        el.scrollLeft += diff * 0.22;
+        wheelRaf = requestAnimationFrame(smoothWheelStep);
+      } else {
+        el.scrollLeft = targetLeft;
+        wheelRaf = null;
+      }
+    };
 
     const onWheel = (e: WheelEvent) => {
       // If user is predominantly scrolling vertically, translate to horizontal
@@ -477,10 +523,10 @@ export function ProjectsSection() {
 
         if (canScrollLeft || canScrollRight) {
           e.preventDefault();
-          el.scrollBy({
-            left: e.deltaY * 1.6,
-            behavior: "auto",
-          });
+          targetLeft = Math.max(0, Math.min(maxScroll, targetLeft + e.deltaY * 1.25));
+          if (!wheelRaf) {
+            wheelRaf = requestAnimationFrame(smoothWheelStep);
+          }
         }
       }
     };
@@ -488,6 +534,7 @@ export function ProjectsSection() {
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       el.removeEventListener("wheel", onWheel);
+      if (wheelRaf) cancelAnimationFrame(wheelRaf);
     };
   }, []);
 
@@ -527,26 +574,33 @@ export function ProjectsSection() {
     }
   };
 
-  // Track active card while scrolling
+  const scrollRafRef = useRef<number | null>(null);
+
+  // Track active card while scrolling (throttled with RAF to prevent reflow bottlenecks)
   const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, clientWidth } = scrollRef.current;
-    const center = scrollLeft + clientWidth / 2;
-    const children = Array.from(scrollRef.current.children) as HTMLElement[];
+    if (scrollRafRef.current) return;
+    scrollRafRef.current = requestAnimationFrame(() => {
+      scrollRafRef.current = null;
+      if (!scrollRef.current) return;
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const center = scrollLeft + clientWidth / 2;
+      const children = Array.from(scrollRef.current.children) as HTMLElement[];
 
-    let closestIdx = 0;
-    let minDistance = Infinity;
+      let closestIdx = 0;
+      let minDistance = Infinity;
 
-    children.forEach((child, idx) => {
-      const childCenter = child.offsetLeft + child.offsetWidth / 2;
-      const distance = Math.abs(center - childCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIdx = idx;
+      for (let idx = 0; idx < children.length; idx++) {
+        const child = children[idx];
+        const childCenter = child.offsetLeft + child.offsetWidth / 2;
+        const distance = Math.abs(center - childCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = idx;
+        }
       }
-    });
 
-    setActiveIndex(closestIdx);
+      setActiveIndex((prev) => (prev !== closestIdx ? closestIdx : prev));
+    });
   };
 
   // Mouse Drag to Scroll handlers
@@ -684,8 +738,8 @@ export function ProjectsSection() {
               e.stopPropagation();
             }
           }}
-          className={`flex gap-6 sm:gap-8 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32 scrollbar-none focus:outline-none select-none ${
-            isDragging ? "cursor-grabbing" : "cursor-grab"
+          className={`flex gap-6 sm:gap-8 overflow-x-auto pb-8 pt-4 px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32 scrollbar-none focus:outline-none select-none ${
+            isDragging ? "cursor-grabbing snap-none" : "cursor-grab snap-x snap-proximity"
           }`}
           style={{
             scrollbarWidth: "none",
