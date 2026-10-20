@@ -17,54 +17,6 @@ interface GitHubRepo {
   updated_at: string;
   homepage: string | null;
   topics: string[];
-  fork: boolean;
-}
-
-// Helpers to format repo names and categories
-function formatRepoTitle(name: string): string {
-  // Replace hyphens/underscores with spaces unless it's CamelCase
-  return name
-    .replace(/[-_]+/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
-function inferCategory(repo: GitHubRepo): string {
-  const nameLower = repo.name.toLowerCase();
-  const langLower = (repo.language || "").toLowerCase();
-
-  if (nameLower.includes("climate") || nameLower.includes("space") || nameLower.includes("satellite")) {
-    return "AI & Geospatial";
-  }
-  if (nameLower.includes("search") || nameLower.includes("ir") || nameLower.includes("algorithm")) {
-    return "Search & Systems";
-  }
-  if (nameLower.includes("face") || nameLower.includes("vision") || nameLower.includes("detect")) {
-    return "Computer Vision";
-  }
-  if (nameLower.includes("leetcode") || langLower === "c" || langLower === "c++") {
-    return "Algorithms & Systems";
-  }
-  if (langLower === "typescript" || langLower === "javascript" || nameLower.includes("setu") || nameLower.includes("portfolio")) {
-    return "Full-Stack";
-  }
-  return "Engineering Project";
-}
-
-function getColorForCategory(cat: string): string {
-  switch (cat) {
-    case "AI & Geospatial":
-      return "#10b981";
-    case "Search & Systems":
-      return "#f59e0b";
-    case "Computer Vision":
-      return "#8b5cf6";
-    case "Algorithms & Systems":
-      return "#06b6d4";
-    case "Full-Stack":
-      return "#3b82f6";
-    default:
-      return "#10b981";
-  }
 }
 
 export async function GET() {
@@ -77,12 +29,14 @@ export async function GET() {
       next: { revalidate: 0 },
     });
 
+    // Base 4 projects specified by user
+    const targetProjects = [...siteContent.projects];
+
     if (!res.ok) {
-      // If GitHub rate limit or network issue occurs, return curated projects gracefully
       return NextResponse.json({
         success: true,
         source: "fallback",
-        projects: siteContent.projects.map((p) => ({
+        projects: targetProjects.map((p) => ({
           ...p,
           hasCaseStudy: true,
           isLiveRepo: true,
@@ -93,98 +47,45 @@ export async function GET() {
 
     const repos: GitHubRepo[] = await res.json();
 
-    // Map of curated projects by lowercase slug or repo name
-    const curatedMap = new Map<string, Project>();
-    for (const project of siteContent.projects) {
-      curatedMap.set(project.slug.toLowerCase(), project);
+    // Map repos by lowercase name
+    const repoMap = new Map<string, GitHubRepo>();
+    for (const r of repos) {
+      repoMap.set(r.name.toLowerCase(), r);
+    }
+
+    // Enrich the 4 designated projects with real-time GitHub repository data
+    const enrichedProjects: Project[] = targetProjects.map((project) => {
+      // Find matching repo name
       const repoNameFromUrl = project.githubUrl.split("/").pop()?.toLowerCase();
-      if (repoNameFromUrl) {
-        curatedMap.set(repoNameFromUrl, project);
-      }
-    }
+      const repo = repoNameFromUrl ? repoMap.get(repoNameFromUrl) : undefined;
 
-    // Skip special meta-repos
-    const ignoredRepos = new Set(["pavel-hasan-joy", "first.repository"]);
-
-    const liveProjects: Project[] = [];
-    const matchedCuratedSlugs = new Set<string>();
-
-    for (const repo of repos) {
-      const lowerName = repo.name.toLowerCase();
-      if (ignoredRepos.has(lowerName)) continue;
-
-      // Check if this matches a curated project
-      const matchedCurated = curatedMap.get(lowerName);
-
-      if (matchedCurated) {
-        matchedCuratedSlugs.add(matchedCurated.slug);
-        liveProjects.push({
-          ...matchedCurated,
-          stars: repo.stargazers_count,
-          forks: repo.forks_count,
-          updatedAt: repo.pushed_at || repo.updated_at,
-          language: repo.language || matchedCurated.toolsUsed[0],
-          liveUrl: repo.homepage || matchedCurated.liveUrl,
-          githubUrl: repo.html_url,
-          isLiveRepo: true,
-          hasCaseStudy: true,
-        });
-      } else {
-        // Dynamically discovered repository!
-        const category = inferCategory(repo);
-        const tools: string[] = [];
-        if (repo.language) tools.push(repo.language);
-        if (repo.topics && repo.topics.length > 0) tools.push(...repo.topics);
-        tools.push("Git", "GitHub");
-
-        liveProjects.push({
-          slug: repo.name.toLowerCase(),
-          title: formatRepoTitle(repo.name),
-          tagline: repo.description || "Active open-source repository on GitHub.",
-          category: category,
-          summary: repo.description || `Active open-source repository written primarily in ${repo.language || "code"}. Maintained and version-controlled on GitHub.`,
-          role: "Creator & Maintainer",
-          githubUrl: repo.html_url,
-          liveUrl: repo.homepage || undefined,
-          featured: false,
-          problem: "Solving modern engineering challenges with disciplined algorithms and modular architecture.",
-          solution: `Engineered using ${repo.language || "modern technologies"} with clean modular code organization.`,
-          impact: "Open-source codebase available for review, replication, and collaboration.",
-          keyFeatures: [
-            `Primary Language: ${repo.language || "Multi-language"}`,
-            `Direct GitHub Repository: github.com/${repo.full_name}`,
-            repo.pushed_at ? `Latest Push: ${new Date(repo.pushed_at).toLocaleDateString()}` : "Active development",
-          ],
-          toolsUsed: tools,
-          accentColor: getColorForCategory(category),
-          stars: repo.stargazers_count,
-          forks: repo.forks_count,
-          updatedAt: repo.pushed_at || repo.updated_at,
-          language: repo.language || "Code",
-          isLiveRepo: true,
-          hasCaseStudy: false,
-        });
-      }
-    }
-
-    // Include any curated projects that were not in the recent push list
-    for (const project of siteContent.projects) {
-      if (!matchedCuratedSlugs.has(project.slug)) {
-        liveProjects.push({
+      if (repo) {
+        return {
           ...project,
-          hasCaseStudy: true,
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          updatedAt: repo.pushed_at || repo.updated_at,
+          language: repo.language || project.toolsUsed[0],
+          liveUrl: repo.homepage || project.liveUrl,
+          githubUrl: repo.html_url,
           isLiveRepo: true,
-        });
+          hasCaseStudy: true,
+        };
       }
-    }
+
+      return {
+        ...project,
+        hasCaseStudy: true,
+        isLiveRepo: true,
+      };
+    });
 
     return NextResponse.json({
       success: true,
       source: "github-live",
-      totalRepos: repos.length,
-      projectsCount: liveProjects.length,
+      projectsCount: enrichedProjects.length,
       lastSynced: new Date().toISOString(),
-      projects: liveProjects,
+      projects: enrichedProjects,
     });
   } catch (error) {
     console.error("Error in /api/github/projects:", error);

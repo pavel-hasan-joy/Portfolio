@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ExternalLink,
   ChevronRight,
+  ChevronLeft,
   Star,
   GitFork,
   RefreshCw,
   Clock,
-  Sparkles,
-  GitBranch,
+  ArrowRight,
+  Layers,
 } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import { siteContent, Project } from "@/data/content";
@@ -48,8 +49,6 @@ function getLanguageColor(lang?: string): string {
       return "#f34b7d";
     case "java":
       return "#b07219";
-    case "html":
-      return "#e34c26";
     default:
       return "#10b981";
   }
@@ -60,10 +59,12 @@ export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [lastSyncedTime, setLastSyncedTime] = useState<string | null>(null);
-  const [syncStatus, setSyncStatus] = useState<"idle" | "success" | "fallback">("idle");
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   // Fetch live repositories from GitHub on load/refresh
-  const fetchLiveGitHubProjects = useCallback(async (isManual = false) => {
+  const fetchLiveGitHubProjects = useCallback(async () => {
     setIsSyncing(true);
     try {
       const res = await fetch("/api/github/projects", {
@@ -73,13 +74,11 @@ export function ProjectsSection() {
         const data = await res.json();
         if (data.projects && Array.isArray(data.projects)) {
           setProjects(data.projects);
-          setSyncStatus(data.source === "github-live" ? "success" : "fallback");
           setLastSyncedTime(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
         }
       }
     } catch (err) {
       console.warn("Failed to sync live GitHub projects, using cached content:", err);
-      setSyncStatus("fallback");
     } finally {
       setIsSyncing(false);
     }
@@ -89,8 +88,8 @@ export function ProjectsSection() {
     fetchLiveGitHubProjects();
   }, [fetchLiveGitHubProjects]);
 
-  // Compute categories dynamically from current projects
-  const availableCategories = React.useMemo(() => {
+  // Compute categories dynamically
+  const categories = React.useMemo(() => {
     const set = new Set<string>();
     projects.forEach((p) => {
       if (p.category) set.add(p.category);
@@ -102,8 +101,53 @@ export function ProjectsSection() {
     ? projects
     : projects.filter((p) => p.category === selectedCategory);
 
+  // Horizontal scroll buttons
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const cardWidth = 380;
+      const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (scrollRef.current) {
+      const cards = scrollRef.current.children;
+      if (cards[index]) {
+        (cards[index] as HTMLElement).scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+        setActiveIndex(index);
+      }
+    }
+  };
+
+  // Track active card while scrolling
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, clientWidth } = scrollRef.current;
+    const center = scrollLeft + clientWidth / 2;
+    const children = Array.from(scrollRef.current.children) as HTMLElement[];
+
+    let closestIdx = 0;
+    let minDistance = Infinity;
+
+    children.forEach((child, idx) => {
+      const childCenter = child.offsetLeft + child.offsetWidth / 2;
+      const distance = Math.abs(center - childCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIdx = idx;
+      }
+    });
+
+    setActiveIndex(closestIdx);
+  };
+
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
+    <section id="projects" className="py-20 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
       {/* Section Header */}
       <div className="flex flex-col items-center text-center mb-8">
         <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
@@ -114,40 +158,69 @@ export function ProjectsSection() {
         </h2>
         <div className="w-12 h-1 bg-emerald-500 rounded-full mt-3" />
         <p className="max-w-xl text-sm text-zinc-400 mt-4 leading-relaxed">
-          Real-world applications engineered from end to end — automatically analyzed and synced live from GitHub upon every visit.
+          4 flagship engineering systems — presented horizontally and synced live with GitHub repositories.
         </p>
 
-        {/* Live GitHub Sync Status Indicator */}
-        <div className="flex items-center gap-2.5 mt-5 px-3.5 py-1.5 rounded-full bg-zinc-900/70 border border-zinc-800 text-xs font-mono backdrop-blur-md">
-          <span className={`w-2 h-2 rounded-full ${isSyncing ? "bg-cyan-400 animate-ping" : "bg-emerald-400 animate-pulse"}`} />
-          <span className="text-zinc-300">
-            {isSyncing ? "Analyzing GitHub Repositories..." : "GitHub Live Synced"}
-          </span>
-          {lastSyncedTime && !isSyncing && (
-            <span className="text-zinc-500 hidden sm:inline">
-              · Synced at {lastSyncedTime}
+        {/* Live GitHub Sync Status & Navigation Bar */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/70 border border-zinc-800 text-xs font-mono backdrop-blur-md">
+            <span className={`w-2 h-2 rounded-full ${isSyncing ? "bg-cyan-400 animate-ping" : "bg-emerald-400 animate-pulse"}`} />
+            <span className="text-zinc-300">
+              {isSyncing ? "Syncing GitHub Repos..." : "GitHub Live Synced"}
             </span>
-          )}
-          <button
-            onClick={() => fetchLiveGitHubProjects(true)}
-            disabled={isSyncing}
-            className="ml-1 p-1 rounded-md text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800 transition-colors disabled:opacity-40"
-            title="Force refresh live repositories from GitHub"
-            aria-label="Refresh GitHub Repositories"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-emerald-400" : ""}`} />
-          </button>
+            {lastSyncedTime && !isSyncing && (
+              <span className="text-zinc-500 hidden sm:inline">
+                · {lastSyncedTime}
+              </span>
+            )}
+            <button
+              onClick={() => fetchLiveGitHubProjects()}
+              disabled={isSyncing}
+              className="ml-1 p-1 rounded-md text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800 transition-colors disabled:opacity-40"
+              title="Refresh GitHub Repositories"
+              aria-label="Refresh GitHub Repositories"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-emerald-400" : ""}`} />
+            </button>
+          </div>
+
+          {/* Previous / Next Arrow Controls */}
+          <div className="flex items-center gap-1 bg-zinc-900/80 border border-zinc-800 rounded-xl p-1">
+            <button
+              onClick={() => scroll("left")}
+              className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              title="Scroll Left"
+              aria-label="Previous Project"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <span className="text-xs font-mono text-zinc-500 px-2">
+              0{activeIndex + 1} / 0{filteredProjects.length}
+            </span>
+            <button
+              onClick={() => scroll("right")}
+              className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              title="Scroll Right"
+              aria-label="Next Project"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-        {availableCategories.map((cat) => {
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+        {categories.map((cat) => {
           const isSelected = selectedCategory === cat;
           return (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setActiveIndex(0);
+                if (scrollRef.current) scrollRef.current.scrollLeft = 0;
+              }}
               className={`relative px-4 py-2 rounded-xl text-xs font-medium transition-colors ${
                 isSelected
                   ? "text-emerald-400 font-semibold"
@@ -167,28 +240,30 @@ export function ProjectsSection() {
         })}
       </div>
 
-      {/* Projects Grid */}
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <AnimatePresence>
-          {filteredProjects.map((project) => (
-            <motion.article
-              layout
+      {/* Horizontal Carousel Track */}
+      <div className="relative">
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8 pt-2 px-2 scrollbar-none focus:outline-none cursor-grab active:cursor-grabbing"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          {filteredProjects.map((project, idx) => (
+            <article
               key={project.slug}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col justify-between rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 transition-all duration-300 group shadow-2xl hover:shadow-[0_0_30px_rgba(0,217,255,0.08)] hover:-translate-y-1"
+              className="w-[300px] sm:w-[360px] lg:w-[410px] shrink-0 snap-center flex flex-col justify-between rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 transition-all duration-300 group shadow-2xl hover:shadow-[0_0_30px_rgba(0,217,255,0.08)] hover:-translate-y-1"
             >
               <div>
-                {/* Header with category, GitHub metrics, and links */}
+                {/* Header with category, language and links */}
                 <div className="flex items-center justify-between mb-4 gap-2">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700/60">
                       {project.category}
                     </span>
 
-                    {/* Language Badge if available */}
                     {project.language && (
                       <span className="flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-300">
                         <span
@@ -201,7 +276,6 @@ export function ProjectsSection() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    {/* Stars & Forks if present */}
                     {typeof project.stars === "number" && project.stars > 0 && (
                       <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
                         <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
@@ -243,7 +317,7 @@ export function ProjectsSection() {
                 <h3 className="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
                   {project.title}
                 </h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-4">
+                <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-3">
                   {project.summary}
                 </p>
 
@@ -252,7 +326,7 @@ export function ProjectsSection() {
                   {project.keyFeatures.slice(0, 3).map((feat, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-emerald-400 mt-0.5">•</span>
-                      <span>{feat}</span>
+                      <span className="line-clamp-2">{feat}</span>
                     </li>
                   ))}
                 </ul>
@@ -274,33 +348,39 @@ export function ProjectsSection() {
                   )}
                 </div>
 
-                {project.hasCaseStudy ? (
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-zinc-800/80 hover:bg-emerald-500/10 text-xs text-zinc-200 hover:text-emerald-400 border border-zinc-700/60 hover:border-emerald-500/30 transition-all font-medium"
-                  >
-                    <span>Explore Case Study</span>
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                ) : (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-zinc-800/80 hover:bg-cyan-500/10 text-xs text-zinc-200 hover:text-cyan-400 border border-zinc-700/60 hover:border-cyan-500/30 transition-all font-medium"
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <GithubIcon className="w-3.5 h-3.5" />
-                      <span>View on GitHub</span>
-                    </span>
-                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </a>
-                )}
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-emerald-500/10 text-xs text-zinc-200 hover:text-emerald-400 border border-zinc-700/60 hover:border-emerald-500/30 transition-all font-medium"
+                >
+                  <span>Explore Case Study</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
               </div>
-            </motion.article>
+            </article>
           ))}
-        </AnimatePresence>
-      </motion.div>
+        </div>
+      </div>
+
+      {/* Interactive Dot Navigation Indicators */}
+      <div className="flex items-center justify-center gap-2 mt-2">
+        {filteredProjects.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollToIndex(i)}
+            aria-label={`Go to project ${i + 1}`}
+            className={`transition-all duration-300 rounded-full ${
+              activeIndex === i
+                ? "w-8 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400"
+                : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Swipe/Scroll Instruction */}
+      <p className="text-center text-[11px] font-mono text-zinc-500 mt-3">
+        ← Swipe or scroll horizontally to explore all 4 projects →
+      </p>
     </section>
   );
 }
