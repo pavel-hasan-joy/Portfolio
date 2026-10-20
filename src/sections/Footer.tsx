@@ -20,9 +20,11 @@ export function Footer({ onOpenCv }: FooterProps) {
         {/* Brand & Summary */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center text-zinc-950 font-bold font-mono text-xs">
-              PJ
-            </div>
+            <img
+              src="/logo-icon.png"
+              alt="Pavel Hasan Joy"
+              className="w-7 h-7 rounded-lg object-contain shadow-[0_0_12px_rgba(0,217,255,0.4)]"
+            />
             <span className="text-base font-bold text-zinc-100 tracking-tight">
               {siteContent.personal.name}
             </span>

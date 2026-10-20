@@ -62,6 +62,11 @@ export function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const startXRef = useRef(0);
+  const startScrollLeftRef = useRef(0);
+  const dragDistanceRef = useRef(0);
 
   // Fetch live repositories from GitHub on load/refresh
   const fetchLiveGitHubProjects = useCallback(async () => {
@@ -88,6 +93,34 @@ export function ProjectsSection() {
     fetchLiveGitHubProjects();
   }, [fetchLiveGitHubProjects]);
 
+  // Translate mouse wheel deltaY to horizontal scroll
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      // If user is predominantly scrolling vertically, translate to horizontal
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        const canScrollLeft = el.scrollLeft > 0 && e.deltaY < 0;
+        const canScrollRight = el.scrollLeft < maxScroll - 1 && e.deltaY > 0;
+
+        if (canScrollLeft || canScrollRight) {
+          e.preventDefault();
+          el.scrollBy({
+            left: e.deltaY * 1.6,
+            behavior: "auto",
+          });
+        }
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+    };
+  }, []);
+
   // Compute categories dynamically
   const categories = React.useMemo(() => {
     const set = new Set<string>();
@@ -104,7 +137,7 @@ export function ProjectsSection() {
   // Horizontal scroll buttons
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const cardWidth = 380;
+      const cardWidth = 420;
       const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
@@ -146,10 +179,32 @@ export function ProjectsSection() {
     setActiveIndex(closestIdx);
   };
 
+  // Mouse Drag to Scroll handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current || e.button !== 0) return;
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    startXRef.current = e.pageX;
+    startScrollLeftRef.current = scrollRef.current.scrollLeft;
+    dragDistanceRef.current = 0;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !scrollRef.current) return;
+    const walk = (e.pageX - startXRef.current) * 1.5;
+    dragDistanceRef.current = Math.abs(walk);
+    scrollRef.current.scrollLeft = startScrollLeftRef.current - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDraggingRef.current = false;
+    setIsDragging(false);
+  };
+
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
-      {/* Section Header */}
-      <div className="flex flex-col items-center text-center mb-8">
+    <section id="projects" className="py-24 w-full overflow-hidden relative">
+      {/* Centered Section Header & Controls */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-8">
         <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
           // 03. FEATURED WORK
         </span>
@@ -158,7 +213,7 @@ export function ProjectsSection() {
         </h2>
         <div className="w-12 h-1 bg-emerald-500 rounded-full mt-3" />
         <p className="max-w-xl text-sm text-zinc-400 mt-4 leading-relaxed">
-          4 flagship engineering systems — presented horizontally and synced live with GitHub repositories.
+          4 flagship engineering systems — presented horizontally across the full screen and synced live with GitHub.
         </p>
 
         {/* Live GitHub Sync Status & Navigation Bar */}
@@ -210,7 +265,7 @@ export function ProjectsSection() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-2 mb-8">
         {categories.map((cat) => {
           const isSelected = selectedCategory === cat;
           return (
@@ -240,12 +295,28 @@ export function ProjectsSection() {
         })}
       </div>
 
-      {/* Horizontal Carousel Track */}
-      <div className="relative">
+      {/* Full-Width Horizontal Carousel Track */}
+      <div className="relative w-full">
+        {/* Soft Left & Right Fade Edges for Full-Screen Polish */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-8 w-8 sm:w-16 bg-gradient-to-r from-[#030712] to-transparent z-10 opacity-60" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-8 w-8 sm:w-16 bg-gradient-to-l from-[#030712] to-transparent z-10 opacity-60" />
+
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8 pt-2 px-2 scrollbar-none focus:outline-none cursor-grab active:cursor-grabbing"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={handleMouseUpOrLeave}
+          onClickCapture={(e) => {
+            if (dragDistanceRef.current > 8) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+          className={`flex gap-6 sm:gap-8 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32 scrollbar-none focus:outline-none select-none ${
+            isDragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -254,7 +325,7 @@ export function ProjectsSection() {
           {filteredProjects.map((project, idx) => (
             <article
               key={project.slug}
-              className="w-[300px] sm:w-[360px] lg:w-[410px] shrink-0 snap-center flex flex-col justify-between rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 transition-all duration-300 group shadow-2xl hover:shadow-[0_0_30px_rgba(0,217,255,0.08)] hover:-translate-y-1"
+              className="w-[300px] sm:w-[380px] lg:w-[440px] xl:w-[470px] shrink-0 snap-center flex flex-col justify-between rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 transition-all duration-300 group shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.1)] hover:-translate-y-1"
             >
               <div>
                 {/* Header with category, language and links */}
@@ -377,9 +448,11 @@ export function ProjectsSection() {
         ))}
       </div>
 
-      {/* Swipe/Scroll Instruction */}
-      <p className="text-center text-[11px] font-mono text-zinc-500 mt-3">
-        ← Swipe or scroll horizontally to explore all 4 projects →
+      {/* Mouse Drag / Wheel Scroll Instruction */}
+      <p className="text-center text-[11px] font-mono text-zinc-500 mt-3 flex items-center justify-center gap-2">
+        <span>←</span>
+        <span>Drag with mouse or spin mouse wheel to scroll horizontally across all 4 projects</span>
+        <span>→</span>
       </p>
     </section>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Sun,
@@ -74,8 +75,15 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
           className="flex items-center gap-2.5 group select-none"
           aria-label="Pavel Hasan Joy Home"
         >
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-zinc-950 font-bold font-mono text-sm shadow-md group-hover:scale-105 transition-transform">
-            PJ
+          <div className="relative w-8 h-8 rounded-xl overflow-hidden border border-cyan-500/30 bg-[#061126] flex items-center justify-center shadow-md group-hover:scale-105 group-hover:border-cyan-400 transition-all">
+            <Image
+              src="/logo-icon.png"
+              alt="Pavel Hasan Joy Logo"
+              width={32}
+              height={32}
+              className="w-full h-full object-cover"
+              priority
+            />
           </div>
           <div className="flex flex-col">
             <span className="text-xs sm:text-sm font-semibold tracking-tight text-zinc-100 group-hover:text-emerald-400 transition-colors">

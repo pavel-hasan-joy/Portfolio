@@ -57,7 +57,11 @@ export const metadata: Metadata = {
     images: [siteContent.personal.avatarUrl],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/logo-icon.png", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/logo-icon.png",
   },
 };
 
