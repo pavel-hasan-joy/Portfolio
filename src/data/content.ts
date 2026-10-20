@@ -96,7 +96,7 @@ export const siteContent: SiteContent = {
     location: "Mohammadi Homes, Mohammadpur, Dhaka 1207, Bangladesh",
     institution: "University of Liberal Arts Bangladesh (ULAB)",
     degree: "B.Sc. in Computer Science & Engineering (CSE)",
-    avatarUrl: "https://avatars.githubusercontent.com/u/285468907?v=4",
+    avatarUrl: "/avatar.jpg",
     availability: "Open to Internships & Engineering Roles",
     status: "Actively Coding & Problem Solving",
     responseTime: "Responds within 24 hours",
