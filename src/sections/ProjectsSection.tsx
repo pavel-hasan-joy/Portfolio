@@ -13,6 +13,8 @@ import {
   Clock,
   ArrowRight,
   Layers,
+  RotateCcw,
+  Eye,
 } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import { siteContent, Project } from "@/data/content";
@@ -62,6 +64,7 @@ interface ProjectCardItemProps {
 
 function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) {
   const [tilt, setTilt] = useState({ x: 0, y: 0, isHovered: false });
+  const [isImageFront, setIsImageFront] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -79,6 +82,15 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
   const hasPreview = project.previewType !== "none" && Boolean(project.previewImage);
   const offsetFromActive = index - activeIndex;
 
+  const toggleSwap = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    if (hasPreview) {
+      setIsImageFront((prev) => !prev);
+    }
+  };
+
   return (
     <div
       ref={cardRef}
@@ -88,16 +100,20 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
         hasPreview ? "pt-12 sm:pt-14 pb-2" : "pt-4 pb-2"
       } [perspective:1200px]`}
     >
-      {/* 3D Peeking Mockup / Analytics Card (Back Layer) */}
-      {hasPreview && (
+      {/* =========================================================================
+          STATE A: When Image is in the BACK (Default), Details Card is in FRONT
+          ========================================================================= */}
+      {hasPreview && !isImageFront && (
         <div
-          className="absolute top-0 right-3 sm:right-6 w-[76%] sm:w-[72%] h-[155px] sm:h-[185px] z-0 rounded-xl overflow-hidden border border-white/[0.12] bg-zinc-950/95 backdrop-blur-md transition-all duration-300 ease-out origin-bottom-right shadow-2xl pointer-events-none select-none"
+          onClick={toggleSwap}
+          className="absolute top-0 left-3 sm:left-6 w-[78%] sm:w-[74%] h-[160px] sm:h-[190px] z-0 rounded-xl overflow-hidden border border-white/[0.12] bg-zinc-950/95 backdrop-blur-md transition-all duration-500 ease-out origin-bottom-left shadow-2xl cursor-pointer pointer-events-auto"
           style={{
             transform: tilt.isHovered
-              ? `perspective(1000px) rotateY(${tilt.x * 12}deg) rotateX(${-tilt.y * 12}deg) translateX(${tilt.x * 18 + 6}px) translateY(${tilt.y * 18 - 14}px) scale(1.04)`
-              : `perspective(1000px) rotate(-3.5deg) translateX(${offsetFromActive * -6}px) translateY(${Math.abs(offsetFromActive) * 2}px)`,
+              ? `perspective(1000px) rotateY(${tilt.x * 12}deg) rotateX(${-tilt.y * 12}deg) translateX(${tilt.x * 18 - 8}px) translateY(${tilt.y * 18 - 14}px) scale(1.04)`
+              : `perspective(1000px) rotate(3.5deg) translateX(${offsetFromActive * 6}px) translateY(${Math.abs(offsetFromActive) * 2}px)`,
             boxShadow: `0 20px 45px -10px rgba(0,0,0,0.85), 0 0 30px -5px ${project.accentColor}35`,
           }}
+          title="Click to bring image to front"
         >
           {/* Mockup Header Bar */}
           <div className="h-6 bg-zinc-900/95 border-b border-white/[0.08] px-2.5 flex items-center justify-between text-[9px] font-mono text-zinc-400">
@@ -106,24 +122,22 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
               <span className="w-2 h-2 rounded-full bg-amber-500/70" />
               <span className="w-2 h-2 rounded-full bg-emerald-500/70" />
             </div>
-            <span className="truncate px-2 text-zinc-400/90 max-w-[130px] sm:max-w-[170px]">
+            <span className="truncate px-2 text-zinc-400/90 max-w-[120px] sm:max-w-[150px]">
               {project.previewType === "dynamic-stats"
                 ? "leetcode.com/pavel-hasan-joy"
                 : project.liveUrl
                 ? project.liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")
                 : project.slug}
             </span>
-            {project.previewType === "dynamic-stats" ? (
-              <span className="flex items-center gap-1 text-[8px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Live Solved</span>
+            <div className="flex items-center gap-1">
+              <span className="flex items-center gap-1 text-[8px] text-cyan-300 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-500/40 animate-pulse">
+                <Eye className="w-2.5 h-2.5" />
+                <span>Click</span>
               </span>
-            ) : (
-              <span className="text-[8px] text-zinc-500 font-mono">Live Preview</span>
-            )}
+            </div>
           </div>
 
-          {/* Mockup Body Content */}
+          {/* Mockup Body Preview */}
           <div className="relative w-full h-[calc(100%-24px)] overflow-hidden bg-zinc-950 flex items-center justify-center">
             {project.previewType === "dynamic-stats" ? (
               <div className="w-full h-full p-2 flex items-center justify-center bg-zinc-950/95">
@@ -149,116 +163,263 @@ function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) 
         </div>
       )}
 
-      {/* Front Details Card */}
-      <article
-        className="relative z-10 flex flex-col justify-between rounded-2xl bg-zinc-900/85 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 transition-all duration-300 shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.12)]"
-        style={{
-          transform: tilt.isHovered
-            ? `perspective(1000px) rotateY(${tilt.x * 5}deg) rotateX(${-tilt.y * 5}deg) translateY(-2px)`
-            : "none",
-        }}
-      >
-        <div>
-          {/* Header with category, language and links */}
-          <div className="flex items-center justify-between mb-4 gap-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700/60">
-                {project.category}
+      {/* =========================================================================
+          STATE B: When Image is in the FRONT, Details Card is in BACK
+          ========================================================================= */}
+      {hasPreview && isImageFront ? (
+        <>
+          {/* Peeking Background Details Card (Behind) */}
+          <div
+            onClick={toggleSwap}
+            className="absolute inset-x-2 top-3 bottom-3 z-0 rounded-2xl bg-zinc-900/60 backdrop-blur-md border border-white/[0.08] shadow-2xl transition-all duration-500 ease-out cursor-pointer pointer-events-auto overflow-hidden opacity-50 hover:opacity-85 p-6"
+            style={{
+              transform: "perspective(1000px) rotate(-3deg) scale(0.95) translateY(14px)",
+            }}
+            title="Click to bring details back to front"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono uppercase text-zinc-400">{project.category}</span>
+              <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/40">
+                Click to expand details
               </span>
+            </div>
+            <h3 className="text-lg font-bold text-zinc-300">{project.title}</h3>
+            <p className="text-xs text-zinc-500 line-clamp-2 mt-1">{project.summary}</p>
+          </div>
 
-              {project.language && (
-                <span className="flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-300">
-                  <span
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{ backgroundColor: getLanguageColor(project.language) }}
-                  />
-                  <span>{project.language}</span>
+          {/* Full Front Image Showcase Card */}
+          <article
+            className="relative z-20 flex flex-col justify-between w-full h-[450px] sm:h-[480px] rounded-2xl overflow-hidden border border-cyan-500/50 bg-zinc-950/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(0,217,255,0.2)] transition-all duration-500 ease-out"
+            style={{
+              transform: tilt.isHovered
+                ? `perspective(1000px) rotateY(${tilt.x * 6}deg) rotateX(${-tilt.y * 6}deg) translateY(-2px)`
+                : "perspective(1000px) rotate(0deg) scale(1)",
+            }}
+          >
+            {/* Header with browser dots, title, and Flip button */}
+            <div className="h-10 bg-zinc-900/90 border-b border-zinc-800/80 px-4 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                <span className="text-xs font-mono text-zinc-300 font-semibold ml-1">
+                  {project.title}
                 </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {project.previewType === "dynamic-stats" && (
+                  <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="hidden sm:inline">Live Sync</span>
+                  </span>
+                )}
+
+                <button
+                  type="button"
+                  onClick={toggleSwap}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-cyan-500/20 text-xs font-mono text-cyan-300 hover:text-cyan-200 border border-zinc-700 hover:border-cyan-500/40 transition-colors shadow-sm cursor-pointer"
+                  title="Return to details"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Details</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Media Canvas Body */}
+            <div className="relative w-full flex-1 overflow-hidden bg-zinc-950 flex items-center justify-center p-2 sm:p-3">
+              {project.previewType === "dynamic-stats" ? (
+                <div className="w-full h-full flex items-center justify-center p-2 bg-zinc-950/90 rounded-xl">
+                  <img
+                    src={project.previewImage}
+                    alt={`${project.title} Live Stats`}
+                    className="w-full h-auto max-h-[300px] object-contain filter drop-shadow-xl"
+                  />
+                </div>
+              ) : (
+                <div className="relative w-full h-full rounded-xl overflow-hidden border border-zinc-800/80 bg-zinc-900">
+                  <img
+                    src={project.previewImage}
+                    alt={project.title}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
               )}
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              {typeof project.stars === "number" && project.stars > 0 && (
-                <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  <span>{project.stars}</span>
-                </span>
-              )}
-              {typeof project.forks === "number" && project.forks > 0 && (
-                <span className="flex items-center gap-1 text-[11px] font-mono text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60">
-                  <GitFork className="w-3 h-3" />
-                  <span>{project.forks}</span>
-                </span>
-              )}
-
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                title="GitHub Repository"
-                aria-label={`${project.title} GitHub`}
+            {/* Bottom Action Footer */}
+            <div className="p-3.5 bg-zinc-900/90 border-t border-zinc-800/80 flex items-center justify-between gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={toggleSwap}
+                className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
-                <GithubIcon className="w-3.5 h-3.5" />
-              </a>
-              {project.liveUrl && (
+                <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Click to flip to card details</span>
+              </button>
+
+              <div className="flex items-center gap-2">
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-xs font-bold transition-colors shadow-sm"
+                    title="Open Live Deployment"
+                  >
+                    <span>Visit Live</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium border border-zinc-700 transition-colors"
+                >
+                  <span>Case Study</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </article>
+        </>
+      ) : (
+        /* Front Details Card (When isImageFront is false or previewType is none) */
+        <article
+          className="relative z-10 flex flex-col justify-between rounded-2xl bg-zinc-900/85 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 transition-all duration-300 shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.12)] min-h-[440px]"
+          style={{
+            transform: tilt.isHovered
+              ? `perspective(1000px) rotateY(${tilt.x * 5}deg) rotateX(${-tilt.y * 5}deg) translateY(-2px)`
+              : "none",
+          }}
+        >
+          <div>
+            {/* Header with category, language and links */}
+            <div className="flex items-center justify-between mb-4 gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700/60">
+                  {project.category}
+                </span>
+
+                {project.language && (
+                  <span className="flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-300">
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ backgroundColor: getLanguageColor(project.language) }}
+                    />
+                    <span>{project.language}</span>
+                  </span>
+                )}
+
+                {/* Flip to Preview Button */}
+                {hasPreview && (
+                  <button
+                    type="button"
+                    onClick={toggleSwap}
+                    className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-cyan-950/70 hover:bg-cyan-900 text-cyan-300 hover:text-cyan-200 border border-cyan-500/30 hover:border-cyan-500/50 transition-all cursor-pointer shadow-sm"
+                    title="Click to view image in front"
+                  >
+                    <Eye className="w-3 h-3 text-cyan-400" />
+                    <span>Preview</span>
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                {typeof project.stars === "number" && project.stars > 0 && (
+                  <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <span>{project.stars}</span>
+                  </span>
+                )}
+                {typeof project.forks === "number" && project.forks > 0 && (
+                  <span className="flex items-center gap-1 text-[11px] font-mono text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60">
+                    <GitFork className="w-3 h-3" />
+                    <span>{project.forks}</span>
+                  </span>
+                )}
+
                 <a
-                  href={project.liveUrl}
+                  href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                  title="Live Deployment"
-                  aria-label={`${project.title} Live URL`}
+                  title="GitHub Repository"
+                  aria-label={`${project.title} GitHub`}
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <GithubIcon className="w-3.5 h-3.5" />
                 </a>
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                    title="Live Deployment"
+                    aria-label={`${project.title} Live URL`}
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <h3 className="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
+              {project.title}
+            </h3>
+            <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-3">
+              {project.summary}
+            </p>
+
+            {/* Key Features Bullet Points */}
+            <ul className="space-y-1.5 mb-6 text-xs text-zinc-300 font-sans">
+              {project.keyFeatures.slice(0, 3).map((feat, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">•</span>
+                  <span className="line-clamp-2">{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Card Footer: Role & Case Study / GitHub Link */}
+          <div className="pt-4 border-t border-zinc-800/80 flex flex-col gap-3">
+            <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
+              <div className="flex items-center gap-1.5">
+                <span>Role:</span>
+                <span className="text-zinc-200 font-semibold">{project.role}</span>
+              </div>
+
+              {project.updatedAt && (
+                <span className="flex items-center gap-1 text-[10px] text-zinc-500" title={`Last pushed: ${project.updatedAt}`}>
+                  <Clock className="w-3 h-3 text-zinc-500" />
+                  <span>{formatRelativeTime(project.updatedAt)}</span>
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Link
+                href={`/projects/${project.slug}`}
+                className="flex-1 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-emerald-500/10 text-xs text-zinc-200 hover:text-emerald-400 border border-zinc-700/60 hover:border-emerald-500/30 transition-all font-medium"
+              >
+                <span>Explore Case Study</span>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              {hasPreview && (
+                <button
+                  type="button"
+                  onClick={toggleSwap}
+                  className="p-2.5 rounded-xl bg-zinc-800/80 hover:bg-cyan-500/20 text-zinc-400 hover:text-cyan-300 border border-zinc-700/60 hover:border-cyan-500/30 transition-all cursor-pointer"
+                  title="Click to flip to image preview"
+                >
+                  <Eye className="w-4 h-4" />
+                </button>
               )}
             </div>
           </div>
-
-          <h3 className="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
-            {project.title}
-          </h3>
-          <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-3">
-            {project.summary}
-          </p>
-
-          {/* Key Features Bullet Points */}
-          <ul className="space-y-1.5 mb-6 text-xs text-zinc-300 font-sans">
-            {project.keyFeatures.slice(0, 3).map((feat, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-emerald-400 mt-0.5">•</span>
-                <span className="line-clamp-2">{feat}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Card Footer: Role & Case Study / GitHub Link */}
-        <div className="pt-4 border-t border-zinc-800/80 flex flex-col gap-3">
-          <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
-            <div className="flex items-center gap-1.5">
-              <span>Role:</span>
-              <span className="text-zinc-200 font-semibold">{project.role}</span>
-            </div>
-
-            {project.updatedAt && (
-              <span className="flex items-center gap-1 text-[10px] text-zinc-500" title={`Last pushed: ${project.updatedAt}`}>
-                <Clock className="w-3 h-3 text-zinc-500" />
-                <span>{formatRelativeTime(project.updatedAt)}</span>
-              </span>
-            )}
-          </div>
-
-          <Link
-            href={`/projects/${project.slug}`}
-            className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-emerald-500/10 text-xs text-zinc-200 hover:text-emerald-400 border border-zinc-700/60 hover:border-emerald-500/30 transition-all font-medium"
-          >
-            <span>Explore Case Study</span>
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
-      </article>
+        </article>
+      )}
     </div>
   );
 }
