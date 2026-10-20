@@ -2,7 +2,7 @@ export interface Project {
   slug: string;
   title: string;
   tagline: string;
-  category: "AI & Geospatial" | "Full-Stack" | "Computer Vision" | "Search & Systems";
+  category: string;
   summary: string;
   role: string;
   githubUrl: string;
@@ -14,6 +14,13 @@ export interface Project {
   keyFeatures: string[];
   toolsUsed: string[];
   accentColor: string;
+  // Live GitHub Metadata
+  stars?: number;
+  forks?: number;
+  updatedAt?: string;
+  language?: string;
+  isLiveRepo?: boolean;
+  hasCaseStudy?: boolean;
 }
 
 export interface EducationExperience {
