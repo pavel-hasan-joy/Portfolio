@@ -54,6 +54,215 @@ function getLanguageColor(lang?: string): string {
   }
 }
 
+interface ProjectCardItemProps {
+  project: Project;
+  index: number;
+  activeIndex: number;
+}
+
+function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0, isHovered: false });
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ x, y, isHovered: true });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0, isHovered: false });
+  };
+
+  const hasPreview = project.previewType !== "none" && Boolean(project.previewImage);
+  const offsetFromActive = index - activeIndex;
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`relative group w-[310px] sm:w-[400px] lg:w-[450px] xl:w-[480px] shrink-0 snap-center transition-all duration-300 ${
+        hasPreview ? "pt-12 sm:pt-14 pb-2" : "pt-4 pb-2"
+      } [perspective:1200px]`}
+    >
+      {/* 3D Peeking Mockup / Analytics Card (Back Layer) */}
+      {hasPreview && (
+        <div
+          className="absolute top-0 right-3 sm:right-6 w-[76%] sm:w-[72%] h-[155px] sm:h-[185px] z-0 rounded-xl overflow-hidden border border-white/[0.12] bg-zinc-950/95 backdrop-blur-md transition-all duration-300 ease-out origin-bottom-right shadow-2xl pointer-events-none select-none"
+          style={{
+            transform: tilt.isHovered
+              ? `perspective(1000px) rotateY(${tilt.x * 12}deg) rotateX(${-tilt.y * 12}deg) translateX(${tilt.x * 18 + 6}px) translateY(${tilt.y * 18 - 14}px) scale(1.04)`
+              : `perspective(1000px) rotate(-3.5deg) translateX(${offsetFromActive * -6}px) translateY(${Math.abs(offsetFromActive) * 2}px)`,
+            boxShadow: `0 20px 45px -10px rgba(0,0,0,0.85), 0 0 30px -5px ${project.accentColor}35`,
+          }}
+        >
+          {/* Mockup Header Bar */}
+          <div className="h-6 bg-zinc-900/95 border-b border-white/[0.08] px-2.5 flex items-center justify-between text-[9px] font-mono text-zinc-400">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-rose-500/70" />
+              <span className="w-2 h-2 rounded-full bg-amber-500/70" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500/70" />
+            </div>
+            <span className="truncate px-2 text-zinc-400/90 max-w-[130px] sm:max-w-[170px]">
+              {project.previewType === "dynamic-stats"
+                ? "leetcode.com/pavel-hasan-joy"
+                : project.liveUrl
+                ? project.liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")
+                : project.slug}
+            </span>
+            {project.previewType === "dynamic-stats" ? (
+              <span className="flex items-center gap-1 text-[8px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Live Solved</span>
+              </span>
+            ) : (
+              <span className="text-[8px] text-zinc-500 font-mono">Live Preview</span>
+            )}
+          </div>
+
+          {/* Mockup Body Content */}
+          <div className="relative w-full h-[calc(100%-24px)] overflow-hidden bg-zinc-950 flex items-center justify-center">
+            {project.previewType === "dynamic-stats" ? (
+              <div className="w-full h-full p-2 flex items-center justify-center bg-zinc-950/95">
+                <img
+                  src={project.previewImage}
+                  alt={`${project.title} Live Stats`}
+                  className="w-full h-auto max-h-full object-contain filter drop-shadow transition-transform duration-500 ease-out"
+                  loading="lazy"
+                />
+              </div>
+            ) : (
+              <div className="relative w-full h-full">
+                <img
+                  src={project.previewImage}
+                  alt={project.title}
+                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none" />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Front Details Card */}
+      <article
+        className="relative z-10 flex flex-col justify-between rounded-2xl bg-zinc-900/85 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 transition-all duration-300 shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.12)]"
+        style={{
+          transform: tilt.isHovered
+            ? `perspective(1000px) rotateY(${tilt.x * 5}deg) rotateX(${-tilt.y * 5}deg) translateY(-2px)`
+            : "none",
+        }}
+      >
+        <div>
+          {/* Header with category, language and links */}
+          <div className="flex items-center justify-between mb-4 gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700/60">
+                {project.category}
+              </span>
+
+              {project.language && (
+                <span className="flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-300">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ backgroundColor: getLanguageColor(project.language) }}
+                  />
+                  <span>{project.language}</span>
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              {typeof project.stars === "number" && project.stars > 0 && (
+                <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  <span>{project.stars}</span>
+                </span>
+              )}
+              {typeof project.forks === "number" && project.forks > 0 && (
+                <span className="flex items-center gap-1 text-[11px] font-mono text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60">
+                  <GitFork className="w-3 h-3" />
+                  <span>{project.forks}</span>
+                </span>
+              )}
+
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                title="GitHub Repository"
+                aria-label={`${project.title} GitHub`}
+              >
+                <GithubIcon className="w-3.5 h-3.5" />
+              </a>
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                  title="Live Deployment"
+                  aria-label={`${project.title} Live URL`}
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          <h3 className="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
+            {project.title}
+          </h3>
+          <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-3">
+            {project.summary}
+          </p>
+
+          {/* Key Features Bullet Points */}
+          <ul className="space-y-1.5 mb-6 text-xs text-zinc-300 font-sans">
+            {project.keyFeatures.slice(0, 3).map((feat, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">•</span>
+                <span className="line-clamp-2">{feat}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Card Footer: Role & Case Study / GitHub Link */}
+        <div className="pt-4 border-t border-zinc-800/80 flex flex-col gap-3">
+          <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
+            <div className="flex items-center gap-1.5">
+              <span>Role:</span>
+              <span className="text-zinc-200 font-semibold">{project.role}</span>
+            </div>
+
+            {project.updatedAt && (
+              <span className="flex items-center gap-1 text-[10px] text-zinc-500" title={`Last pushed: ${project.updatedAt}`}>
+                <Clock className="w-3 h-3 text-zinc-500" />
+                <span>{formatRelativeTime(project.updatedAt)}</span>
+              </span>
+            )}
+          </div>
+
+          <Link
+            href={`/projects/${project.slug}`}
+            className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-emerald-500/10 text-xs text-zinc-200 hover:text-emerald-400 border border-zinc-700/60 hover:border-emerald-500/30 transition-all font-medium"
+          >
+            <span>Explore Case Study</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>(siteContent.projects);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -323,111 +532,12 @@ export function ProjectsSection() {
           }}
         >
           {filteredProjects.map((project, idx) => (
-            <article
+            <ProjectCardItem
               key={project.slug}
-              className="w-[300px] sm:w-[380px] lg:w-[440px] xl:w-[470px] shrink-0 snap-center flex flex-col justify-between rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 transition-all duration-300 group shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.1)] hover:-translate-y-1"
-            >
-              <div>
-                {/* Header with category, language and links */}
-                <div className="flex items-center justify-between mb-4 gap-2">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700/60">
-                      {project.category}
-                    </span>
-
-                    {project.language && (
-                      <span className="flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-300">
-                        <span
-                          className="w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: getLanguageColor(project.language) }}
-                        />
-                        <span>{project.language}</span>
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    {typeof project.stars === "number" && project.stars > 0 && (
-                      <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                        <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                        <span>{project.stars}</span>
-                      </span>
-                    )}
-                    {typeof project.forks === "number" && project.forks > 0 && (
-                      <span className="flex items-center gap-1 text-[11px] font-mono text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60">
-                        <GitFork className="w-3 h-3" />
-                        <span>{project.forks}</span>
-                      </span>
-                    )}
-
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                      title="GitHub Repository"
-                      aria-label={`${project.title} GitHub`}
-                    >
-                      <GithubIcon className="w-3.5 h-3.5" />
-                    </a>
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                        title="Live Deployment"
-                        aria-label={`${project.title} Live URL`}
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-3">
-                  {project.summary}
-                </p>
-
-                {/* Key Features Bullet Points */}
-                <ul className="space-y-1.5 mb-6 text-xs text-zinc-300 font-sans">
-                  {project.keyFeatures.slice(0, 3).map((feat, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-emerald-400 mt-0.5">•</span>
-                      <span className="line-clamp-2">{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Card Footer: Role & Case Study / GitHub Link */}
-              <div className="pt-4 border-t border-zinc-800/80 flex flex-col gap-3">
-                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
-                  <div className="flex items-center gap-1.5">
-                    <span>Role:</span>
-                    <span className="text-zinc-200 font-semibold">{project.role}</span>
-                  </div>
-
-                  {project.updatedAt && (
-                    <span className="flex items-center gap-1 text-[10px] text-zinc-500" title={`Last pushed: ${project.updatedAt}`}>
-                      <Clock className="w-3 h-3 text-zinc-500" />
-                      <span>{formatRelativeTime(project.updatedAt)}</span>
-                    </span>
-                  )}
-                </div>
-
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-emerald-500/10 text-xs text-zinc-200 hover:text-emerald-400 border border-zinc-700/60 hover:border-emerald-500/30 transition-all font-medium"
-                >
-                  <span>Explore Case Study</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-              </div>
-            </article>
+              project={project}
+              index={idx}
+              activeIndex={activeIndex}
+            />
           ))}
         </div>
       </div>

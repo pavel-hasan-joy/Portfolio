@@ -87,6 +87,56 @@ export default async function ProjectCaseStudyPage({
         </div>
       </header>
 
+      {/* Visual System Preview / Interface Showcase */}
+      {project.previewImage && project.previewType !== "none" && (
+        <div className="mb-12 rounded-2xl overflow-hidden border border-white/[0.12] bg-zinc-950/90 shadow-2xl">
+          <div className="h-9 bg-zinc-900/90 border-b border-zinc-800/80 px-4 flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono text-zinc-400">
+                {project.previewType === "dynamic-stats"
+                  ? "https://leetcode.com/pavel-hasan-joy"
+                  : project.liveUrl || project.githubUrl}
+              </span>
+            </div>
+            {project.previewType === "dynamic-stats" ? (
+              <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Live Solved Analysis</span>
+              </span>
+            ) : (
+              <span className="text-[10px] font-mono text-zinc-500">Interface Showcase</span>
+            )}
+          </div>
+
+          <div className="relative w-full bg-zinc-950 flex items-center justify-center p-2 sm:p-4">
+            {project.previewType === "dynamic-stats" ? (
+              <div className="w-full max-w-2xl py-4 flex items-center justify-center">
+                <img
+                  src={project.previewImage}
+                  alt={`${project.title} Live Stats`}
+                  className="w-full h-auto max-h-[380px] object-contain filter drop-shadow-2xl rounded-lg"
+                  loading="lazy"
+                />
+              </div>
+            ) : (
+              <div className="relative w-full rounded-xl overflow-hidden border border-zinc-800/60 shadow-inner">
+                <img
+                  src={project.previewImage}
+                  alt={project.title}
+                  className="w-full h-auto max-h-[600px] object-cover object-top"
+                  loading="lazy"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Structured Case Study Sections */}
       <div className="space-y-12">
         {/* Problem Breakdown */}

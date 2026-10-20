@@ -14,6 +14,8 @@ export interface Project {
   keyFeatures: string[];
   toolsUsed: string[];
   accentColor: string;
+  previewImage?: string;
+  previewType?: "image" | "dynamic-stats" | "none";
   // Live GitHub Metadata
   stars?: number;
   forks?: number;
@@ -229,6 +231,8 @@ export const siteContent: SiteContent = {
         "Next.js 16 App Router + React 19 + Prisma ORM database pipeline",
       ],
       toolsUsed: ["Next.js 16", "React 19", "Prisma", "TypeScript", "Tailwind CSS"],
+      previewImage: "/projects/ulab-setu.png",
+      previewType: "image",
     },
     {
       slug: "climate-lens",
@@ -238,7 +242,7 @@ export const siteContent: SiteContent = {
       summary: "An interactive 3D climate observatory tracking rainfall, maximum temperature, and root-zone soil moisture across all 64 districts of Bangladesh using NASA POWER, CMIP6 projections, and SEDAC population datasets.",
       role: "Lead Developer & System Architect",
       githubUrl: "https://github.com/pavel-hasan-joy/Climate-Lens",
-      liveUrl: "https://climate-lens.vercel.app",
+      liveUrl: "https://climate-lens-three.vercel.app/",
       featured: true,
       accentColor: "#10b981",
       problem: "Bangladesh is on the frontlines of climate volatility, but critical satellite metrics and CMIP6 climate models are inaccessible to agricultural extension officers, researchers, and local planners.",
@@ -251,6 +255,8 @@ export const siteContent: SiteContent = {
         "Bilingual support with native Bengali numerals (০-৯) and localization",
       ],
       toolsUsed: ["TypeScript", "Next.js", "NASA POWER API", "geoBoundaries", "Tailwind CSS"],
+      previewImage: "/projects/climate-lens.png",
+      previewType: "image",
     },
     {
       slug: "leetcode-solutions",
@@ -272,6 +278,8 @@ export const siteContent: SiteContent = {
         "Categorized problem catalog with detailed complexity annotations and unit tests",
       ],
       toolsUsed: ["C", "C++", "Java", "Data Structures", "Algorithms", "Big-O Analysis"],
+      previewImage: "https://leetcard.jacoblin.cool/pavel-hasan-joy?theme=dark&font=baloo",
+      previewType: "dynamic-stats",
     },
     {
       slug: "bangla-search-engine",
@@ -294,6 +302,7 @@ export const siteContent: SiteContent = {
         "FastAPI REST endpoints (/search, /explain) and reactive glassmorphism search UI",
       ],
       toolsUsed: ["Python", "FastAPI", "Information Retrieval", "BM25", "Block-Max WAND", "Algorithms", "Uvicorn"],
+      previewType: "none",
     },
   ],
 

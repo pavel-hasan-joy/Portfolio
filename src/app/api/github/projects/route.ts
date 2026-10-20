@@ -66,7 +66,7 @@ export async function GET() {
           forks: repo.forks_count,
           updatedAt: repo.pushed_at || repo.updated_at,
           language: repo.language || project.toolsUsed[0],
-          liveUrl: repo.homepage || project.liveUrl,
+          liveUrl: project.liveUrl || repo.homepage || undefined,
           githubUrl: repo.html_url,
           isLiveRepo: true,
           hasCaseStudy: true,
