@@ -43,7 +43,6 @@ export function EducationSection() {
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 md:gap-7">
           {educationItems.map((item, index) => {
             const gradient = EDUCATION_GRADIENTS[index % EDUCATION_GRADIENTS.length];
-            const watermark = String(index + 1).padStart(2, "0");
 
             return (
               <motion.article
@@ -59,13 +58,10 @@ export function EducationSection() {
                 <div className="absolute -top-12 -right-12 w-28 h-28 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col">
-                  {/* Top Row: Icon Badge & Large Watermark Index */}
+                  {/* Top Row: Icon Badge */}
                   <div className="flex items-start justify-between gap-3">
                     <span className="grid h-12 w-12 place-items-center rounded-2xl border border-emerald-500/50 bg-emerald-500/10 text-emerald-400 shadow-[0_0_22px_-8px_rgba(16,185,129,0.6)]">
                       <GraduationCap size={23} />
-                    </span>
-                    <span className="font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-emerald-400/80 select-none">
-                      {watermark}
                     </span>
                   </div>
 

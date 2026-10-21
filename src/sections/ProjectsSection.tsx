@@ -51,7 +51,6 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project, index }: ProjectCardProps) {
-  const watermarkNumber = String(index + 1).padStart(2, "0");
   const hasImage = project.previewType === "image" && Boolean(project.previewImage);
   const isDynamicStats = project.previewType === "dynamic-stats";
   const isNoImage = project.previewType === "none" || (!hasImage && !isDynamicStats);
@@ -139,11 +138,6 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
           </div>
         )}
-
-        {/* Big Watermark Index Number in Bottom-Left */}
-        <span className="absolute bottom-2 left-4 font-mono text-5xl sm:text-6xl font-black text-white/35 select-none tracking-tighter">
-          {watermarkNumber}
-        </span>
 
         {/* Category Pill in Top-Right */}
         <div className="absolute right-3.5 top-3.5 flex items-center gap-2">
