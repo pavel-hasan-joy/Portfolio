@@ -1,20 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ExternalLink,
-  ChevronRight,
-  ChevronLeft,
   Star,
   GitFork,
   RefreshCw,
-  Clock,
   ArrowRight,
-  Layers,
-  RotateCcw,
-  Eye,
+  Sparkles,
+  Terminal,
+  Activity,
 } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import { siteContent, Project } from "@/data/content";
@@ -37,421 +34,210 @@ function formatRelativeTime(dateString?: string): string {
   }
 }
 
-function getLanguageColor(lang?: string): string {
-  switch (lang?.toLowerCase()) {
-    case "python":
-      return "#3572A5";
-    case "typescript":
-      return "#3178c6";
-    case "javascript":
-      return "#f1e05a";
-    case "c":
-      return "#555555";
-    case "c++":
-      return "#f34b7d";
-    case "java":
-      return "#b07219";
-    default:
-      return "#10b981";
-  }
-}
-
-interface ProjectCardItemProps {
+interface ProjectCardProps {
   project: Project;
   index: number;
-  activeIndex: number;
 }
 
-function ProjectCardItem({ project, index, activeIndex }: ProjectCardItemProps) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0, isHovered: false });
-  const [isImageFront, setIsImageFront] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const rectRef = useRef<DOMRect | null>(null);
-  const rafRef = useRef<number | null>(null);
-
-  const handleMouseEnter = () => {
-    if (cardRef.current) {
-      rectRef.current = cardRef.current.getBoundingClientRect();
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!rectRef.current && cardRef.current) {
-      rectRef.current = cardRef.current.getBoundingClientRect();
-    }
-    const rect = rectRef.current;
-    if (!rect) return;
-
-    const clientX = e.clientX;
-    const clientY = e.clientY;
-
-    if (rafRef.current) return;
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef.current = null;
-      const x = (clientX - rect.left) / rect.width - 0.5;
-      const y = (clientY - rect.top) / rect.height - 0.5;
-      setTilt({ x, y, isHovered: true });
-    });
-  };
-
-  const handleMouseLeave = () => {
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
-    rectRef.current = null;
-    setTilt({ x: 0, y: 0, isHovered: false });
-  };
-
-  const hasPreview = project.previewType !== "none" && Boolean(project.previewImage);
-  const offsetFromActive = index - activeIndex;
-
-  const toggleSwap = (e?: React.MouseEvent) => {
-    if (e) {
-      e.stopPropagation();
-    }
-    if (hasPreview) {
-      setIsImageFront((prev) => !prev);
-    }
-  };
+function ProjectCard({ project, index }: ProjectCardProps) {
+  const watermarkNumber = String(index + 1).padStart(2, "0");
+  const hasImage = project.previewType === "image" && Boolean(project.previewImage);
+  const isDynamicStats = project.previewType === "dynamic-stats";
+  const isNoImage = project.previewType === "none" || (!hasImage && !isDynamicStats);
 
   return (
-    <div
-      ref={cardRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`relative group w-[310px] sm:w-[400px] lg:w-[450px] xl:w-[480px] shrink-0 snap-center transition-all duration-300 ${
-        hasPreview ? "pt-12 sm:pt-14 pb-2" : "pt-4 pb-2"
-      } [perspective:1200px]`}
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 25, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
+      whileHover={{ y: -6 }}
+      className="group glass-panel relative flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/60 transition-all duration-500 hover:border-emerald-500/50 hover:shadow-[0_0_35px_-8px_rgba(16,185,129,0.22)]"
     >
       {/* =========================================================================
-          STATE A: When Image is in the BACK (Default), Details Card is in FRONT
+          Top Media Banner (Amna's Portfolio Style with Watermark & Category Pill)
           ========================================================================= */}
-      {hasPreview && !isImageFront && (
-        <div
-          onClick={toggleSwap}
-          className={`absolute top-0 left-3 sm:left-6 w-[78%] sm:w-[74%] h-[160px] sm:h-[190px] z-0 rounded-xl overflow-hidden border border-white/[0.12] bg-zinc-950/95 backdrop-blur-md origin-bottom-left shadow-2xl cursor-pointer pointer-events-auto transform-gpu will-change-transform ${
-            tilt.isHovered ? "transition-transform duration-100 ease-out" : "transition-transform duration-350 ease-out"
-          }`}
-          style={{
-            transform: tilt.isHovered
-              ? `perspective(1000px) rotateY(${tilt.x * 12}deg) rotateX(${-tilt.y * 12}deg) translateX(${tilt.x * 18 - 8}px) translateY(${tilt.y * 18 - 14}px) scale(1.04)`
-              : `perspective(1000px) rotate(3.5deg) translateX(${offsetFromActive * 6}px) translateY(${Math.abs(offsetFromActive) * 2}px)`,
-            boxShadow: `0 20px 45px -10px rgba(0,0,0,0.85), 0 0 30px -5px ${project.accentColor}35`,
-          }}
-          title="Click to bring image to front"
-        >
-          {/* Mockup Header Bar */}
-          <div className="h-6 bg-zinc-900/95 border-b border-white/[0.08] px-2.5 flex items-center justify-between text-[9px] font-mono text-zinc-400">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-rose-500/70" />
-              <span className="w-2 h-2 rounded-full bg-amber-500/70" />
-              <span className="w-2 h-2 rounded-full bg-emerald-500/70" />
-            </div>
-            <span className="truncate px-2 text-zinc-400/90 max-w-[120px] sm:max-w-[150px]">
-              {project.previewType === "dynamic-stats"
-                ? "leetcode.com/pavel-hasan-joy"
-                : project.liveUrl
-                ? project.liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")
-                : project.slug}
-            </span>
-            <div className="flex items-center gap-1">
-              <span className="flex items-center gap-1 text-[8px] text-cyan-300 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-500/40 animate-pulse">
-                <Eye className="w-2.5 h-2.5" />
-                <span>Click</span>
-              </span>
-            </div>
-          </div>
+      <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-zinc-950/90">
+        {/* Case 1: Standard Image Preview (ULAB Setu & Climate Lens) */}
+        {hasImage && (
+          <>
+            <img
+              src={project.previewImage}
+              alt={`${project.title} preview`}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
+          </>
+        )}
 
-          {/* Mockup Body Preview */}
-          <div className="relative w-full h-[calc(100%-24px)] overflow-hidden bg-zinc-950 flex items-center justify-center">
-            {project.previewType === "dynamic-stats" ? (
-              <div className="w-full h-full p-2 flex items-center justify-center bg-zinc-950/95">
-                <img
-                  src={project.previewImage}
-                  alt={`${project.title} Live Stats`}
-                  className="w-full h-auto max-h-full object-contain filter drop-shadow transition-transform duration-500 ease-out"
-                  loading="lazy"
-                />
-              </div>
+        {/* Case 2: LeetCode Dynamic Stats Card (Auto-upgraded from GitHub / LeetCode) */}
+        {isDynamicStats && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-950/30 via-zinc-950 to-zinc-950 p-3 sm:p-4">
+            {project.previewImage ? (
+              <img
+                src={project.previewImage}
+                alt={`${project.title} Live Stats`}
+                loading="lazy"
+                className="max-h-full w-auto object-contain filter drop-shadow-lg transition-transform duration-700 ease-out group-hover:scale-105"
+              />
             ) : (
-              <div className="relative w-full h-full">
-                <img
-                  src={project.previewImage}
-                  alt={project.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none" />
+              <div className="flex flex-col items-center justify-center text-center">
+                <Activity className="w-10 h-10 text-cyan-400 mb-2 animate-pulse" />
+                <span className="text-xs font-mono text-cyan-300">Daily Algorithmic Solutions</span>
               </div>
             )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
           </div>
-        </div>
-      )}
+        )}
 
-      {/* =========================================================================
-          STATE B: When Image is in the FRONT, Details Card is in BACK
-          ========================================================================= */}
-      {hasPreview && isImageFront ? (
-        <>
-          {/* Peeking Background Details Card (Behind) */}
+        {/* Case 3: Black Box (No image needed - Sleek Cybernetic Observability Gradient) */}
+        {isNoImage && (
           <div
-            onClick={toggleSwap}
-            className="absolute inset-x-2 top-3 bottom-3 z-0 rounded-2xl bg-zinc-900/60 backdrop-blur-md border border-white/[0.08] shadow-2xl transition-all duration-500 ease-out cursor-pointer pointer-events-auto overflow-hidden opacity-50 hover:opacity-85 p-6"
+            className="absolute inset-0 flex items-center justify-center p-6 overflow-hidden transition-transform duration-700 group-hover:scale-105"
             style={{
-              transform: "perspective(1000px) rotate(-3deg) scale(0.95) translateY(14px)",
+              background:
+                "radial-gradient(circle at 75% 30%, rgba(168, 85, 247, 0.22), transparent 60%), linear-gradient(135deg, rgba(16, 185, 129, 0.12), #07090e 75%)",
             }}
-            title="Click to bring details back to front"
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-mono uppercase text-zinc-400">{project.category}</span>
-              <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/40">
-                Click to expand details
+            {/* Ambient circuit & grid overlay */}
+            <div
+              className="absolute inset-0 opacity-20 pointer-events-none"
+              style={{
+                backgroundImage:
+                  "radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px)",
+                backgroundSize: "20px 20px",
+              }}
+            />
+            <div className="relative z-10 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-2 shadow-[0_0_20px_-3px_rgba(168,85,247,0.3)] group-hover:border-purple-400/50 transition-colors">
+                <Terminal className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-mono text-purple-300 font-medium tracking-wide">
+                Incident Intelligence & Telemetry
+              </span>
+              <span className="text-[10px] font-mono text-zinc-500 mt-1">
+                Zero-leakage pre-failure state freeze
               </span>
             </div>
-            <h3 className="text-lg font-bold text-zinc-300">{project.title}</h3>
-            <p className="text-xs text-zinc-500 line-clamp-2 mt-1">{project.summary}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
           </div>
+        )}
 
-          {/* Full Front Image Showcase Card */}
-          <article
-            className={`relative z-20 flex flex-col justify-between w-full h-[450px] sm:h-[480px] rounded-2xl overflow-hidden border border-cyan-500/50 bg-zinc-950/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(0,217,255,0.2)] transform-gpu will-change-transform ${
-              tilt.isHovered ? "transition-transform duration-100 ease-out" : "transition-transform duration-350 ease-out"
-            }`}
-            style={{
-              transform: tilt.isHovered
-                ? `perspective(1000px) rotateY(${tilt.x * 6}deg) rotateX(${-tilt.y * 6}deg) translateY(-2px)`
-                : "perspective(1000px) rotate(0deg) scale(1)",
-            }}
-          >
-            {/* Header with browser dots, title, and Flip button */}
-            <div className="h-10 bg-zinc-900/90 border-b border-zinc-800/80 px-4 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                <span className="text-xs font-mono text-zinc-300 font-semibold ml-1">
-                  {project.title}
-                </span>
-              </div>
+        {/* Big Watermark Index Number in Bottom-Left */}
+        <span className="absolute bottom-2 left-4 font-mono text-5xl sm:text-6xl font-black text-white/35 select-none tracking-tighter">
+          {watermarkNumber}
+        </span>
 
-              <div className="flex items-center gap-2">
-                {project.previewType === "dynamic-stats" && (
-                  <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="hidden sm:inline">Live Sync</span>
-                  </span>
-                )}
+        {/* Category Pill in Top-Right */}
+        <div className="absolute right-3.5 top-3.5 flex items-center gap-2">
+          {isDynamicStats && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-950/80 px-2.5 py-1 text-[11px] font-mono font-medium text-emerald-400 border border-emerald-500/40 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Live Sync
+            </span>
+          )}
+          <span className="rounded-full bg-zinc-950/80 px-3 py-1 text-xs font-medium text-zinc-200 border border-white/10 backdrop-blur-md">
+            {project.category}
+          </span>
+        </div>
+      </div>
 
-                <button
-                  type="button"
-                  onClick={toggleSwap}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-cyan-500/20 text-xs font-mono text-cyan-300 hover:text-cyan-200 border border-zinc-700 hover:border-cyan-500/40 transition-colors shadow-sm cursor-pointer"
-                  title="Return to details"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Details</span>
-                </button>
-              </div>
-            </div>
+      {/* =========================================================================
+          Card Body Content
+          ========================================================================= */}
+      <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
+        <div>
+          {/* Project Title */}
+          <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-emerald-400">
+            {project.title}
+          </h3>
 
-            {/* Media Canvas Body */}
-            <div className="relative w-full flex-1 overflow-hidden bg-zinc-950 flex items-center justify-center p-2 sm:p-3">
-              {project.previewType === "dynamic-stats" ? (
-                <div className="w-full h-full flex items-center justify-center p-2 bg-zinc-950/90 rounded-xl">
-                  <img
-                    src={project.previewImage}
-                    alt={`${project.title} Live Stats`}
-                    className="w-full h-auto max-h-[300px] object-contain filter drop-shadow-xl"
-                  />
-                </div>
-              ) : (
-                <div className="relative w-full h-full rounded-xl overflow-hidden border border-zinc-800/80 bg-zinc-900">
-                  <img
-                    src={project.previewImage}
-                    alt={project.title}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              )}
-            </div>
+          {/* Tagline */}
+          <p className="mt-2 text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+            {project.tagline || project.summary}
+          </p>
 
-            {/* Bottom Action Footer */}
-            <div className="p-3.5 bg-zinc-900/90 border-t border-zinc-800/80 flex items-center justify-between gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={toggleSwap}
-                className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
+          {/* Tech Stack Pills */}
+          <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Technologies used">
+            {project.toolsUsed.map((tech) => (
+              <li
+                key={tech}
+                className="rounded-md bg-emerald-500/10 px-2.5 py-0.5 text-xs font-mono text-emerald-400 border border-emerald-500/20"
               >
-                <Layers className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Click to flip to card details</span>
-              </button>
+                {tech}
+              </li>
+            ))}
+          </ul>
 
-              <div className="flex items-center gap-2">
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-xs font-bold transition-colors shadow-sm"
-                    title="Open Live Deployment"
-                  >
-                    <span>Visit Live</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                )}
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium border border-zinc-700 transition-colors"
-                >
-                  <span>Case Study</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          </article>
-        </>
-      ) : (
-        /* Front Details Card (When isImageFront is false or previewType is none) */
-        <article
-          className={`relative z-10 flex flex-col justify-between rounded-2xl bg-zinc-900/85 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-6 sm:p-7 shadow-2xl hover:shadow-[0_0_35px_rgba(0,217,255,0.12)] min-h-[440px] transform-gpu will-change-transform ${
-            tilt.isHovered ? "transition-transform duration-100 ease-out" : "transition-transform duration-350 ease-out"
-          }`}
-          style={{
-            transform: tilt.isHovered
-              ? `perspective(1000px) rotateY(${tilt.x * 5}deg) rotateX(${-tilt.y * 5}deg) translateY(-2px)`
-              : "none",
-          }}
-        >
-          <div>
-            {/* Header with category, language and links */}
-            <div className="flex items-center justify-between mb-4 gap-2">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700/60">
-                  {project.category}
+          {/* GitHub Metadata Badges (if live-synced) */}
+          {(project.stars !== undefined && project.stars > 0 || project.updatedAt) && (
+            <div className="mt-3 flex items-center gap-3 text-[11px] font-mono text-zinc-400">
+              {project.stars !== undefined && project.stars > 0 && (
+                <span className="flex items-center gap-1 text-amber-400">
+                  <Star className="w-3 h-3 fill-amber-400/20" />
+                  {project.stars}
                 </span>
-
-                {project.language && (
-                  <span className="flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-300">
-                    <span
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ backgroundColor: getLanguageColor(project.language) }}
-                    />
-                    <span>{project.language}</span>
-                  </span>
-                )}
-
-                {/* Flip to Preview Button */}
-                {hasPreview && (
-                  <button
-                    type="button"
-                    onClick={toggleSwap}
-                    className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-cyan-950/70 hover:bg-cyan-900 text-cyan-300 hover:text-cyan-200 border border-cyan-500/30 hover:border-cyan-500/50 transition-all cursor-pointer shadow-sm"
-                    title="Click to view image in front"
-                  >
-                    <Eye className="w-3 h-3 text-cyan-400" />
-                    <span>Preview</span>
-                  </button>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                {typeof project.stars === "number" && project.stars > 0 && (
-                  <span className="flex items-center gap-1 text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                    <span>{project.stars}</span>
-                  </span>
-                )}
-                {typeof project.forks === "number" && project.forks > 0 && (
-                  <span className="flex items-center gap-1 text-[11px] font-mono text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60">
-                    <GitFork className="w-3 h-3" />
-                    <span>{project.forks}</span>
-                  </span>
-                )}
-
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                  title="GitHub Repository"
-                  aria-label={`${project.title} GitHub`}
-                >
-                  <GithubIcon className="w-3.5 h-3.5" />
-                </a>
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                    title="Live Deployment"
-                    aria-label={`${project.title} Live URL`}
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-              </div>
-            </div>
-
-            <h3 className="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
-              {project.title}
-            </h3>
-            <p className="text-xs text-zinc-400 leading-relaxed mb-4 line-clamp-3">
-              {project.summary}
-            </p>
-
-            {/* Key Features Bullet Points */}
-            <ul className="space-y-1.5 mb-6 text-xs text-zinc-300 font-sans">
-              {project.keyFeatures.slice(0, 3).map((feat, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-emerald-400 mt-0.5">•</span>
-                  <span className="line-clamp-2">{feat}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Card Footer: Role & Case Study / GitHub Link */}
-          <div className="pt-4 border-t border-zinc-800/80 flex flex-col gap-3">
-            <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
-              <div className="flex items-center gap-1.5">
-                <span>Role:</span>
-                <span className="text-zinc-200 font-semibold">{project.role}</span>
-              </div>
-
+              )}
+              {project.forks !== undefined && project.forks > 0 && (
+                <span className="flex items-center gap-1 text-zinc-400">
+                  <GitFork className="w-3 h-3" />
+                  {project.forks}
+                </span>
+              )}
               {project.updatedAt && (
-                <span className="flex items-center gap-1 text-[10px] text-zinc-500" title={`Last pushed: ${project.updatedAt}`}>
-                  <Clock className="w-3 h-3 text-zinc-500" />
-                  <span>{formatRelativeTime(project.updatedAt)}</span>
+                <span className="text-zinc-500">
+                  Synced {formatRelativeTime(project.updatedAt)}
                 </span>
               )}
             </div>
+          )}
+        </div>
 
-            <div className="flex items-center gap-2">
-              <Link
-                href={`/projects/${project.slug}`}
-                className="flex-1 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-emerald-500/10 text-xs text-zinc-200 hover:text-emerald-400 border border-zinc-700/60 hover:border-emerald-500/30 transition-all font-medium"
+        {/* =========================================================================
+            Bottom Action Buttons
+            ========================================================================= */}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-2.5 pt-4 border-t border-border/70">
+          <div className="flex items-center gap-2">
+            {/* GitHub Repo Button */}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 hover:bg-emerald-500/10 hover:border-emerald-500/40 px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200"
               >
-                <span>Explore Case Study</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              {hasPreview && (
-                <button
-                  type="button"
-                  onClick={toggleSwap}
-                  className="p-2.5 rounded-xl bg-zinc-800/80 hover:bg-cyan-500/20 text-zinc-400 hover:text-cyan-300 border border-zinc-700/60 hover:border-cyan-500/30 transition-all cursor-pointer"
-                  title="Click to flip to image preview"
-                >
-                  <Eye className="w-4 h-4" />
-                </button>
-              )}
-            </div>
+                <GithubIcon className="w-3.5 h-3.5" />
+                <span>GitHub</span>
+              </a>
+            )}
+
+            {/* Live Demo Button (if available) */}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-semibold px-3 py-1.5 text-xs transition-all duration-200 shadow-sm"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Live Demo</span>
+              </a>
+            )}
           </div>
-        </article>
-      )}
-    </div>
+
+          {/* Case Study Details Link */}
+          <Link
+            href={`/projects/${project.slug}`}
+            className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-emerald-400 transition-colors ml-auto group/link"
+          >
+            <span>Case Study</span>
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1" />
+          </Link>
+        </div>
+      </div>
+    </motion.article>
   );
 }
 
@@ -460,16 +246,19 @@ export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [lastSyncedTime, setLastSyncedTime] = useState<string | null>(null);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isDraggingRef = useRef(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const startXRef = useRef(0);
-  const startScrollLeftRef = useRef(0);
-  const dragDistanceRef = useRef(0);
+  // Extract unique categories for filter tabs
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    siteContent.projects.forEach((p) => {
+      if (p.category) {
+        set.add(p.category);
+      }
+    });
+    return ["All", ...Array.from(set)];
+  }, []);
 
-  // Fetch live repositories from GitHub on load/refresh
+  // Fetch live repositories from GitHub on mount
   const fetchLiveGitHubProjects = useCallback(async () => {
     setIsSyncing(true);
     try {
@@ -494,291 +283,112 @@ export function ProjectsSection() {
     fetchLiveGitHubProjects();
   }, [fetchLiveGitHubProjects]);
 
-  // Translate mouse wheel deltaY to horizontal scroll with buttery smooth momentum
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    let targetLeft = el.scrollLeft;
-    let wheelRaf: number | null = null;
-
-    const smoothWheelStep = () => {
-      if (!el) return;
-      const diff = targetLeft - el.scrollLeft;
-      if (Math.abs(diff) > 0.8) {
-        el.scrollLeft += diff * 0.22;
-        wheelRaf = requestAnimationFrame(smoothWheelStep);
-      } else {
-        el.scrollLeft = targetLeft;
-        wheelRaf = null;
-      }
-    };
-
-    const onWheel = (e: WheelEvent) => {
-      // If user is predominantly scrolling vertically, translate to horizontal
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        const maxScroll = el.scrollWidth - el.clientWidth;
-        const canScrollLeft = el.scrollLeft > 0 && e.deltaY < 0;
-        const canScrollRight = el.scrollLeft < maxScroll - 1 && e.deltaY > 0;
-
-        if (canScrollLeft || canScrollRight) {
-          e.preventDefault();
-          targetLeft = Math.max(0, Math.min(maxScroll, targetLeft + e.deltaY * 1.25));
-          if (!wheelRaf) {
-            wheelRaf = requestAnimationFrame(smoothWheelStep);
-          }
-        }
-      }
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => {
-      el.removeEventListener("wheel", onWheel);
-      if (wheelRaf) cancelAnimationFrame(wheelRaf);
-    };
-  }, []);
-
-  // Compute categories dynamically
-  const categories = React.useMemo(() => {
-    const set = new Set<string>();
-    projects.forEach((p) => {
-      if (p.category) set.add(p.category);
-    });
-    return ["All", ...Array.from(set)];
-  }, [projects]);
-
-  const filteredProjects = selectedCategory === "All"
-    ? projects
-    : projects.filter((p) => p.category === selectedCategory);
-
-  // Horizontal scroll buttons
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const cardWidth = 420;
-      const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-  };
-
-  const scrollToIndex = (index: number) => {
-    if (scrollRef.current) {
-      const cards = scrollRef.current.children;
-      if (cards[index]) {
-        (cards[index] as HTMLElement).scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center",
-        });
-        setActiveIndex(index);
-      }
-    }
-  };
-
-  const scrollRafRef = useRef<number | null>(null);
-
-  // Track active card while scrolling (throttled with RAF to prevent reflow bottlenecks)
-  const handleScroll = () => {
-    if (scrollRafRef.current) return;
-    scrollRafRef.current = requestAnimationFrame(() => {
-      scrollRafRef.current = null;
-      if (!scrollRef.current) return;
-      const { scrollLeft, clientWidth } = scrollRef.current;
-      const center = scrollLeft + clientWidth / 2;
-      const children = Array.from(scrollRef.current.children) as HTMLElement[];
-
-      let closestIdx = 0;
-      let minDistance = Infinity;
-
-      for (let idx = 0; idx < children.length; idx++) {
-        const child = children[idx];
-        const childCenter = child.offsetLeft + child.offsetWidth / 2;
-        const distance = Math.abs(center - childCenter);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIdx = idx;
-        }
-      }
-
-      setActiveIndex((prev) => (prev !== closestIdx ? closestIdx : prev));
-    });
-  };
-
-  // Mouse Drag to Scroll handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!scrollRef.current || e.button !== 0) return;
-    isDraggingRef.current = true;
-    setIsDragging(true);
-    startXRef.current = e.pageX;
-    startScrollLeftRef.current = scrollRef.current.scrollLeft;
-    dragDistanceRef.current = 0;
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDraggingRef.current || !scrollRef.current) return;
-    const walk = (e.pageX - startXRef.current) * 1.5;
-    dragDistanceRef.current = Math.abs(walk);
-    scrollRef.current.scrollLeft = startScrollLeftRef.current - walk;
-  };
-
-  const handleMouseUpOrLeave = () => {
-    isDraggingRef.current = false;
-    setIsDragging(false);
-  };
+  // Filter projects by category
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === "All") return projects;
+    return projects.filter((p) => p.category === selectedCategory);
+  }, [projects, selectedCategory]);
 
   return (
-    <section id="projects" className="py-24 w-full overflow-hidden relative">
-      {/* Centered Section Header & Controls */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center mb-8">
-        <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
-          // 03. FEATURED WORK
-        </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
-          Featured Engineering Projects
-        </h2>
-        <div className="w-12 h-1 bg-emerald-500 rounded-full mt-3" />
-        <p className="max-w-xl text-sm text-zinc-400 mt-4 leading-relaxed">
-          4 flagship engineering systems — presented horizontally across the full screen and synced live with GitHub.
-        </p>
+    <section id="projects" className="py-24 sm:py-32 relative overflow-hidden">
+      {/* Background radial ambient glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
 
-        {/* Live GitHub Sync Status & Navigation Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/70 border border-zinc-800 text-xs font-mono backdrop-blur-md">
-            <span className={`w-2 h-2 rounded-full ${isSyncing ? "bg-cyan-400 animate-ping" : "bg-emerald-400 animate-pulse"}`} />
-            <span className="text-zinc-300">
-              {isSyncing ? "Syncing GitHub Repos..." : "GitHub Live Synced"}
-            </span>
-            {lastSyncedTime && !isSyncing && (
-              <span className="text-zinc-500 hidden sm:inline">
-                · {lastSyncedTime}
-              </span>
-            )}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-3">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>03 / Featured Work</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+              Featured <span className="text-emerald-400">Projects</span>
+            </h2>
+            <p className="mt-3 text-base text-muted-foreground max-w-2xl leading-relaxed">
+              Production-grade systems, high-performance algorithms, and live web applications built with rigorous software architecture and clean code.
+            </p>
+          </div>
+
+          {/* GitHub Live Sync Trigger */}
+          <div className="flex items-center gap-3">
             <button
-              onClick={() => fetchLiveGitHubProjects()}
+              type="button"
+              onClick={fetchLiveGitHubProjects}
               disabled={isSyncing}
-              className="ml-1 p-1 rounded-md text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800 transition-colors disabled:opacity-40"
-              title="Refresh GitHub Repositories"
-              aria-label="Refresh GitHub Repositories"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-card/80 hover:bg-emerald-500/10 hover:border-emerald-500/30 text-xs font-mono text-zinc-400 hover:text-emerald-400 transition-colors cursor-pointer disabled:opacity-50"
+              title="Refresh live GitHub stars & repository activity"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-emerald-400" : ""}`} />
-            </button>
-          </div>
-
-          {/* Previous / Next Arrow Controls */}
-          <div className="flex items-center gap-1 bg-zinc-900/80 border border-zinc-800 rounded-xl p-1">
-            <button
-              onClick={() => scroll("left")}
-              className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-              title="Scroll Left"
-              aria-label="Previous Project"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className="text-xs font-mono text-zinc-500 px-2">
-              0{activeIndex + 1} / 0{filteredProjects.length}
-            </span>
-            <button
-              onClick={() => scroll("right")}
-              className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-              title="Scroll Right"
-              aria-label="Next Project"
-            >
-              <ChevronRight className="w-4 h-4" />
+              <span>{isSyncing ? "Syncing..." : lastSyncedTime ? `Synced ${lastSyncedTime}` : "Sync GitHub"}</span>
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Filter Tabs */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-2 mb-8">
-        {categories.map((cat) => {
-          const isSelected = selectedCategory === cat;
-          return (
-            <button
-              key={cat}
-              onClick={() => {
-                setSelectedCategory(cat);
-                setActiveIndex(0);
-                if (scrollRef.current) scrollRef.current.scrollLeft = 0;
-              }}
-              className={`relative px-4 py-2 rounded-xl text-xs font-medium transition-colors ${
-                isSelected
-                  ? "text-emerald-400 font-semibold"
-                  : "text-zinc-400 hover:text-zinc-200 bg-zinc-900/40 backdrop-blur-md border border-white/[0.08]"
-              }`}
-            >
-              {cat}
-              {isSelected && (
-                <motion.div
-                  layoutId="active-project-filter"
-                  className="absolute inset-0 bg-emerald-500/10 border border-emerald-500/30 rounded-xl -z-10 backdrop-blur-md"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Full-Width Horizontal Carousel Track */}
-      <div className="relative w-full">
-        {/* Soft Left & Right Fade Edges for Full-Screen Polish */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-8 w-8 sm:w-16 bg-gradient-to-r from-[#030712] to-transparent z-10 opacity-60" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-8 w-8 sm:w-16 bg-gradient-to-l from-[#030712] to-transparent z-10 opacity-60" />
-
+        {/* Category Filter Pills (Amna's Portfolio Style with Animated Spring Indicator) */}
         <div
-          ref={scrollRef}
-          onScroll={handleScroll}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUpOrLeave}
-          onMouseLeave={handleMouseUpOrLeave}
-          onClickCapture={(e) => {
-            if (dragDistanceRef.current > 8) {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-          }}
-          className={`flex gap-6 sm:gap-8 overflow-x-auto pb-8 pt-4 px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32 scrollbar-none focus:outline-none select-none ${
-            isDragging ? "cursor-grabbing snap-none" : "cursor-grab snap-x snap-proximity"
-          }`}
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
+          role="group"
+          aria-label="Filter projects by category"
+          className="mb-10 flex flex-wrap items-center gap-2 sm:gap-2.5"
         >
-          {filteredProjects.map((project, idx) => (
-            <ProjectCardItem
-              key={project.slug}
-              project={project}
-              index={idx}
-              activeIndex={activeIndex}
-            />
-          ))}
+          {categories.map((cat) => {
+            const isSelected = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setSelectedCategory(cat)}
+                aria-pressed={isSelected}
+                className={`relative rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  isSelected ? "text-black font-semibold" : "text-muted-foreground hover:text-foreground bg-card/50 border border-border/80"
+                }`}
+              >
+                {isSelected && (
+                  <motion.span
+                    layoutId="project-cat-pill"
+                    className="absolute inset-0 rounded-full bg-emerald-500 shadow-[0_0_24px_-4px_rgba(16,185,129,0.5)]"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span className="relative z-10">{cat}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Project Cards Responsive Grid (2x2 Balanced Layout for 4 Projects) */}
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={project.slug} project={project} index={index} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Bottom Status & View More on GitHub */}
+        <div className="mt-14 flex flex-col items-center gap-4 text-center">
+          <p className="text-xs sm:text-sm font-mono text-muted-foreground" aria-live="polite">
+            Showing <span className="text-foreground font-semibold">{filteredProjects.length}</span> of{" "}
+            <span className="text-foreground font-semibold">{projects.length}</span> flagship projects
+          </p>
+
+          <a
+            href="https://github.com/pavel-hasan-joy?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border bg-card/80 hover:bg-emerald-500/10 hover:border-emerald-500/40 text-xs sm:text-sm font-medium text-foreground transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_-5px_rgba(16,185,129,0.2)]"
+          >
+            <GithubIcon className="w-4 h-4" />
+            <span>View All Repositories on GitHub</span>
+            <ArrowRight className="w-4 h-4 ml-0.5 text-emerald-400" />
+          </a>
         </div>
       </div>
-
-      {/* Interactive Dot Navigation Indicators */}
-      <div className="flex items-center justify-center gap-2 mt-2">
-        {filteredProjects.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollToIndex(i)}
-            aria-label={`Go to project ${i + 1}`}
-            className={`transition-all duration-300 rounded-full ${
-              activeIndex === i
-                ? "w-8 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400"
-                : "w-2 h-2 bg-zinc-700 hover:bg-zinc-500"
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* Mouse Drag / Wheel Scroll Instruction */}
-      <p className="text-center text-[11px] font-mono text-zinc-500 mt-3 flex items-center justify-center gap-2">
-        <span>←</span>
-        <span>Drag with mouse or spin mouse wheel to scroll horizontally across all 4 projects</span>
-        <span>→</span>
-      </p>
     </section>
   );
 }
+
+export default ProjectsSection;
