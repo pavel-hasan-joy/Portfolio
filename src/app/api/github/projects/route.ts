@@ -19,6 +19,40 @@ interface GitHubRepo {
   topics: string[];
 }
 
+function cleanTitle(repoName: string): string {
+  const customNames: Record<string, string> = {
+    "bangla-search-engine": "Bangla & Banglish Search Engine",
+    "face-idntification": "Face Identification & Biometric HUD",
+    "first.repository": "First Learning Repository",
+    "blackbox": "BlackBox",
+    "climate-lens": "Climate Lens — Bangladesh",
+    "ulab-setu": "ULAB Setu",
+    "leetcode-solutions": "LeetCode Solutions & Algorithms",
+  };
+
+  const lower = repoName.toLowerCase();
+  if (customNames[lower]) return customNames[lower];
+
+  return repoName
+    .replace(/[-_.]+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function inferCategory(repoName: string, lang: string | null): string {
+  const lowerName = repoName.toLowerCase();
+  if (lowerName.includes("search") || lowerName.includes("engine")) return "Search & Systems";
+  if (lowerName.includes("face") || lowerName.includes("vision")) return "Computer Vision & AI";
+  if (lowerName.includes("leetcode") || lowerName.includes("algorithm")) return "Algorithms & Systems";
+  if (lowerName.includes("climate") || lowerName.includes("lens")) return "AI & Geospatial";
+  if (lowerName.includes("setu") || lowerName.includes("portal") || lowerName.includes("web")) return "Full-Stack";
+  if (lowerName.includes("box") || lowerName.includes("telemetry")) return "Systems & Observability";
+
+  if (lang === "Python") return "Machine Learning & Systems";
+  if (lang === "TypeScript" || lang === "JavaScript") return "Full-Stack";
+  if (lang === "C" || lang === "C++" || lang === "Java") return "Systems & Algorithms";
+  return "Engineering Project";
+}
+
 export async function GET() {
   try {
     const res = await fetch("https://api.github.com/users/pavel-hasan-joy/repos?sort=pushed&per_page=30", {
@@ -29,7 +63,6 @@ export async function GET() {
       next: { revalidate: 0 },
     });
 
-    // Base 4 projects specified by user
     const targetProjects = [...siteContent.projects];
 
     if (!res.ok) {
@@ -53,13 +86,16 @@ export async function GET() {
       repoMap.set(r.name.toLowerCase(), r);
     }
 
-    // Enrich the 4 designated projects with real-time GitHub repository data
+    // Keep track of which repos have been matched with siteContent
+    const matchedRepoNames = new Set<string>();
+
+    // 1. Enrich existing siteContent projects with live GitHub repository data
     const enrichedProjects: Project[] = targetProjects.map((project) => {
-      // Find matching repo name
       const repoNameFromUrl = project.githubUrl.split("/").pop()?.toLowerCase();
       const repo = repoNameFromUrl ? repoMap.get(repoNameFromUrl) : undefined;
 
       if (repo) {
+        matchedRepoNames.add(repo.name.toLowerCase());
         return {
           ...project,
           stars: repo.stargazers_count,
@@ -80,12 +116,54 @@ export async function GET() {
       };
     });
 
+    // 2. Discover and append any additional public repositories from GitHub
+    const ignoredRepos = new Set(["pavel-hasan-joy", "portfolio"]);
+    const additionalProjects: Project[] = [];
+
+    for (const repo of repos) {
+      const lower = repo.name.toLowerCase();
+      if (ignoredRepos.has(lower) || matchedRepoNames.has(lower)) {
+        continue;
+      }
+
+      additionalProjects.push({
+        slug: repo.name.toLowerCase().replace(/[^a-z0-9_-]/g, "-"),
+        title: cleanTitle(repo.name),
+        tagline: repo.description || `Open-source ${repo.language || "software"} repository published on GitHub.`,
+        category: inferCategory(repo.name, repo.language),
+        summary: repo.description || "An open-source repository engineered by Pavel Hasan Joy.",
+        role: "Software Engineer",
+        githubUrl: repo.html_url,
+        liveUrl: repo.homepage || undefined,
+        featured: false,
+        problem: repo.description || "Open-source software implementation.",
+        solution: "Engineered clean, modular code following software engineering best practices.",
+        impact: "Publicly accessible on GitHub for collaborative development and code reuse.",
+        keyFeatures: [
+          repo.description || "Open-source software implementation",
+          `Primary language: ${repo.language || "Code"}`,
+          repo.forks_count > 0 ? `${repo.forks_count} community forks` : "Continuous version control with Git",
+        ],
+        toolsUsed: [repo.language || "Code", ...(repo.topics || [])].filter(Boolean),
+        accentColor: "#10b981",
+        previewType: "none",
+        stars: repo.stargazers_count,
+        forks: repo.forks_count,
+        updatedAt: repo.pushed_at || repo.updated_at,
+        language: repo.language || undefined,
+        isLiveRepo: true,
+        hasCaseStudy: false,
+      });
+    }
+
+    const allProjects = [...enrichedProjects, ...additionalProjects];
+
     return NextResponse.json({
       success: true,
       source: "github-live",
-      projectsCount: enrichedProjects.length,
+      projectsCount: allProjects.length,
       lastSynced: new Date().toISOString(),
-      projects: enrichedProjects,
+      projects: allProjects,
     });
   } catch (error) {
     console.error("Error in /api/github/projects:", error);
