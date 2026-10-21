@@ -5,8 +5,6 @@ import * as THREE from "three";
 
 export function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const fineGridRef = useRef<HTMLDivElement | null>(null);
-  const majorGridRef = useRef<HTMLDivElement | null>(null);
   const orb1Ref = useRef<HTMLDivElement | null>(null);
   const orb2Ref = useRef<HTMLDivElement | null>(null);
   const orb3Ref = useRef<HTMLDivElement | null>(null);
@@ -230,17 +228,6 @@ export function InteractiveBackground() {
       renderer.render(scene, camera);
 
       // --- HIGH-PERFORMANCE DIRECT DOM UPDATES (NO REACT RE-RENDERS) ---
-      // Cyber Grid Scroll Motion (Transforms up/down seamlessly like ayushcmd.me)
-      if (fineGridRef.current) {
-        const fineOffsetY = -(currentScrollY * 0.22) % 48;
-        fineGridRef.current.style.transform = `translate3d(0, ${fineOffsetY}px, 0)`;
-      }
-
-      if (majorGridRef.current) {
-        const majorOffsetY = -(currentScrollY * 0.12) % 192;
-        majorGridRef.current.style.transform = `translate3d(0, ${majorOffsetY}px, 0)`;
-      }
-
       // Ambient Glowing Nebulae Parallax Motion
       if (orb1Ref.current) {
         const orb1Y = -currentScrollY * 0.16;
@@ -291,33 +278,7 @@ export function InteractiveBackground() {
         className="absolute inset-0 w-full h-full object-cover"
       />
 
-      {/* 2. Cyber Tech Grid 1: Fine 48px Precision Matrix (like ayushcmd.me) */}
-      <div
-        ref={fineGridRef}
-        className="absolute -inset-y-24 inset-x-0 opacity-[0.05] dark:opacity-[0.095] will-change-transform"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(0, 217, 255, 0.4) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 217, 255, 0.4) 1px, transparent 1px)
-          `,
-          backgroundSize: "48px 48px",
-        }}
-      />
-
-      {/* 3. Cyber Tech Grid 2: 192px Deep Coordinate Architecture Grid */}
-      <div
-        ref={majorGridRef}
-        className="absolute -inset-y-48 inset-x-0 opacity-[0.03] dark:opacity-[0.06] will-change-transform"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(167, 139, 250, 0.4) 1.5px, transparent 1.5px),
-            linear-gradient(90deg, rgba(167, 139, 250, 0.4) 1.5px, transparent 1.5px)
-          `,
-          backgroundSize: "192px 192px",
-        }}
-      />
-
-      {/* 4. Interactive Cursor Radial Spotlight */}
+      {/* 2. Interactive Cursor Radial Spotlight */}
       <div
         ref={cursorLightRef}
         className="absolute top-0 left-0 w-[450px] h-[450px] rounded-full opacity-25 dark:opacity-20 pointer-events-none will-change-transform transform-gpu"
