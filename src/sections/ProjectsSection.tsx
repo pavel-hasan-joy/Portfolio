@@ -16,6 +16,8 @@ import {
   Cpu,
   ChevronDown,
   ChevronUp,
+  CheckCircle2,
+  Info,
 } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import { siteContent, Project } from "@/data/content";
@@ -185,6 +187,32 @@ function ProjectCard({ project, index }: ProjectCardProps) {
               </li>
             ))}
           </ul>
+
+          {/* Small Details / Key Highlights Box */}
+          {project.keyFeatures && project.keyFeatures.length > 0 && (
+            <div className="mt-4 pt-3.5 border-t border-border/50">
+              <div className="flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-emerald-400/90 font-semibold mb-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>Project Details & Capabilities</span>
+              </div>
+              <ul className="space-y-1.5 text-xs text-zinc-300">
+                {project.keyFeatures.slice(0, 2).map((feature, fIdx) => (
+                  <li key={fIdx} className="flex items-start gap-2 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 mt-1.5 shrink-0" />
+                    <span className="line-clamp-1 text-zinc-300/90 font-normal">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Compact Solution / Overview snippet */}
+          {project.solution && (
+            <div className="mt-3 rounded-lg bg-zinc-950/50 border border-white/[0.06] px-3 py-2 text-[11px] text-zinc-400 leading-relaxed font-mono">
+              <span className="text-emerald-400 font-semibold">Architecture: </span>
+              <span className="line-clamp-2 text-zinc-300/90">{project.solution}</span>
+            </div>
+          )}
 
           {/* GitHub Metadata Badges (if live-synced) */}
           {(project.stars !== undefined && project.stars > 0 || project.updatedAt) && (
