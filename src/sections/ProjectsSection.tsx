@@ -343,7 +343,7 @@ export function ProjectsSection() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-3">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>03 / Featured Work</span>
+              <span>05 / Featured Work</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
               Featured <span className="text-emerald-400">Projects</span>

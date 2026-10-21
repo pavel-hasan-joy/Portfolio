@@ -29,7 +29,7 @@ export function EducationSection() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-3">
             <GraduationCap className="w-3.5 h-3.5" />
-            <span>04 / Academic Foundation</span>
+            <span>03 / Academic Foundation</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
             Academic <span className="text-emerald-400">Education</span>

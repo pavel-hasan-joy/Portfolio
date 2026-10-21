@@ -44,7 +44,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
       setLastScrollY(currentScrollY);
 
       // Track active section
-      const sections = ["about", "skills", "projects", "education", "achievements", "contact"];
+      const sections = ["about", "skills", "education", "achievements", "projects", "contact"];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {

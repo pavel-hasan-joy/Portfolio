@@ -59,9 +59,9 @@ export default function Home() {
         <HeroSection onOpenCv={() => setCvOpen(true)} />
         <AboutSection />
         <SkillsSection />
-        <ProjectsSection />
         <EducationSection />
         <AchievementsSection />
+        <ProjectsSection />
         <ContactSection />
       </main>
 

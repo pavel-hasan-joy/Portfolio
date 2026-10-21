@@ -121,7 +121,7 @@ export function ContactSection() {
       {/* Section Header */}
       <div className="flex flex-col items-center text-center mb-16">
         <span className="text-xs font-mono uppercase tracking-[0.25em] text-cyan-400 mb-2">
-          // 05. GET IN TOUCH
+          // 06. GET IN TOUCH
         </span>
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Let&apos;s Build Together

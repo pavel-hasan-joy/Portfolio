@@ -14,6 +14,7 @@ import {
   User,
   Mail,
   GraduationCap,
+  Trophy,
   X,
   Check,
 } from "lucide-react";
@@ -145,22 +146,32 @@ export function CommandPalette({ isOpen, onClose, onOpenCv }: CommandPaletteProp
         },
       },
       {
+        id: "sec-education",
+        title: "Jump to Academic Education",
+        category: "Navigation",
+        icon: GraduationCap,
+        action: () => {
+          document.getElementById("education")?.scrollIntoView({ behavior: "smooth" });
+          onClose();
+        },
+      },
+      {
+        id: "sec-achievements",
+        title: "Jump to Honors & Achievements",
+        category: "Navigation",
+        icon: Trophy,
+        action: () => {
+          document.getElementById("achievements")?.scrollIntoView({ behavior: "smooth" });
+          onClose();
+        },
+      },
+      {
         id: "sec-projects",
         title: "Jump to Featured Projects",
         category: "Navigation",
         icon: FolderGit2,
         action: () => {
           document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-          onClose();
-        },
-      },
-      {
-        id: "sec-timeline",
-        title: "Jump to Education & Timeline",
-        category: "Navigation",
-        icon: GraduationCap,
-        action: () => {
-          document.getElementById("timeline")?.scrollIntoView({ behavior: "smooth" });
           onClose();
         },
       },
