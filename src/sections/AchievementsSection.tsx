@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "motion/react";
-import { Trophy, Award, Calendar, MapPin, CheckCircle2, Sparkles } from "lucide-react";
+import { Trophy, Award, Calendar, MapPin, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
 import { siteContent } from "@/data/content";
 
 const ACHIEVEMENT_GRADIENTS = [
@@ -10,6 +10,17 @@ const ACHIEVEMENT_GRADIENTS = [
   "from-teal-400/15 via-cyan-950/20 to-card/90",
   "from-sky-400/15 via-slate-900/40 to-card/90",
 ];
+
+function getAchievementIcon(title: string, index: number) {
+  const lower = title.toLowerCase();
+  if (lower.includes("hackathon") || lower.includes("position")) {
+    return <Trophy size={23} />;
+  }
+  if (lower.includes("nasa") || lower.includes("space")) {
+    return <Sparkles size={23} />;
+  }
+  return <Award size={23} />;
+}
 
 export function AchievementsSection() {
   const achievementItems = siteContent.timeline.filter((item) => item.type === "achievement");
@@ -24,18 +35,18 @@ export function AchievementsSection() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-3">
             <Trophy className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Competitions & Honors</span>
+            <span>Competitions & Credentials</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
             Honors & <span className="text-cyan-400">Achievements</span>
           </h2>
           <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
-            Competitive hackathon victories and global technological challenges proving real-world problem solving under tight execution limits.
+            Competitive hackathon victories, global technological challenges, and industry-certified cloud credentials.
           </p>
         </div>
 
-        {/* Responsive Grid for Achievements (2 balanced cards for the 2 flagship achievements) */}
-        <div className="grid gap-6 md:grid-cols-2 md:gap-8 max-w-5xl mx-auto">
+        {/* Responsive Grid for Achievements */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 md:gap-7 max-w-7xl mx-auto">
           {achievementItems.map((item, index) => {
             const gradient = ACHIEVEMENT_GRADIENTS[index % ACHIEVEMENT_GRADIENTS.length];
 
@@ -53,11 +64,23 @@ export function AchievementsSection() {
                 <div className="absolute -top-10 -right-10 w-24 h-24 bg-cyan-400/10 rounded-full blur-2xl pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col">
-                  {/* Top Row: Trophy Icon */}
+                  {/* Top Row: Trophy/Award Icon and Optional Link */}
                   <div className="flex items-start justify-between gap-3">
                     <span className="grid h-12 w-12 place-items-center rounded-2xl border border-cyan-500/40 bg-cyan-500/10 text-cyan-400 shadow-[0_0_22px_-8px_rgba(6,182,212,0.4)]">
-                      {index === 0 ? <Trophy size={23} /> : <Award size={23} />}
+                      {getAchievementIcon(item.title, index)}
                     </span>
+                    {item.url && (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 hover:text-cyan-300 text-xs font-mono transition-all duration-200 hover:scale-105 shadow-[0_0_15px_-4px_rgba(6,182,212,0.3)]"
+                        title="View credential on LinkedIn"
+                      >
+                        <span>Verify</span>
+                        <ExternalLink size={13} />
+                      </a>
+                    )}
                   </div>
 
                   {/* Year & Badge row */}

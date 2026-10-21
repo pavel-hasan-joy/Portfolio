@@ -34,6 +34,7 @@ export interface EducationExperience {
   description: string;
   bullets: string[];
   badge?: string;
+  url?: string;
 }
 
 export interface SiteContent {
@@ -410,6 +411,21 @@ export const siteContent: SiteContent = {
         "Delivered a bilingual interface with full native Bengali numeral translation.",
       ],
       badge: "Global Hackathon",
+    },
+    {
+      period: "2026",
+      title: "Introduction to AI and Machine Learning on Google Cloud",
+      organization: "Google Cloud × NetCom Learning",
+      location: "Online / Credential",
+      type: "achievement",
+      description: "Successfully completed official credential program in Introduction to AI and Machine Learning on Google Cloud, gaining enterprise expertise across cloud-native AI frameworks, Vertex AI, and predictive analytics.",
+      bullets: [
+        "Hands-on architectural exploration of Google Cloud's enterprise AI and ML ecosystem.",
+        "Model training, lifecycle management, and deployment strategies using Vertex AI.",
+        "In-database machine learning workflows with BigQuery ML and modern generative AI integration.",
+      ],
+      badge: "Google Cloud Certified",
+      url: "https://lnkd.in/p/gutctXEg",
     },
     {
       period: "2023 — 2024",
