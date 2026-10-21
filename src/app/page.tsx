@@ -6,7 +6,8 @@ import { HeroSection } from "@/sections/HeroSection";
 import { AboutSection } from "@/sections/AboutSection";
 import { SkillsSection } from "@/sections/SkillsSection";
 import { ProjectsSection } from "@/sections/ProjectsSection";
-import { TimelineSection } from "@/sections/TimelineSection";
+import { EducationSection } from "@/sections/EducationSection";
+import { AchievementsSection } from "@/sections/AchievementsSection";
 import { ContactSection } from "@/sections/ContactSection";
 import { Footer } from "@/sections/Footer";
 import { CvModal } from "@/components/CvModal";
@@ -59,7 +60,8 @@ export default function Home() {
         <AboutSection />
         <SkillsSection />
         <ProjectsSection />
-        <TimelineSection />
+        <EducationSection />
+        <AchievementsSection />
         <ContactSection />
       </main>
 
