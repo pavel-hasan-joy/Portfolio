@@ -16,8 +16,6 @@ import {
   Cpu,
   ChevronDown,
   ChevronUp,
-  CheckCircle2,
-  Info,
 } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 import { siteContent, Project } from "@/data/content";
@@ -65,7 +63,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       initial={{ opacity: 0, y: 25, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.35, delay: (index % 4) * 0.06 }}
+      transition={{ duration: 0.35, delay: (index % 4) * 0.05 }}
       whileHover={{ y: -6 }}
       className="group glass-panel relative flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/60 transition-all duration-500 hover:border-emerald-500/50 hover:shadow-[0_0_35px_-8px_rgba(16,185,129,0.22)]"
     >
@@ -106,7 +104,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
         )}
 
-        {/* Case 3: No image needed (BlackBox, Bangla Search Engine, Face ID, etc. - Sleek Cybernetic Gradients) */}
+        {/* Case 3: No image needed (BlackBox, Bangla Search Engine, Face ID, etc.) */}
         {isNoImage && (
           <div
             className="absolute inset-0 flex items-center justify-center p-6 overflow-hidden transition-transform duration-700 group-hover:scale-105"
@@ -122,7 +120,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
               }}
             />
             <div className="relative z-10 flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-2 shadow-[0_0_20px_-3px_rgba(16,185,129,0.3)] group-hover:border-emerald-400/50 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-2 shadow-[0_0_20px_-3px_rgba(168,85,247,0.3)] group-hover:border-emerald-400/50 transition-colors">
                 {project.slug.includes("search") ? (
                   <Code2 className="w-6 h-6" />
                 ) : project.slug.includes("face") ? (
@@ -162,7 +160,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       </div>
 
       {/* =========================================================================
-          Card Body Content
+          Card Body Content (Clean & Informative, like Amna's site)
           ========================================================================= */}
       <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
         <div>
@@ -171,9 +169,9 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             {project.title}
           </h3>
 
-          {/* Tagline */}
-          <p className="mt-2 text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-            {project.tagline || project.summary}
+          {/* Project Short Details & Summary */}
+          <p className="mt-2 text-xs sm:text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+            {project.summary || project.tagline}
           </p>
 
           {/* Tech Stack Pills */}
@@ -188,34 +186,8 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             ))}
           </ul>
 
-          {/* Small Details / Key Highlights Box */}
-          {project.keyFeatures && project.keyFeatures.length > 0 && (
-            <div className="mt-4 pt-3.5 border-t border-border/50">
-              <div className="flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-emerald-400/90 font-semibold mb-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Project Details & Capabilities</span>
-              </div>
-              <ul className="space-y-1.5 text-xs text-zinc-300">
-                {project.keyFeatures.slice(0, 2).map((feature, fIdx) => (
-                  <li key={fIdx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 mt-1.5 shrink-0" />
-                    <span className="line-clamp-1 text-zinc-300/90 font-normal">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Compact Solution / Overview snippet */}
-          {project.solution && (
-            <div className="mt-3 rounded-lg bg-zinc-950/50 border border-white/[0.06] px-3 py-2 text-[11px] text-zinc-400 leading-relaxed font-mono">
-              <span className="text-emerald-400 font-semibold">Architecture: </span>
-              <span className="line-clamp-2 text-zinc-300/90">{project.solution}</span>
-            </div>
-          )}
-
           {/* GitHub Metadata Badges (if live-synced) */}
-          {(project.stars !== undefined && project.stars > 0 || project.updatedAt) && (
+          {((project.stars !== undefined && project.stars > 0) || project.updatedAt) && (
             <div className="mt-3 flex items-center gap-3 text-[11px] font-mono text-zinc-400">
               {project.stars !== undefined && project.stars > 0 && (
                 <span className="flex items-center gap-1 text-amber-400">
@@ -270,7 +242,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             )}
           </div>
 
-          {/* Case Study Details Link or Direct GitHub Link */}
+          {/* Case Study Details Link or Direct Repository Link */}
           {project.hasCaseStudy ? (
             <Link
               href={`/projects/${project.slug}`}
@@ -297,10 +269,9 @@ function ProjectCard({ project, index }: ProjectCardProps) {
 }
 
 export function ProjectsSection() {
-  const INITIAL_PAGE_SIZE = 4;
   const [projects, setProjects] = useState<Project[]>(siteContent.projects);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [lastSyncedTime, setLastSyncedTime] = useState<string | null>(null);
 
@@ -315,9 +286,9 @@ export function ProjectsSection() {
     return ["All", ...Array.from(set)];
   }, [projects]);
 
-  // Reset pagination when category changes
+  // Reset expansion state when category changes
   useEffect(() => {
-    setVisibleCount(INITIAL_PAGE_SIZE);
+    setIsExpanded(false);
   }, [selectedCategory]);
 
   // Fetch live repositories from GitHub on mount (includes all public repos)
@@ -351,12 +322,15 @@ export function ProjectsSection() {
     return projects.filter((p) => p.category === selectedCategory);
   }, [projects, selectedCategory]);
 
-  // Visible projects slice based on pagination
+  // Show only 4 projects initially, or all if user clicked "More Projects"
   const visibleProjects = useMemo(() => {
-    return filteredProjects.slice(0, visibleCount);
-  }, [filteredProjects, visibleCount]);
+    if (isExpanded) {
+      return filteredProjects;
+    }
+    return filteredProjects.slice(0, 4);
+  }, [filteredProjects, isExpanded]);
 
-  const hasMore = visibleCount < filteredProjects.length;
+  const hasRemaining = filteredProjects.length > 4;
 
   return (
     <section id="projects" className="py-24 sm:py-32 relative overflow-hidden">
@@ -425,7 +399,7 @@ export function ProjectsSection() {
           })}
         </div>
 
-        {/* Project Cards Responsive Grid */}
+        {/* Project Cards Responsive Grid (2x2 Balanced Layout) */}
         <motion.div
           layout
           className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"
@@ -438,35 +412,36 @@ export function ProjectsSection() {
         </motion.div>
 
         {/* =========================================================================
-            Bottom Controls: Counter, Load More / Show Less Button (Like Amna's Site)
+            Bottom Controls: Counter & More Projects Option (Loads ALL remaining on click)
             ========================================================================= */}
         <div className="mt-12 flex flex-col items-center gap-4 text-center">
-          {/* Item count text */}
+          {/* Status text */}
           <p className="text-xs sm:text-sm font-mono text-muted-foreground" aria-live="polite">
-            Showing <span className="text-foreground font-semibold">{visibleProjects.length}</span> of{" "}
-            <span className="text-foreground font-semibold">{filteredProjects.length}</span> projects
+            {isExpanded
+              ? `Showing all ${filteredProjects.length} projects`
+              : `Showing ${visibleProjects.length} of ${filteredProjects.length} projects`}
           </p>
 
-          {/* Load More Button (loads remaining repos right here into the page grid) */}
-          {hasMore ? (
+          {/* More Projects Button: Click loads ALL remaining projects at once */}
+          {hasRemaining && (
             <button
               type="button"
-              onClick={() => setVisibleCount((prev) => prev + 4)}
+              onClick={() => setIsExpanded((prev) => !prev)}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-emerald-500/40 bg-card hover:bg-emerald-500/15 hover:border-emerald-500 text-xs sm:text-sm font-semibold text-foreground transition-all duration-300 shadow-[0_0_25px_-5px_rgba(16,185,129,0.25)] hover:shadow-[0_0_35px_-5px_rgba(16,185,129,0.4)] cursor-pointer active:scale-95"
             >
-              <ChevronDown className="w-4 h-4 text-emerald-400 animate-bounce" />
-              <span>Load more projects</span>
+              {isExpanded ? (
+                <>
+                  <ChevronUp className="w-4 h-4 text-emerald-400" />
+                  <span>Show Less</span>
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4 text-emerald-400 animate-bounce" />
+                  <span>More Projects ({filteredProjects.length - 4} more)</span>
+                </>
+              )}
             </button>
-          ) : filteredProjects.length > INITIAL_PAGE_SIZE ? (
-            <button
-              type="button"
-              onClick={() => setVisibleCount(INITIAL_PAGE_SIZE)}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-border bg-card/60 hover:bg-secondary text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 cursor-pointer active:scale-95"
-            >
-              <ChevronUp className="w-4 h-4 text-zinc-400" />
-              <span>Show less</span>
-            </button>
-          ) : null}
+          )}
 
           {/* Secondary link to GitHub */}
           <a
