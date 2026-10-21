@@ -24,7 +24,7 @@ export default function CvPage() {
       <header className="no-print flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-md z-30">
         <Link
           href="/"
-          className="flex items-center gap-2 text-xs sm:text-sm font-medium text-zinc-400 hover:text-emerald-400 transition-colors group"
+          className="flex items-center gap-2 text-xs sm:text-sm font-medium text-zinc-400 hover:text-cyan-400 transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span>Back to Portfolio</span>
@@ -41,7 +41,7 @@ export default function CvPage() {
           <a
             href={siteContent.cv.filePath}
             download={siteContent.cv.fileName}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md shadow-emerald-950/40 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-400 via-cyan-500 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-zinc-950 text-xs font-semibold shadow-md shadow-cyan-950/40 transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Download PDF</span>

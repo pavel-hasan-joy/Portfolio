@@ -40,7 +40,7 @@ export default function PdfCanvasViewer({
   if (loadError) {
     return (
       <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center max-w-md mx-auto">
-        <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
+        <div className="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
           <AlertCircle className="w-8 h-8" />
         </div>
         <h3 className="text-lg font-semibold text-zinc-100 mb-2">
@@ -50,7 +50,7 @@ export default function PdfCanvasViewer({
           Pavel Hasan Joy is currently updating his official 2026 CV document. In the meantime, you can explore his verified credentials, GitHub repositories, and LinkedIn profile.
         </p>
         <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-400 w-full text-left font-mono">
-          <p className="text-emerald-400 font-semibold mb-1">💡 For Developer:</p>
+          <p className="text-cyan-400 font-semibold mb-1">💡 For Developer:</p>
           <p>Drop your PDF file into <span className="text-zinc-200">public/cv/pavel-hasan-joy-CV.pdf</span> to activate live canvas rendering.</p>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default function PdfCanvasViewer({
         onLoadError={onDocumentLoadError}
         loading={
           <div className="flex flex-col items-center justify-center py-20 gap-3 text-zinc-400">
-            <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+            <Loader2 className="w-8 h-8 animate-spin text-cyan-400" />
             <span className="text-sm font-medium tracking-wide">Rendering Document Canvas...</span>
           </div>
         }

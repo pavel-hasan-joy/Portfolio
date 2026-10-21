@@ -50,7 +50,7 @@ export function AboutSection() {
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           About & Academic Background
         </h2>
-        <div className="w-12 h-1 bg-emerald-500 rounded-full mt-3" />
+        <div className="w-12 h-1 bg-gradient-to-r from-cyan-400 to-teal-400 rounded-full mt-3" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center mb-16">
@@ -64,7 +64,7 @@ export function AboutSection() {
         >
           <div className="relative group">
             {/* Subtle rotating glow */}
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500 to-cyan-500 opacity-20 blur-lg group-hover:opacity-40 transition-opacity" />
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-cyan-500 to-teal-400 opacity-20 blur-lg group-hover:opacity-40 transition-opacity" />
 
             <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-3xl overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl flex items-center justify-center">
               <Image
@@ -78,8 +78,8 @@ export function AboutSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none" />
 
               <div className="absolute bottom-3 left-4 right-4 text-left">
-                <span className="text-xs font-mono font-medium text-emerald-400 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-mono font-medium text-cyan-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                   ULAB CSE Student
                 </span>
                 <p className="text-sm font-semibold text-zinc-100">{siteContent.personal.name}</p>
@@ -89,7 +89,7 @@ export function AboutSection() {
 
           <div className="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs font-mono text-zinc-400">
             <span className="flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+              <MapPin className="w-3.5 h-3.5 text-cyan-400" />
               {siteContent.personal.location}
             </span>
           </div>
@@ -111,15 +111,15 @@ export function AboutSection() {
 
           {/* Academic & Certification Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-            <div className="p-4 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-emerald-500/30 transition-all flex items-start gap-3.5">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+            <div className="p-4 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/30 transition-all flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shrink-0">
                 <GraduationCap className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-zinc-100">
                   {siteContent.personal.degree}
                 </h3>
-                <p className="text-xs text-emerald-400 font-mono mt-0.5">
+                <p className="text-xs text-cyan-400 font-mono mt-0.5">
                   {siteContent.personal.institution}
                 </p>
                 <p className="text-[11px] text-zinc-400 mt-1 leading-normal">
@@ -128,15 +128,15 @@ export function AboutSection() {
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/30 transition-all flex items-start gap-3.5">
-              <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shrink-0">
+            <div className="p-4 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-teal-500/30 transition-all flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl bg-teal-500/10 text-teal-400 border border-teal-500/20 shrink-0">
                 <Award className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-zinc-100">
                   AI & ML on Google Cloud
                 </h3>
-                <p className="text-xs text-cyan-400 font-mono mt-0.5">
+                <p className="text-xs text-teal-400 font-mono mt-0.5">
                   NetCom Learning · Certified
                 </p>
                 <p className="text-[11px] text-zinc-400 mt-1 leading-normal">

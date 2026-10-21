@@ -75,7 +75,7 @@ export function InteractiveBackground() {
       new THREE.Color("#00d9ff"), // Cyan (ayushcmd.me)
       new THREE.Color("#38bdf8"), // Sky Blue
       new THREE.Color("#a78bfa"), // Soft Purple (ayushcmd.me)
-      new THREE.Color("#10b981"), // Emerald Green (portfolio primary)
+      new THREE.Color("#14b8a6"), // Deep Teal (cyan/teal companion)
       new THREE.Color("#ffffff"), // Pure White Star
       new THREE.Color("#e0f2fe"), // Icy Blue
       new THREE.Color("#f59e0b"), // Subtle Amber
@@ -348,14 +348,14 @@ export function InteractiveBackground() {
         }}
       />
 
-      {/* 7. Ambient Nebula 3: Emerald Glow (Anchored Lower) */}
+      {/* 7. Ambient Nebula 3: Harmonious Teal & Deep Cyan Glow (Anchored Lower) */}
       <div
         ref={orb3Ref}
         className="absolute w-[620px] h-[620px] rounded-full opacity-25 dark:opacity-18 pointer-events-none will-change-transform transform-gpu"
         style={{
           top: "70%",
           right: "15%",
-          background: "radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.06) 35%, transparent 68%)",
+          background: "radial-gradient(circle, rgba(20, 184, 166, 0.22) 0%, rgba(6, 182, 212, 0.06) 35%, transparent 68%)",
         }}
       />
 

@@ -47,7 +47,7 @@ export default async function ProjectCaseStudyPage({
 
       {/* Case Study Header */}
       <header className="mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-4">
           <span>{project.category}</span>
           <span>·</span>
           <span>Role: {project.role}</span>
@@ -78,7 +78,7 @@ export default async function ProjectCaseStudyPage({
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-xs font-bold transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-zinc-950 text-xs font-bold transition-colors shadow-md shadow-cyan-500/20"
             >
               <ExternalLink className="w-4 h-4" />
               <span>Live Deployment</span>
@@ -94,7 +94,7 @@ export default async function ProjectCaseStudyPage({
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70" />
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400/80" />
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono text-zinc-400">
@@ -104,8 +104,8 @@ export default async function ProjectCaseStudyPage({
               </span>
             </div>
             {project.previewType === "dynamic-stats" ? (
-              <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="flex items-center gap-1.5 text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 <span>Live Solved Analysis</span>
               </span>
             ) : (
@@ -152,7 +152,7 @@ export default async function ProjectCaseStudyPage({
 
         {/* Engineered Solution */}
         <section className="p-6 sm:p-8 rounded-2xl bg-zinc-900/60 border border-zinc-800/80">
-          <div className="flex items-center gap-2.5 text-emerald-400 text-sm font-bold uppercase tracking-wider font-mono mb-3">
+          <div className="flex items-center gap-2.5 text-cyan-400 text-sm font-bold uppercase tracking-wider font-mono mb-3">
             <Lightbulb className="w-4 h-4" />
             <h2>The Solution & Architecture</h2>
           </div>
@@ -166,7 +166,7 @@ export default async function ProjectCaseStudyPage({
           <ul className="space-y-2 text-xs sm:text-sm text-zinc-300">
             {project.keyFeatures.map((feat, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
                 <span>{feat}</span>
               </li>
             ))}
@@ -193,7 +193,7 @@ export default async function ProjectCaseStudyPage({
 
         {/* Real-World Impact */}
         <section className="p-6 sm:p-8 rounded-2xl bg-zinc-900/60 border border-zinc-800/80">
-          <div className="flex items-center gap-2.5 text-emerald-400 text-sm font-bold uppercase tracking-wider font-mono mb-3">
+          <div className="flex items-center gap-2.5 text-teal-400 text-sm font-bold uppercase tracking-wider font-mono mb-3">
             <Award className="w-4 h-4" />
             <h2>Result & Impact</h2>
           </div>
@@ -207,7 +207,7 @@ export default async function ProjectCaseStudyPage({
       <div className="mt-16 pt-8 border-t border-zinc-800/80 flex items-center justify-between">
         <Link
           href="/#projects"
-          className="text-xs font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5"
+          className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Return to All Projects</span>

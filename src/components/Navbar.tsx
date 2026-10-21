@@ -86,7 +86,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-xs sm:text-sm font-semibold tracking-tight text-zinc-100 group-hover:text-emerald-400 transition-colors">
+            <span className="text-xs sm:text-sm font-semibold tracking-tight text-zinc-100 group-hover:text-cyan-400 transition-colors">
               {siteContent.personal.name}
             </span>
             <span className="text-[10px] text-zinc-500 font-mono hidden sm:inline">
@@ -105,7 +105,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
                 href={item.href}
                 className={`relative px-3 py-1.5 rounded-lg transition-colors ${
                   isActive
-                    ? "text-emerald-400 font-semibold"
+                    ? "text-cyan-400 font-semibold"
                     : "text-zinc-400 hover:text-zinc-200"
                 }`}
               >
@@ -113,7 +113,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
                 {isActive && (
                   <motion.div
                     layoutId="active-nav-indicator"
-                    className="absolute inset-0 bg-gradient-to-r from-emerald-500/15 to-cyan-500/15 border border-emerald-500/30 rounded-lg -z-10 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
+                    className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-teal-500/15 border border-cyan-400/40 rounded-lg -z-10 shadow-[0_0_15px_rgba(6,182,212,0.25)]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -131,7 +131,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
             title="Open Command Palette (Cmd/Ctrl + K)"
             aria-label="Open Command Palette"
           >
-            <Command className="w-3.5 h-3.5 text-emerald-400" />
+            <Command className="w-3.5 h-3.5 text-cyan-400" />
             <span className="hidden lg:inline text-[11px]">Cmd+K</span>
           </button>
 
@@ -152,7 +152,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
           {/* View CV Button */}
           <button
             onClick={onOpenCv}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-medium transition-all group"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-medium transition-all group"
           >
             <FileText className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
             <span>View CV</span>
@@ -161,7 +161,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
           {/* Contact CTA Button */}
           <a
             href="#contact"
-            className="hidden sm:flex items-center gap-1 px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs shadow-md shadow-emerald-500/10 transition-colors"
+            className="hidden sm:flex items-center gap-1 px-3.5 py-1.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-zinc-950 font-bold text-xs shadow-md shadow-cyan-500/20 transition-all"
           >
             <span>Let&apos;s Talk</span>
             <ArrowRight className="w-3 h-3" />
@@ -193,7 +193,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
                 key={item.name}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3.5 py-2.5 rounded-xl text-sm font-medium text-zinc-300 hover:text-emerald-400 hover:bg-zinc-900/60 transition-colors"
+                className="px-3.5 py-2.5 rounded-xl text-sm font-medium text-zinc-300 hover:text-cyan-400 hover:bg-zinc-900/60 transition-colors"
               >
                 {item.name}
               </a>
@@ -205,7 +205,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
                   setMobileMenuOpen(false);
                   onOpenCv();
                 }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold"
               >
                 <FileText className="w-4 h-4" />
                 <span>View Full Curriculum Vitae</span>
@@ -213,7 +213,7 @@ export function Navbar({ onOpenCv, onOpenCommandPalette }: NavbarProps) {
               <a
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-500 text-zinc-950 text-xs font-semibold"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-zinc-950 text-xs font-bold"
               >
                 <span>Contact Pavel</span>
                 <ArrowRight className="w-4 h-4" />

@@ -50,7 +50,7 @@ export function CustomCursor() {
     <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
       {/* Outer trailing aura */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full border border-emerald-500/40 bg-emerald-500/10 pointer-events-none -translate-x-1/2 -translate-y-1/2 backdrop-blur-[1px]"
+        className="fixed top-0 left-0 rounded-full border border-cyan-400/50 bg-cyan-400/15 pointer-events-none -translate-x-1/2 -translate-y-1/2 backdrop-blur-[1px] shadow-[0_0_15px_rgba(6,182,212,0.3)]"
         style={{
           x: cursorX,
           y: cursorY,
@@ -64,7 +64,7 @@ export function CustomCursor() {
       />
       {/* Precision center dot */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-emerald-400 pointer-events-none -translate-x-1/2 -translate-y-1/2"
+        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-cyan-400 pointer-events-none -translate-x-1/2 -translate-y-1/2 shadow-[0_0_8px_#22d3ee]"
         style={{
           x: cursorX,
           y: cursorY,

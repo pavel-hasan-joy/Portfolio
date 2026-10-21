@@ -238,9 +238,9 @@ export function CommandPalette({ isOpen, onClose, onOpenCv }: CommandPaletteProp
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-950/90 border border-emerald-500/30 text-emerald-300 text-xs shadow-2xl backdrop-blur-md"
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-950/90 border border-cyan-500/30 text-cyan-300 text-xs shadow-2xl backdrop-blur-md"
           >
-            <Check className="w-4 h-4 text-emerald-400" />
+            <Check className="w-4 h-4 text-cyan-400" />
             <span>{toastMessage}</span>
           </motion.div>
         )}
@@ -307,12 +307,12 @@ export function CommandPalette({ isOpen, onClose, onOpenCv }: CommandPaletteProp
                         onMouseEnter={() => setSelectedIndex(index)}
                         className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-xs transition-colors ${
                           isSelected
-                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                            ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
                             : "text-zinc-300 hover:bg-zinc-900 border border-transparent"
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <Icon className={`w-4 h-4 ${isSelected ? "text-emerald-400" : "text-zinc-400"}`} />
+                          <Icon className={`w-4 h-4 ${isSelected ? "text-cyan-400" : "text-zinc-400"}`} />
                           <span className="font-medium">{item.title}</span>
                         </div>
                         <span className="text-[10px] font-mono uppercase text-zinc-500 px-1.5 py-0.5 rounded bg-zinc-900">

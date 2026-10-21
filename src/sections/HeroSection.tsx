@@ -28,11 +28,11 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-6 backdrop-blur-sm"
+        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-6 backdrop-blur-sm"
       >
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
         </span>
         <span>{siteContent.personal.availability}</span>
       </motion.div>
@@ -54,7 +54,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.25 }}
-        className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-sm sm:text-lg font-medium text-emerald-400 mb-6 font-mono"
+        className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-sm sm:text-lg font-medium text-cyan-400 mb-6 font-mono"
       >
         <span>{siteContent.personal.roles[0]}</span>
         <span className="text-zinc-600">·</span>
@@ -101,7 +101,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
       >
         <a
           href="#projects"
-          className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-zinc-950 font-semibold text-sm transition-all shadow-lg shadow-emerald-500/25 hover:shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98]"
+          className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-500 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-zinc-950 font-semibold text-sm transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-[1.02] active:scale-[0.98]"
         >
           View Featured Projects
         </a>
@@ -110,7 +110,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
           onClick={onOpenCv}
           className="flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-200 hover:text-white border border-white/[0.08] hover:border-cyan-500/40 font-medium text-sm transition-all hover:scale-[1.02] active:scale-[0.98] group"
         >
-          <FileText className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+          <FileText className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
           <span>Curriculum Vitae</span>
         </button>
       </motion.div>
@@ -146,7 +146,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook Profile"
-            className="p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800/80 transition-colors"
+            className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
           >
             <FacebookIcon className="w-4 h-4" />
           </a>
@@ -170,17 +170,17 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl mx-auto w-full mt-10 text-left"
       >
-        <div className="rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-emerald-500/40 p-4 transition-all duration-300 shadow-xl">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-emerald-400 mb-1">// core focus</p>
+        <div className="rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-4 transition-all duration-300 shadow-xl">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400 mb-1">// core focus</p>
           <p className="text-xs font-medium text-zinc-300">
-            C/C++ <span className="text-emerald-400">·</span> Java <span className="text-cyan-400">·</span> Full-Stack & AI
+            C/C++ <span className="text-cyan-400">·</span> Java <span className="text-teal-400">·</span> Full-Stack & AI
           </p>
         </div>
 
         <div className="rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] hover:border-cyan-500/40 p-4 transition-all duration-300 shadow-xl">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400 mb-1">// engineering mindset</p>
           <p className="text-xs font-medium text-zinc-300">
-            Build <span className="text-cyan-400">·</span> Learn <span className="text-emerald-400">·</span> Optimize <span className="text-purple-400">·</span> Repeat
+            Build <span className="text-cyan-400">·</span> Learn <span className="text-teal-400">·</span> Optimize <span className="text-sky-400">·</span> Repeat
           </p>
         </div>
       </motion.div>

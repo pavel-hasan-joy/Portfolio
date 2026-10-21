@@ -7,8 +7,8 @@ import { siteContent } from "@/data/content";
 
 const ACHIEVEMENT_GRADIENTS = [
   "from-cyan-400/15 via-teal-950/20 to-card/90",
-  "from-teal-400/15 via-emerald-950/20 to-card/90",
-  "from-emerald-400/15 via-cyan-950/20 to-card/90",
+  "from-teal-400/15 via-cyan-950/20 to-card/90",
+  "from-sky-400/15 via-slate-900/40 to-card/90",
 ];
 
 export function AchievementsSection() {
@@ -24,7 +24,7 @@ export function AchievementsSection() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-3">
             <Trophy className="w-3.5 h-3.5 text-cyan-400" />
-            <span>04 / Competitions & Honors</span>
+            <span>Competitions & Honors</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
             Honors & <span className="text-cyan-400">Achievements</span>

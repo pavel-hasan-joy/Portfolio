@@ -126,7 +126,7 @@ export function ContactSection() {
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Let&apos;s Build Together
         </h2>
-        <div className="w-12 h-1 bg-emerald-500 rounded-full mt-3" />
+        <div className="w-12 h-1 bg-gradient-to-r from-cyan-400 to-teal-400 rounded-full mt-3" />
         <p className="max-w-xl text-sm text-zinc-400 mt-4 leading-relaxed">
           Open to software engineering internships, collaborative tech initiatives, and technical discussions.
         </p>
@@ -146,12 +146,12 @@ export function ContactSection() {
             {/* Email Copy Card */}
             <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2.5 overflow-hidden">
-                <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
+                <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
                 <a
                   href={siteContent.socials.emailComposeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-mono text-zinc-200 hover:text-emerald-400 hover:underline truncate transition-colors"
+                  className="text-xs font-mono text-zinc-200 hover:text-cyan-400 hover:underline truncate transition-colors"
                   title="Open Gmail to compose email"
                 >
                   {siteContent.socials.email}
@@ -165,8 +165,8 @@ export function ContactSection() {
               >
                 {copied ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400 font-mono">Copied</span>
+                    <Check className="w-3.5 h-3.5 text-cyan-400" />
+                    <span className="text-cyan-400 font-mono">Copied</span>
                   </>
                 ) : (
                   <>
@@ -182,7 +182,7 @@ export function ContactSection() {
               <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 flex items-center justify-between gap-2">
                 <a
                   href={`tel:${siteContent.socials.phone}`}
-                  className="flex items-center gap-2.5 overflow-hidden hover:text-emerald-400 transition-colors"
+                  className="flex items-center gap-2.5 overflow-hidden hover:text-cyan-400 transition-colors"
                 >
                   <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
                   <span className="text-xs font-mono text-zinc-200 truncate">
@@ -197,7 +197,7 @@ export function ContactSection() {
 
             {/* Location Card */}
             <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 flex items-center gap-2.5">
-              <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+              <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
               <span className="text-xs text-zinc-300">
                 {siteContent.personal.location}
               </span>
@@ -206,7 +206,7 @@ export function ContactSection() {
             {/* Availability & Response Time */}
             <div className="pt-2 border-t border-zinc-800/60 space-y-2 text-xs text-zinc-400 font-mono">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                 <span>{siteContent.personal.availability}</span>
               </div>
               <div className="flex items-center gap-2 text-zinc-500">
@@ -259,7 +259,7 @@ export function ContactSection() {
             {/* Form Header */}
             <div className="pb-1 border-b border-zinc-800/60">
               <h3 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
-                <Mail className="w-4 h-4 text-emerald-400" />
+                <Mail className="w-4 h-4 text-cyan-400" />
                 Send Email
               </h3>
               <p className="text-xs text-zinc-400 mt-1">
@@ -285,7 +285,7 @@ export function ContactSection() {
                 className={`w-full px-4 py-2.5 rounded-xl bg-zinc-950/70 border text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors ${
                   errors.name
                     ? "border-red-500/80 focus:border-red-500"
-                    : "border-zinc-800 focus:border-emerald-500/60"
+                    : "border-zinc-800 focus:border-cyan-400/80"
                 }`}
               />
               {errors.name && (
@@ -306,7 +306,7 @@ export function ContactSection() {
                 className={`w-full px-4 py-2.5 rounded-xl bg-zinc-950/70 border text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors ${
                   errors.email
                     ? "border-red-500/80 focus:border-red-500"
-                    : "border-zinc-800 focus:border-emerald-500/60"
+                    : "border-zinc-800 focus:border-cyan-400/80"
                 }`}
               />
               {errors.email && (
@@ -327,7 +327,7 @@ export function ContactSection() {
                 className={`w-full px-4 py-2.5 rounded-xl bg-zinc-950/70 border text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors resize-none ${
                   errors.message
                     ? "border-red-500/80 focus:border-red-500"
-                    : "border-zinc-800 focus:border-emerald-500/60"
+                    : "border-zinc-800 focus:border-cyan-400/80"
                 }`}
               />
               {errors.message && (
@@ -344,12 +344,12 @@ export function ContactSection() {
                   exit={{ opacity: 0, height: 0 }}
                   className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
                     status === "success"
-                      ? "bg-emerald-950/80 text-emerald-300 border border-emerald-500/40"
+                      ? "bg-cyan-950/80 text-cyan-300 border border-cyan-500/40"
                       : "bg-red-950/80 text-red-300 border border-red-500/40"
                   }`}
                 >
                   {status === "success" ? (
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <Check className="w-4 h-4 text-cyan-400 shrink-0" />
                   ) : (
                     <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
                   )}
@@ -362,7 +362,7 @@ export function ContactSection() {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-500 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-zinc-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 disabled:opacity-50"
             >
               {status === "submitting" ? (
                 <>

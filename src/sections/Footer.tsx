@@ -40,14 +40,14 @@ export function Footer({ onOpenCv }: FooterProps) {
             <a
               key={item.name}
               href={item.href}
-              className="hover:text-emerald-400 transition-colors"
+              className="hover:text-cyan-400 transition-colors"
             >
               {item.name}
             </a>
           ))}
           <button
             onClick={onOpenCv}
-            className="hover:text-emerald-400 transition-colors"
+            className="hover:text-cyan-400 transition-colors"
           >
             Curriculum Vitae
           </button>
@@ -61,7 +61,7 @@ export function Footer({ onOpenCv }: FooterProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 transition-colors"
+              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
             >
               <GithubIcon className="w-4 h-4" />
             </a>
@@ -70,7 +70,7 @@ export function Footer({ onOpenCv }: FooterProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 transition-colors"
+              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
@@ -80,7 +80,7 @@ export function Footer({ onOpenCv }: FooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 transition-colors"
+                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
               >
                 <FacebookIcon className="w-4 h-4" />
               </a>
@@ -91,7 +91,7 @@ export function Footer({ onOpenCv }: FooterProps) {
               rel="noopener noreferrer"
               aria-label="Email Pavel via Gmail"
               title="Compose Email to Pavel"
-              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 transition-colors"
+              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
             >
               <Mail className="w-4 h-4" />
             </a>
@@ -99,7 +99,7 @@ export function Footer({ onOpenCv }: FooterProps) {
 
           <button
             onClick={scrollToTop}
-            className="p-2 rounded-xl bg-zinc-900 hover:bg-emerald-500/10 text-zinc-400 hover:text-emerald-400 border border-zinc-800 hover:border-emerald-500/30 transition-colors"
+            className="p-2 rounded-xl bg-zinc-900 hover:bg-cyan-500/10 text-zinc-400 hover:text-cyan-400 border border-zinc-800 hover:border-cyan-500/30 transition-colors"
             title="Back to Top"
             aria-label="Back to Top"
           >

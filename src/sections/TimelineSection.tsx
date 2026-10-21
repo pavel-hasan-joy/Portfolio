@@ -16,14 +16,14 @@ export function TimelineSection() {
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Education & Achievements
         </h2>
-        <div className="w-12 h-1 bg-emerald-500 rounded-full mt-3" />
+        <div className="w-12 h-1 bg-gradient-to-r from-cyan-400 to-teal-400 rounded-full mt-3" />
         <p className="max-w-xl text-sm text-zinc-400 mt-4 leading-relaxed">
           Academic progression and competitive hackathon challenges shaping my engineering approach.
         </p>
       </div>
 
       {/* Vertical Timeline with Drawing Line */}
-      <div className="relative pl-6 sm:pl-10 space-y-12 before:absolute before:left-2 sm:before:left-3 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-emerald-500 before:via-cyan-500 before:to-zinc-800">
+      <div className="relative pl-6 sm:pl-10 space-y-12 before:absolute before:left-2 sm:before:left-3 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-cyan-400 before:via-teal-400 before:to-zinc-800">
         {siteContent.timeline.map((item, idx) => (
           <motion.div
             key={item.title}
@@ -34,14 +34,14 @@ export function TimelineSection() {
             className="relative"
           >
             {/* Timeline Node Dot */}
-            <div className="absolute -left-6 sm:-left-10 top-1.5 w-5 h-5 rounded-full bg-zinc-950 border-2 border-emerald-400 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            <div className="absolute -left-6 sm:-left-10 top-1.5 w-5 h-5 rounded-full bg-zinc-950 border-2 border-cyan-400 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
             </div>
 
             {/* Timeline Card */}
-            <div className="p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] shadow-2xl hover:border-emerald-500/40 hover:shadow-[0_0_25px_rgba(16,185,129,0.08)] transition-all duration-300">
+            <div className="p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08] shadow-2xl hover:border-cyan-500/40 hover:shadow-[0_0_25px_rgba(6,182,212,0.12)] transition-all duration-300">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <span className="text-xs font-mono font-medium text-emerald-400 flex items-center gap-1.5">
+                <span className="text-xs font-mono font-medium text-cyan-400 flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5" />
                   {item.period}
                 </span>
@@ -67,7 +67,7 @@ export function TimelineSection() {
               <ul className="mt-4 space-y-1.5 text-xs text-zinc-400">
                 {item.bullets.map((bullet, bIdx) => (
                   <li key={bIdx} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
                     <span>{bullet}</span>
                   </li>
                 ))}

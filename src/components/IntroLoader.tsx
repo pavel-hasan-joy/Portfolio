@@ -91,8 +91,8 @@ export function IntroLoader() {
           <header className="w-full max-w-7xl mx-auto px-6 py-6 sm:py-8 flex items-center justify-between z-20">
             <div className="flex items-center gap-3">
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
               </span>
               <div className="flex flex-col">
                 <span className="font-bold text-xs sm:text-sm tracking-widest uppercase text-zinc-100 font-mono">
@@ -126,7 +126,7 @@ export function IntroLoader() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="absolute w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_#10b981]"
+                  className="absolute w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"
                 />
               </div>
               <span className="text-[10px] font-mono text-zinc-500 hidden md:block">
@@ -161,7 +161,7 @@ export function IntroLoader() {
               onClick={handleEnter}
               className={`relative group cursor-pointer rounded-full p-[2px] transition-all duration-500 ${
                 isLoaded
-                  ? "shadow-[0_0_50px_rgba(16,185,129,0.35)] scale-105"
+                  ? "shadow-[0_0_50px_rgba(6,182,212,0.4)] scale-105"
                   : "shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
               }`}
             >
@@ -170,7 +170,7 @@ export function IntroLoader() {
                 className="absolute inset-0 rounded-full transition-opacity duration-300 opacity-80 group-hover:opacity-100"
                 style={{
                   background: isLoaded
-                    ? "linear-gradient(135deg, #10b981 0%, #00d9ff 50%, #a78bfa 100%)"
+                    ? "linear-gradient(135deg, #00f2fe 0%, #06b6d4 50%, #38bdf8 100%)"
                     : "linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.02))",
                 }}
               />
@@ -183,7 +183,7 @@ export function IntroLoader() {
                   top: mousePos.y,
                   transform: "translate(-50%, -50%)",
                   background: isLoaded
-                    ? "radial-gradient(circle, rgba(16,185,129,0.8) 0%, transparent 70%)"
+                    ? "radial-gradient(circle, rgba(6,182,212,0.8) 0%, transparent 70%)"
                     : "radial-gradient(circle, rgba(0,217,255,0.6) 0%, transparent 70%)",
                 }}
               />
@@ -192,7 +192,7 @@ export function IntroLoader() {
               <div className="relative flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-[#0d0f15] border border-white/10 text-white min-w-[200px] sm:min-w-[240px] text-center overflow-hidden">
                 {!isLoaded ? (
                   <div className="flex items-center gap-2.5 font-mono text-sm sm:text-base font-medium tracking-wider">
-                    <span className="text-emerald-400 font-bold">{progress}%</span>
+                    <span className="text-cyan-400 font-bold">{progress}%</span>
                     <span className="text-zinc-500">|</span>
                     <span className="text-zinc-300 uppercase tracking-widest text-xs">
                       {progress < 40
@@ -202,17 +202,17 @@ export function IntroLoader() {
                         : "SYSTEM READY"}
                     </span>
                     {/* Blinking block cursor */}
-                    <span className="w-2 h-4 bg-emerald-400 animate-pulse ml-0.5" />
+                    <span className="w-2 h-4 bg-cyan-400 animate-pulse ml-0.5" />
                   </div>
                 ) : (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-2.5 font-mono text-sm sm:text-base font-bold uppercase tracking-wider text-emerald-400"
+                    className="flex items-center gap-2.5 font-mono text-sm sm:text-base font-bold uppercase tracking-wider text-cyan-400"
                   >
-                    <Sparkles className="w-4 h-4 text-cyan-400 animate-spin" />
+                    <Sparkles className="w-4 h-4 text-teal-300 animate-spin" />
                     <span>ENTER PORTFOLIO</span>
-                    <ArrowRight className="w-4 h-4 text-emerald-400 transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight className="w-4 h-4 text-cyan-400 transition-transform duration-300 group-hover:translate-x-1" />
                   </motion.div>
                 )}
               </div>
@@ -230,7 +230,7 @@ export function IntroLoader() {
           <footer className="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between text-[11px] font-mono text-zinc-600 z-20">
             <div>© 2026 PAVEL HASAN JOY</div>
             <div className="hidden sm:block">PORTFOLIO v2.0 • NEXT.JS 16 • THREE.JS</div>
-            <div className="text-emerald-500/80">LATENCY: &lt;3ms</div>
+            <div className="text-cyan-400/80">LATENCY: &lt;3ms</div>
           </footer>
         </motion.div>
       ) : (
@@ -240,7 +240,7 @@ export function IntroLoader() {
           initial={{ scale: 0, opacity: 1 }}
           animate={{ scale: 35, opacity: 0 }}
           transition={{ duration: 0.65, ease: [0.33, 1, 0.68, 1] }}
-          className="fixed inset-0 m-auto z-[99999999] pointer-events-none w-24 h-24 rounded-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-indigo-500"
+          className="fixed inset-0 m-auto z-[99999999] pointer-events-none w-24 h-24 rounded-full bg-gradient-to-r from-cyan-400 via-teal-400 to-sky-500"
         />
       )}
     </AnimatePresence>

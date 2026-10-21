@@ -8,18 +8,18 @@
   --card-elevated: #171a24;
   --popover: #11131a;
   --popover-foreground: #f8fafc;
-  --primary: #10b981;
-  --primary-foreground: #042f2e;
+  --primary: #06b6d4;
+  --primary-foreground: #082f49;
   --secondary: #171a24;
   --secondary-foreground: #94a3b8;
   --muted: #1e2230;
   --muted-foreground: #94a3b8;
-  --accent: #10b981;
-  --accent-foreground: #042f2e;
+  --accent: #06b6d4;
+  --accent-foreground: #082f49;
   --border: #1e2230;
   --border-subtle: #171a24;
   --border-strong: #2a3045;
-  --ring: #10b981;
+  --ring: #06b6d4;
   --radius: 0.75rem;
 }
 
@@ -31,18 +31,18 @@ html.light {
   --card-elevated: #f1f5f9;
   --popover: #ffffff;
   --popover-foreground: #090d16;
-  --primary: #059669;
+  --primary: #0891b2;
   --primary-foreground: #ffffff;
   --secondary: #f1f5f9;
   --secondary-foreground: #475569;
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
-  --accent: #059669;
+  --accent: #0891b2;
   --accent-foreground: #ffffff;
   --border: #e2e8f0;
   --border-subtle: #f1f5f9;
   --border-strong: #cbd5e1;
-  --ring: #059669;
+  --ring: #0891b2;
 }
 
 body {
@@ -70,8 +70,8 @@ body {
 
 /* Selection Color */
 ::selection {
-  background-color: rgba(16, 185, 129, 0.25);
-  color: #34d399;
+  background-color: rgba(6, 182, 212, 0.25);
+  color: #22d3ee;
 }
 
 /* Glassmorphism helpers */
@@ -88,12 +88,12 @@ html.light .glass-panel {
   box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08) !important;
 }
 
-.glow-emerald {
-  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.22);
+.glow-cyan {
+  box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.25);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--foreground) 30%, #10b981 100%);
+  background: linear-gradient(135deg, var(--foreground) 30%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -207,32 +207,32 @@ html.light .hover\:text-zinc-200:hover {
   color: #090d16 !important;
 }
 
-/* Emerald accents for high contrast in light mode */
-html.light .text-emerald-400 {
-  color: #047857 !important; /* darker emerald for 4.5:1+ contrast on light surfaces */
+/* Cyan accents for high contrast in light mode */
+html.light .text-cyan-400 {
+  color: #0891b2 !important; /* deep cyan for 4.5:1+ contrast on light surfaces */
 }
 
-html.light .text-emerald-300 {
-  color: #065f46 !important;
+html.light .text-cyan-300 {
+  color: #0e7490 !important;
 }
 
-html.light .bg-emerald-500\/10 {
-  background-color: rgba(16, 185, 129, 0.12) !important;
+html.light .bg-cyan-500\/10 {
+  background-color: rgba(6, 182, 212, 0.12) !important;
 }
 
-html.light .border-emerald-500\/20,
-html.light .border-emerald-500\/30 {
-  border-color: rgba(16, 185, 129, 0.35) !important;
+html.light .border-cyan-500\/20,
+html.light .border-cyan-500\/30 {
+  border-color: rgba(6, 182, 212, 0.35) !important;
 }
 
-html.light .bg-emerald-950\/70,
-html.light .bg-emerald-950\/80 {
-  background-color: #d1fae5 !important;
-  color: #065f46 !important;
+html.light .bg-cyan-950\/70,
+html.light .bg-cyan-950\/80 {
+  background-color: #cffafe !important;
+  color: #0e7490 !important;
 }
 
-html.light .border-emerald-800\/40 {
-  border-color: #a7f3d0 !important;
+html.light .border-cyan-800\/40 {
+  border-color: #a5f3fc !important;
 }
 
 /* CV Modal Container in Light Mode */

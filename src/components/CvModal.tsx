@@ -84,7 +84,7 @@ export function CvModal({ isOpen, onClose }: CvModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative z-10 flex flex-col w-full max-w-6xl h-[94vh] rounded-2xl border border-zinc-800 bg-[#0a0c10] text-zinc-100 shadow-2xl shadow-emerald-500/10 overflow-hidden cv-modal-surface"
+            className="relative z-10 flex flex-col w-full max-w-6xl h-[94vh] rounded-2xl border border-zinc-800 bg-[#0a0c10] text-zinc-100 shadow-2xl shadow-cyan-500/10 overflow-hidden cv-modal-surface"
           >
             {/* Top Modal Close and Open-In-Page Bar */}
             <div className="absolute top-3.5 right-4 z-30 flex items-center gap-2">

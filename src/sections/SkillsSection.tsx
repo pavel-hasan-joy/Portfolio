@@ -33,7 +33,7 @@ export function SkillsSection() {
         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
           Core Languages & Version Control
         </h2>
-        <div className="w-12 h-1 bg-emerald-500 rounded-full mt-3" />
+        <div className="w-12 h-1 bg-gradient-to-r from-cyan-400 to-teal-400 rounded-full mt-3" />
         <p className="max-w-xl text-sm text-zinc-400 mt-4 leading-relaxed">
           Mastering computational fundamentals through low-level memory control, object-oriented systems design, and collaborative repository engineering.
         </p>
@@ -43,7 +43,7 @@ export function SkillsSection() {
         {siteContent.techStack.map((group, groupIdx) => (
           <div key={group.category} className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-emerald-400" />
+              <div className="w-2 h-2 rounded-full bg-cyan-400" />
               <h3 className="text-lg font-bold text-zinc-200 tracking-tight">
                 {group.category}
               </h3>
@@ -67,15 +67,15 @@ export function SkillsSection() {
                   >
                     <div>
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-zinc-800/80 text-emerald-400 flex items-center justify-center border border-zinc-700/80 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-colors">
+                        <div className="w-10 h-10 rounded-xl bg-zinc-800/80 text-cyan-400 flex items-center justify-center border border-zinc-700/80 group-hover:bg-cyan-500/10 group-hover:border-cyan-500/30 transition-colors">
                           <IconComponent className="w-5 h-5" />
                         </div>
-                        <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800/40">
+                        <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/80 text-cyan-400 border border-cyan-800/40">
                           {skill.level}
                         </span>
                       </div>
 
-                      <h4 className="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors">
+                      <h4 className="text-xl font-bold text-zinc-100 group-hover:text-cyan-300 transition-colors">
                         {skill.name}
                       </h4>
                       <p className="text-xs text-zinc-400 leading-relaxed mt-2">
@@ -84,7 +84,7 @@ export function SkillsSection() {
                     </div>
 
                     <div className="mt-6 pt-3 border-t border-zinc-800/60 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
-                      <span className="flex items-center gap-1 text-emerald-500/80">
+                      <span className="flex items-center gap-1 text-cyan-400/90">
                         <CheckCircle2 className="w-3 h-3" /> Core Foundation
                       </span>
                       <span>Verified</span>

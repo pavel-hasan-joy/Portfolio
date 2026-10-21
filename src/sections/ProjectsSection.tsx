@@ -39,10 +39,10 @@ function formatRelativeTime(dateString?: string): string {
 }
 
 const FALLBACK_GRADIENTS = [
-  "radial-gradient(circle at 75% 30%, rgba(168, 85, 247, 0.22), transparent 60%), linear-gradient(135deg, rgba(16, 185, 129, 0.12), #07090e 75%)",
-  "radial-gradient(circle at 25% 25%, rgba(6, 182, 212, 0.25), transparent 60%), linear-gradient(135deg, rgba(16, 185, 129, 0.15), #07090e 75%)",
-  "radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.22), transparent 60%), linear-gradient(135deg, rgba(6, 182, 212, 0.12), #07090e 75%)",
-  "radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.25), transparent 60%), linear-gradient(135deg, rgba(59, 130, 246, 0.12), #07090e 75%)",
+  "radial-gradient(circle at 75% 30%, rgba(168, 85, 247, 0.22), transparent 60%), linear-gradient(135deg, rgba(6, 182, 212, 0.15), #07090e 75%)",
+  "radial-gradient(circle at 25% 25%, rgba(6, 182, 212, 0.25), transparent 60%), linear-gradient(135deg, rgba(20, 184, 166, 0.15), #07090e 75%)",
+  "radial-gradient(circle at 75% 75%, rgba(56, 189, 248, 0.22), transparent 60%), linear-gradient(135deg, rgba(6, 182, 212, 0.12), #07090e 75%)",
+  "radial-gradient(circle at 50% 20%, rgba(6, 182, 212, 0.25), transparent 60%), linear-gradient(135deg, rgba(59, 130, 246, 0.12), #07090e 75%)",
 ];
 
 interface ProjectCardProps {
@@ -64,7 +64,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.35, delay: (index % 4) * 0.05 }}
       whileHover={{ y: -6 }}
-      className="group glass-panel relative flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/60 transition-all duration-500 hover:border-emerald-500/50 hover:shadow-[0_0_35px_-8px_rgba(16,185,129,0.22)]"
+      className="group glass-panel relative flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/60 transition-all duration-500 hover:border-cyan-500/50 hover:shadow-[0_0_35px_-8px_rgba(6,182,212,0.3)]"
     >
       {/* =========================================================================
           Top Media Banner (Amna's Portfolio Style with Watermark & Category Pill)
@@ -119,7 +119,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
               }}
             />
             <div className="relative z-10 flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-2 shadow-[0_0_20px_-3px_rgba(168,85,247,0.3)] group-hover:border-emerald-400/50 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-2 shadow-[0_0_20px_-3px_rgba(6,182,212,0.3)] group-hover:border-cyan-400/50 transition-colors">
                 {project.slug.includes("search") ? (
                   <Code2 className="w-6 h-6" />
                 ) : project.slug.includes("face") ? (
@@ -142,8 +142,8 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         {/* Category Pill in Top-Right */}
         <div className="absolute right-3.5 top-3.5 flex items-center gap-2">
           {isDynamicStats && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-950/80 px-2.5 py-1 text-[11px] font-mono font-medium text-emerald-400 border border-emerald-500/40 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-950/80 px-2.5 py-1 text-[11px] font-mono font-medium text-cyan-400 border border-cyan-500/40 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               Live Sync
             </span>
           )}
@@ -159,7 +159,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
         <div>
           {/* Project Title */}
-          <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-emerald-400">
+          <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-cyan-400">
             {project.title}
           </h3>
 
@@ -173,7 +173,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             {project.toolsUsed.slice(0, 5).map((tech) => (
               <li
                 key={tech}
-                className="rounded-md bg-emerald-500/10 px-2.5 py-0.5 text-xs font-mono text-emerald-400 border border-emerald-500/20"
+                className="rounded-md bg-cyan-500/10 px-2.5 py-0.5 text-xs font-mono text-cyan-400 border border-cyan-500/20"
               >
                 {tech}
               </li>
@@ -215,7 +215,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 hover:bg-emerald-500/10 hover:border-emerald-500/40 px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 hover:bg-cyan-500/10 hover:border-cyan-500/40 px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200"
               >
                 <GithubIcon className="w-3.5 h-3.5" />
                 <span>GitHub</span>
@@ -228,7 +228,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-semibold px-3 py-1.5 text-xs transition-all duration-200 shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-black font-semibold px-3 py-1.5 text-xs transition-all duration-200 shadow-sm shadow-cyan-500/20"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>Live Demo</span>
@@ -240,7 +240,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           {project.hasCaseStudy ? (
             <Link
               href={`/projects/${project.slug}`}
-              className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-emerald-400 transition-colors ml-auto group/link"
+              className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-cyan-400 transition-colors ml-auto group/link"
             >
               <span>Case Study</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1" />
@@ -250,7 +250,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-emerald-400 transition-colors ml-auto group/link"
+              className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-cyan-400 transition-colors ml-auto group/link"
             >
               <span>Repository</span>
               <ExternalLink className="w-3 h-3 transition-transform group-hover/link:translate-x-0.5" />
@@ -329,18 +329,18 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="py-24 sm:py-32 relative overflow-hidden">
       {/* Background radial ambient glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-3">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>05 / Featured Work</span>
+              <span>Featured Work</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-              Featured <span className="text-emerald-400">Projects</span>
+              Featured <span className="text-cyan-400">Projects</span>
             </h2>
             <p className="mt-3 text-base text-muted-foreground max-w-2xl leading-relaxed">
               Production-grade systems, high-performance algorithms, and live web applications built with rigorous software architecture and clean code.
@@ -353,10 +353,10 @@ export function ProjectsSection() {
               type="button"
               onClick={fetchLiveGitHubProjects}
               disabled={isSyncing}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-card/80 hover:bg-emerald-500/10 hover:border-emerald-500/30 text-xs font-mono text-zinc-400 hover:text-emerald-400 transition-colors cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-card/80 hover:bg-cyan-500/10 hover:border-cyan-500/30 text-xs font-mono text-zinc-400 hover:text-cyan-400 transition-colors cursor-pointer disabled:opacity-50"
               title="Refresh live GitHub stars & repository activity"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-emerald-400" : ""}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-cyan-400" : ""}`} />
               <span>{isSyncing ? "Syncing..." : lastSyncedTime ? `Synced ${lastSyncedTime}` : "Sync GitHub"}</span>
             </button>
           </div>
@@ -383,7 +383,7 @@ export function ProjectsSection() {
                 {isSelected && (
                   <motion.span
                     layoutId="project-cat-pill"
-                    className="absolute inset-0 rounded-full bg-emerald-500 shadow-[0_0_24px_-4px_rgba(16,185,129,0.5)]"
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-teal-400 shadow-[0_0_24px_-4px_rgba(6,182,212,0.6)]"
                     transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
@@ -421,16 +421,16 @@ export function ProjectsSection() {
             <button
               type="button"
               onClick={() => setIsExpanded((prev) => !prev)}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-emerald-500/40 bg-card hover:bg-emerald-500/15 hover:border-emerald-500 text-xs sm:text-sm font-semibold text-foreground transition-all duration-300 shadow-[0_0_25px_-5px_rgba(16,185,129,0.25)] hover:shadow-[0_0_35px_-5px_rgba(16,185,129,0.4)] cursor-pointer active:scale-95"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-cyan-500/40 bg-card hover:bg-cyan-500/15 hover:border-cyan-400 text-xs sm:text-sm font-semibold text-foreground transition-all duration-300 shadow-[0_0_25px_-5px_rgba(6,182,212,0.25)] hover:shadow-[0_0_35px_-5px_rgba(6,182,212,0.4)] cursor-pointer active:scale-95"
             >
               {isExpanded ? (
                 <>
-                  <ChevronUp className="w-4 h-4 text-emerald-400" />
+                  <ChevronUp className="w-4 h-4 text-cyan-400" />
                   <span>Show Less</span>
                 </>
               ) : (
                 <>
-                  <ChevronDown className="w-4 h-4 text-emerald-400 animate-bounce" />
+                  <ChevronDown className="w-4 h-4 text-cyan-400 animate-bounce" />
                   <span>More Projects ({filteredProjects.length - 4} more)</span>
                 </>
               )}
@@ -442,11 +442,11 @@ export function ProjectsSection() {
             href="https://github.com/pavel-hasan-joy?tab=repositories"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-emerald-400 transition-colors mt-1"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-cyan-400 transition-colors mt-1"
           >
             <GithubIcon className="w-3.5 h-3.5" />
             <span>View all public repositories on GitHub</span>
-            <ArrowRight className="w-3 h-3 ml-0.5 text-emerald-400" />
+            <ArrowRight className="w-3 h-3 ml-0.5 text-cyan-400" />
           </a>
         </div>
       </div>
