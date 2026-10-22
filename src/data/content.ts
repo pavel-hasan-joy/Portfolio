@@ -58,10 +58,14 @@ export interface SiteContent {
   socials: {
     github: string;
     linkedin: string;
+    twitter?: string;
+    telegram?: string;
+    facebook?: string;
+    whatsapp?: string;
+    youtube?: string;
     email: string;
     emailComposeUrl?: string;
     phone?: string;
-    facebook?: string;
   };
   cv: {
     fileName: string;
@@ -123,10 +127,14 @@ export const siteContent: SiteContent = {
   socials: {
     github: "https://github.com/pavel-hasan-joy",
     linkedin: "https://www.linkedin.com/in/pavel-hasan-joy-ulab262014103",
+    twitter: "https://x.com/pavelhasanjoy1",
+    telegram: "https://t.me/pavelhasanjoy",
+    facebook: "https://www.facebook.com/pavelhasanjoy1",
+    whatsapp: "https://wa.me/8801342182616",
+    youtube: "https://www.youtube.com/@PavelDevLab",
     email: "pavel.hasan.cse@ulab.edu.bd",
     emailComposeUrl: "https://mail.google.com/mail/?view=cm&fs=1&to=pavel.hasan.cse@ulab.edu.bd",
     phone: "+8801342182616",
-    facebook: "https://www.facebook.com/pavelhasanjoy1",
   },
 
   cv: {

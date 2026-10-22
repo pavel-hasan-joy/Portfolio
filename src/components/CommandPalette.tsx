@@ -126,6 +126,66 @@ export function CommandPalette({ isOpen, onClose, onOpenCv }: CommandPaletteProp
         },
       },
       {
+        id: "whatsapp",
+        title: "Open WhatsApp Direct Chat (+8801342182616)",
+        category: "Links",
+        icon: ExternalLink,
+        action: () => {
+          if (siteContent.socials.whatsapp) {
+            window.open(siteContent.socials.whatsapp, "_blank");
+          }
+          onClose();
+        },
+      },
+      {
+        id: "telegram",
+        title: "Open Telegram (@pavelhasanjoy)",
+        category: "Links",
+        icon: ExternalLink,
+        action: () => {
+          if (siteContent.socials.telegram) {
+            window.open(siteContent.socials.telegram, "_blank");
+          }
+          onClose();
+        },
+      },
+      {
+        id: "twitter",
+        title: "Open Twitter / X Profile (@pavelhasanjoy1)",
+        category: "Links",
+        icon: ExternalLink,
+        action: () => {
+          if (siteContent.socials.twitter) {
+            window.open(siteContent.socials.twitter, "_blank");
+          }
+          onClose();
+        },
+      },
+      {
+        id: "youtube",
+        title: "Open YouTube Channel (@PavelDevLab)",
+        category: "Links",
+        icon: ExternalLink,
+        action: () => {
+          if (siteContent.socials.youtube) {
+            window.open(siteContent.socials.youtube, "_blank");
+          }
+          onClose();
+        },
+      },
+      {
+        id: "facebook",
+        title: "Open Facebook Profile",
+        category: "Links",
+        icon: ExternalLink,
+        action: () => {
+          if (siteContent.socials.facebook) {
+            window.open(siteContent.socials.facebook, "_blank");
+          }
+          onClose();
+        },
+      },
+      {
         id: "sec-about",
         title: "Jump to About Section",
         category: "Navigation",

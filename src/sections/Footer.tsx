@@ -2,7 +2,15 @@
 
 import React from "react";
 import { ArrowUp, Mail, Heart } from "lucide-react";
-import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/Icons";
+import {
+  GithubIcon,
+  LinkedinIcon,
+  FacebookIcon,
+  TwitterIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+  YoutubeIcon,
+} from "@/components/Icons";
 import { siteContent } from "@/data/content";
 
 interface FooterProps {
@@ -55,12 +63,13 @@ export function Footer({ onOpenCv }: FooterProps) {
 
         {/* Back to top & Socials */}
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <a
               href={siteContent.socials.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
+              title="GitHub (@pavel-hasan-joy)"
               className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
             >
               <GithubIcon className="w-4 h-4" />
@@ -70,16 +79,66 @@ export function Footer({ onOpenCv }: FooterProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
+              title="LinkedIn Profile"
               className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
+            {siteContent.socials.twitter && (
+              <a
+                href={siteContent.socials.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter (X)"
+                title="Twitter / X (@pavelhasanjoy1)"
+                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
+              >
+                <TwitterIcon className="w-4 h-4" />
+              </a>
+            )}
+            {siteContent.socials.telegram && (
+              <a
+                href={siteContent.socials.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Telegram"
+                title="Telegram (@pavelhasanjoy)"
+                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-sky-400 border border-zinc-800 transition-colors"
+              >
+                <TelegramIcon className="w-4 h-4" />
+              </a>
+            )}
+            {siteContent.socials.whatsapp && (
+              <a
+                href={siteContent.socials.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                title="WhatsApp (+8801342182616)"
+                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 transition-colors"
+              >
+                <WhatsAppIcon className="w-4 h-4" />
+              </a>
+            )}
+            {siteContent.socials.youtube && (
+              <a
+                href={siteContent.socials.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                title="YouTube (@PavelDevLab)"
+                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-red-400 border border-zinc-800 transition-colors"
+              >
+                <YoutubeIcon className="w-4 h-4" />
+              </a>
+            )}
             {siteContent.socials.facebook && (
               <a
                 href={siteContent.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
+                title="Facebook Profile"
                 className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-cyan-400 border border-zinc-800 transition-colors"
               >
                 <FacebookIcon className="w-4 h-4" />

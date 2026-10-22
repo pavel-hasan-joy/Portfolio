@@ -18,7 +18,15 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/Icons";
+import {
+  GithubIcon,
+  LinkedinIcon,
+  FacebookIcon,
+  TwitterIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+  YoutubeIcon,
+} from "@/components/Icons";
 import { siteContent } from "@/data/content";
 
 const contactSchema = z.object({
@@ -195,6 +203,56 @@ export function ContactSection() {
               </div>
             )}
 
+            {/* WhatsApp Direct Chat Card */}
+            {siteContent.socials.whatsapp && (
+              <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-emerald-500/40 flex items-center justify-between gap-2 transition-all">
+                <a
+                  href={siteContent.socials.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 overflow-hidden hover:text-emerald-400 transition-colors"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="text-xs font-mono text-zinc-200 truncate">
+                    +880 1342-182616
+                  </span>
+                </a>
+                <a
+                  href={siteContent.socials.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-mono text-emerald-400 hover:text-emerald-300 font-medium px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60 transition-colors shrink-0"
+                >
+                  WhatsApp 💬
+                </a>
+              </div>
+            )}
+
+            {/* Telegram Direct Card */}
+            {siteContent.socials.telegram && (
+              <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-sky-500/40 flex items-center justify-between gap-2 transition-all">
+                <a
+                  href={siteContent.socials.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 overflow-hidden hover:text-sky-400 transition-colors"
+                >
+                  <TelegramIcon className="w-4 h-4 text-sky-400 shrink-0" />
+                  <span className="text-xs font-mono text-zinc-200 truncate">
+                    @pavelhasanjoy
+                  </span>
+                </a>
+                <a
+                  href={siteContent.socials.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-mono text-sky-400 hover:text-sky-300 font-medium px-2 py-0.5 rounded bg-sky-950/60 border border-sky-800/60 transition-colors shrink-0"
+                >
+                  Telegram ✈️
+                </a>
+              </div>
+            )}
+
             {/* Location Card */}
             <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800 flex items-center gap-2.5">
               <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
@@ -215,37 +273,75 @@ export function ContactSection() {
               </div>
             </div>
 
-            {/* Social Buttons */}
-            <div className="pt-2 flex items-center gap-2 sm:gap-3">
-              <a
-                href={siteContent.socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
-              >
-                <GithubIcon className="w-4 h-4" />
-                <span>GitHub</span>
-              </a>
-              <a
-                href={siteContent.socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
-              >
-                <LinkedinIcon className="w-4 h-4" />
-                <span>LinkedIn</span>
-              </a>
-              {siteContent.socials.facebook && (
+            {/* Social Channels Matrix */}
+            <div className="pt-2">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-2">
+                // Social Profiles & Networks
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <a
-                  href={siteContent.socials.facebook}
+                  href={siteContent.socials.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700/60 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-950/70 hover:bg-zinc-800/80 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-800 hover:border-cyan-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <FacebookIcon className="w-4 h-4" />
-                  <span>Facebook</span>
+                  <GithubIcon className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">GitHub</span>
                 </a>
-              )}
+                <a
+                  href={siteContent.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-950/70 hover:bg-zinc-800/80 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-800 hover:border-cyan-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <LinkedinIcon className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <span className="truncate">LinkedIn</span>
+                </a>
+                {siteContent.socials.twitter && (
+                  <a
+                    href={siteContent.socials.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-950/70 hover:bg-zinc-800/80 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-800 hover:border-cyan-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <TwitterIcon className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
+                    <span className="truncate">Twitter (X)</span>
+                  </a>
+                )}
+                {siteContent.socials.telegram && (
+                  <a
+                    href={siteContent.socials.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-950/70 hover:bg-zinc-800/80 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-800 hover:border-sky-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <TelegramIcon className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                    <span className="truncate">Telegram</span>
+                  </a>
+                )}
+                {siteContent.socials.youtube && (
+                  <a
+                    href={siteContent.socials.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-950/70 hover:bg-zinc-800/80 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-800 hover:border-red-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <YoutubeIcon className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                    <span className="truncate">YouTube</span>
+                  </a>
+                )}
+                {siteContent.socials.facebook && (
+                  <a
+                    href={siteContent.socials.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-950/70 hover:bg-zinc-800/80 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-800 hover:border-blue-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <FacebookIcon className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                    <span className="truncate">Facebook</span>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>

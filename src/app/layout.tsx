@@ -85,6 +85,10 @@ export default function RootLayout({
     sameAs: [
       siteContent.socials.github,
       siteContent.socials.linkedin,
+      siteContent.socials.twitter,
+      siteContent.socials.telegram,
+      siteContent.socials.whatsapp,
+      siteContent.socials.youtube,
       siteContent.socials.facebook,
     ].filter(Boolean),
     jobTitle: siteContent.personal.roles,

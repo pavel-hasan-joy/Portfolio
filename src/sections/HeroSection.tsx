@@ -10,7 +10,15 @@ import {
   Terminal,
   Code2,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/Icons";
+import {
+  GithubIcon,
+  LinkedinIcon,
+  FacebookIcon,
+  TwitterIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+  YoutubeIcon,
+} from "@/components/Icons";
 import { siteContent } from "@/data/content";
 
 interface HeroSectionProps {
@@ -115,19 +123,20 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
         </button>
       </motion.div>
 
-      {/* Social Icons & Email */}
+      {/* Social Icons & Direct Contact Links */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.65 }}
-        className="flex items-center gap-3 text-zinc-400"
+        className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-zinc-400"
       >
         <a
           href={siteContent.socials.github}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub Profile"
-          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
+          title="GitHub (@pavel-hasan-joy)"
+          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all hover:scale-105 active:scale-95"
         >
           <GithubIcon className="w-4 h-4" />
         </a>
@@ -136,17 +145,67 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn Profile"
-          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
+          title="LinkedIn Profile"
+          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all hover:scale-105 active:scale-95"
         >
           <LinkedinIcon className="w-4 h-4" />
         </a>
+        {siteContent.socials.twitter && (
+          <a
+            href={siteContent.socials.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Twitter (X) Profile"
+            title="Twitter / X (@pavelhasanjoy1)"
+            className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all hover:scale-105 active:scale-95"
+          >
+            <TwitterIcon className="w-4 h-4" />
+          </a>
+        )}
+        {siteContent.socials.telegram && (
+          <a
+            href={siteContent.socials.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Telegram"
+            title="Telegram (@pavelhasanjoy)"
+            className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-sky-400 border border-white/[0.08] hover:border-sky-500/30 transition-all hover:scale-105 active:scale-95"
+          >
+            <TelegramIcon className="w-4 h-4" />
+          </a>
+        )}
+        {siteContent.socials.whatsapp && (
+          <a
+            href={siteContent.socials.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp Direct Chat"
+            title="WhatsApp (+8801342182616)"
+            className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-emerald-400 border border-white/[0.08] hover:border-emerald-500/30 transition-all hover:scale-105 active:scale-95"
+          >
+            <WhatsAppIcon className="w-4 h-4" />
+          </a>
+        )}
+        {siteContent.socials.youtube && (
+          <a
+            href={siteContent.socials.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube Channel"
+            title="YouTube (@PavelDevLab)"
+            className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-red-400 border border-white/[0.08] hover:border-red-500/30 transition-all hover:scale-105 active:scale-95"
+          >
+            <YoutubeIcon className="w-4 h-4" />
+          </a>
+        )}
         {siteContent.socials.facebook && (
           <a
             href={siteContent.socials.facebook}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook Profile"
-            className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
+            title="Facebook Profile"
+            className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all hover:scale-105 active:scale-95"
           >
             <FacebookIcon className="w-4 h-4" />
           </a>
@@ -157,7 +216,7 @@ export function HeroSection({ onOpenCv }: HeroSectionProps) {
           rel="noopener noreferrer"
           aria-label="Email Pavel via Gmail"
           title="Compose Email to Pavel"
-          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all"
+          className="p-2.5 rounded-xl bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 text-zinc-400 hover:text-cyan-400 border border-white/[0.08] hover:border-cyan-500/30 transition-all hover:scale-105 active:scale-95"
         >
           <Mail className="w-4 h-4" />
         </a>
